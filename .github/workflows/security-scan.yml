@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4          # UNVERIFIED: check latest major
+      - uses: actions/checkout@v7          # UNVERIFIED: check latest major
         with:
           fetch-depth: 0                   # full history, so old leaked secrets are found too
 
