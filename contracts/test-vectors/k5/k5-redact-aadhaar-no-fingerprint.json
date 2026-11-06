@@ -1,0 +1,39 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-redact-aadhaar-no-fingerprint",
+  "op": "redact",
+  "description": "Aadhaar placeholder carries no fingerprint and no digits",
+  "input": {
+    "text_parts": [
+      "Customer Aadhaar 2949 1013 6515 verified."
+    ],
+    "packs": [
+      "pk.secrets.global",
+      "pk.secrets.india",
+      "pk.pii.india",
+      "pk.untrusted-text"
+    ],
+    "date": "2026-11-01",
+    "installation_secret_hex": "8a4c1e3b2240d19907e9e9e5c7d16f087b65ed8d9942b917137bcb05ee8b1bbe"
+  },
+  "expect": {
+    "output": "Customer Aadhaar [REDACTED:aadhaar] verified.",
+    "findings": [
+      {
+        "rule_id": "pk.pii.in.aadhaar",
+        "rev": 1,
+        "kind": "pii",
+        "start": 17,
+        "end": 31,
+        "severity": "critical",
+        "pii_type": "aadhaar",
+        "masked_preview": "\u2026",
+        "placeholder": "[REDACTED:aadhaar]"
+      }
+    ],
+    "counts": {
+      "secret": 0,
+      "pii": 1
+    }
+  }
+}

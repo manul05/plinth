@@ -1,0 +1,13 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-gstin-valid",
+  "op": "validator",
+  "description": "GSTIN check character (widely published sample 27AAPFU0939F1ZV)",
+  "input": {
+    "name": "gstin",
+    "value": "27AAPFU0939F1ZV"
+  },
+  "expect": {
+    "valid": true
+  }
+}

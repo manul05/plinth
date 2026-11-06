@@ -1,0 +1,72 @@
+{
+  "suite": "pk-approval/1.0",
+  "id": "k2-break-glass-reuse",
+  "op": "verifyBreakGlass",
+  "description": "Code already used once",
+  "input": {
+    "code": "ABCDE-FGHIJ-KLMNO-PQRS2",
+    "registry": {
+      "spec": "pk-approval/1.0",
+      "realm": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+      "version": 1,
+      "approvers": [
+        {
+          "id": "owner",
+          "display": "Owner (TEST)",
+          "kid": "sha256:0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+          "jwk": {
+            "kty": "EC",
+            "crv": "P-256",
+            "x": "YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y",
+            "y": "eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk"
+          },
+          "profile": "webauthn",
+          "roles": [
+            "approver"
+          ],
+          "added_at": "2026-11-01T08:00:00.000Z",
+          "webauthn": {
+            "rp_id": "approvals.example",
+            "origins": [
+              "https://approvals.example"
+            ],
+            "credential_id": "HZnz0G6avl4oxre5av0HNMsi3Sak0lLlUcFyHO4MW3c",
+            "backup_eligible": false,
+            "backup_state": false
+          }
+        },
+        {
+          "id": "reviewer",
+          "display": "Second reviewer (TEST)",
+          "kid": "sha256:6b417f1e6a7b2841e17d717e072b24ad4fa85e301efde77a2f98b33a8ec5964e",
+          "jwk": {
+            "kty": "EC",
+            "crv": "P-256",
+            "x": "eK2H-sM2TvryULrVOcmVGhdip5TA8kY21YDty-DBhS0",
+            "y": "PpFxvmSRroE521uULVeIOjV32hnUZKJseBULEl7Y2co"
+          },
+          "profile": "android-keystore",
+          "roles": [
+            "approver"
+          ],
+          "added_at": "2026-11-01T08:00:00.000Z",
+          "hardware": true
+        }
+      ],
+      "break_glass": [
+        {
+          "code_digest": "sha256:444361933609d23e64cb267c3a740a4e908cbfe7e17ff6af23ec9c38999e698e"
+        }
+      ],
+      "max_ttl_seconds": 600,
+      "allow_synced_passkeys": true
+    },
+    "used_digests": [
+      "sha256:444361933609d23e64cb267c3a740a4e908cbfe7e17ff6af23ec9c38999e698e"
+    ]
+  },
+  "expect": {
+    "valid": false,
+    "error": "PK_APPROVAL_BREAK_GLASS_USED"
+  }
+}

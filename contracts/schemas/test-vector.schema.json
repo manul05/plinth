@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/test-vector.schema.json",
+  "title": "One golden test vector file",
+  "type": "object",
+  "properties": {
+    "suite": {
+      "type": "string",
+      "enum": [
+        "pk-json/1.0",
+        "pk-kid/1.0",
+        "pk-der/1.0",
+        "pk-sig/1.0",
+        "pk-audit/1.0",
+        "pk-approval/1.0",
+        "pk-rulepack/1.0",
+        "pk-detect/1.0"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)+$"
+    },
+    "op": {
+      "type": "string",
+      "pattern": "^[a-z][a-zA-Z0-9]+$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "input": {
+      "type": "object"
+    },
+    "expect": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "suite",
+    "id",
+    "op",
+    "description",
+    "input",
+    "expect"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,13 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-verhoeff-invalid",
+  "op": "validator",
+  "description": "Verhoeff: 2364 is invalid",
+  "input": {
+    "name": "verhoeff",
+    "value": "2364"
+  },
+  "expect": {
+    "valid": false
+  }
+}

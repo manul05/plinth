@@ -1,0 +1,12 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-err-depth",
+  "op": "parseAndCanonicalize",
+  "description": "Nesting deeper than 64 rejected",
+  "input": {
+    "json_text": "[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"
+  },
+  "expect": {
+    "error": "PK_JSON_TOO_DEEP"
+  }
+}

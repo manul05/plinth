@@ -1,0 +1,18 @@
+# Plinth rule pack source (K4 pk-rulepack/1.0). Authored in Stage 3 (2026-10-31).
+# Compiled to packs/pk.secrets.india/ by the rule compiler. Edit only through a rule revision (rev + 1, changes entry).
+spec: 'pk-rulepack/1.0'
+id: 'pk.secrets.india'
+kind: 'secret-detection'
+version: '1.0.0'
+released_at: '2026-10-31T00:00:00.000Z'
+tz: 'Asia/Kolkata'
+licence: 'MIT'
+attribution: []
+sources:
+  - id: 'leaksweep-research-2026-10-28'
+    title: 'LeakSweep Stage 1-2 research: Indian service key formats (sections B1, B2)'
+    publisher: 'Plinth portfolio programme (own research)'
+    url: 'https://www.cashfree.com/docs/payments/quickstart-guide'
+    retrieved_at: '2026-10-28'
+    doc_version: 'LeakSweep docs/01-research.md as of 2026-10-28'
+min_engine: 'pk-rulepack/1.0'

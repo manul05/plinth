@@ -1,0 +1,143 @@
+#!/bin/sh
+#
+# pre-push guard -- refuse pushes to protected refs unless the owner approves THIS push.
+# Template: repo-conventions v1 (2026-10-28). Spec: CONVENTIONS.md "Protecting main".
+#
+# WHY THIS EXISTS
+#   GitHub Free has no branch protection or rulesets on PRIVATE repos, so GitHub
+#   cannot stop a push to main. This hook is the local layer that does not depend
+#   on any AI agent. GitHub can only DETECT a bad push (.github/workflows/main-alarm.yml).
+#
+# WHAT IT PROTECTS
+#   refs/heads/main   -- main moves only by a pull request the owner merges on GitHub
+#   refs/tags/v*      -- release tags are the owner's call (normally made on GitHub)
+#   Deleting a protected ref is always refused; there is no approval path for that.
+#   Every other ref (development, dependabot branches, ...) passes untouched.
+#
+# HOW THE OWNER APPROVES ONE PUSH (v0, until Baton exists)
+#   Both are needed, so a leftover setting can never approve a later push:
+#     1. An environment variable naming the exact commit being pushed:
+#          OWNER_APPROVES_PUSH=<first 7+ characters of the commit SHA>
+#        (the refusal message prints the SHA to use)
+#     2. A phrase typed by a human at the terminal when the hook asks:
+#          push <name> <7-char SHA>        e.g.  push main 1a2b3c4
+#   AI agents run without a terminal, so step 2 fails for them (fail closed).
+#   Example, from Git Bash:
+#       OWNER_APPROVES_PUSH=1a2b3c4 git push origin main
+#
+# HOW BATON PLUGS IN LATER
+#   If an executable file .githooks/approval-verifier exists in the repo, the hook
+#   calls it INSTEAD of the v0 check, once per protected ref:
+#       approval-verifier <remote_ref> <local_sha> <remote_name> <remote_url>
+#   Exit code 0 = approved; anything else = refused. Baton's offline verifier
+#   (signed, single-use approval bound to repo + ref + SHA) is installed there.
+#   The verifier path is fixed on purpose: no git config or env var can redirect it.
+#
+# LIMITS (be honest about them)
+#   - `git push --no-verify` skips every hook. AGENTS.md forbids it and the agent
+#     deny rules (.claude/settings.json) block it; main-alarm.yml catches the rest.
+#   - Merges made through the GitHub website or API (`gh pr merge`) never run this
+#     hook. Only the owner merges on GitHub; agents are forbidden to use `gh pr merge`.
+#   - Anyone who can edit this file can disable it. It stops mistakes and rule
+#     drift, not a determined attacker with your laptop.
+#
+# Install: sh scripts/install-hooks.sh   (sets core.hooksPath=.githooks)
+# Never edit or disable this hook without the owner's say-so.
+
+set -u
+
+ZERO_SHA=0000000000000000000000000000000000000000
+remote_name=${1:-unknown}
+remote_url=${2:-unknown}
+repo_root=$(git rev-parse --show-toplevel) || exit 1
+verifier="$repo_root/.githooks/approval-verifier"
+
+say() { printf '%s\n' "$*" >&2; }
+
+# Is this remote ref protected? Edit this list only with the owner's approval.
+is_protected() {
+	case "$1" in
+		refs/heads/main) return 0 ;;
+		refs/tags/v*) return 0 ;;
+		*) return 1 ;;
+	esac
+}
+
+refuse() {
+	# $1 = remote ref, $2 = sha being pushed, $3 = reason
+	name=${1#refs/heads/}
+	name=${name#refs/tags/}
+	short=$(printf '%s' "$2" | cut -c1-7)
+	say ""
+	say "  ============================================================"
+	say "  BLOCKED: push to protected ref '$1'"
+	say "  ============================================================"
+	say "  Reason: $3"
+	say ""
+	say "  AI agents: stop here. Push your work to development instead:"
+	say "      git push origin development"
+	say "  and tell the owner. Never use --no-verify or edit this hook."
+	say ""
+	if [ "$2" != "$ZERO_SHA" ]; then
+		say "  Owner only, to approve this one push from a terminal:"
+		say "      OWNER_APPROVES_PUSH=$short git push $remote_name <same refspec>"
+		say "  then type when asked:   push $name $short"
+		say ""
+	fi
+	exit 1
+}
+
+# v0 approval: env var bound to the SHA + phrase typed at a real terminal.
+approve_v0() {
+	ref=$1
+	sha=$2
+	name=${ref#refs/heads/}
+	name=${name#refs/tags/}
+	short=$(printf '%s' "$sha" | cut -c1-7)
+	approved=${OWNER_APPROVES_PUSH:-}
+
+	if [ "${#approved}" -lt 7 ]; then
+		refuse "$ref" "$sha" "no owner approval (OWNER_APPROVES_PUSH not set to this commit)"
+	fi
+	case "$sha" in
+		"$approved"*) ;;
+		*) refuse "$ref" "$sha" "OWNER_APPROVES_PUSH names a different commit than $short" ;;
+	esac
+
+	# Opening /dev/tty fails when there is no human terminal (agents, CI, GUI clients).
+	# Tested in a subshell: a failed redirection on a builtin would kill the hook silently.
+	if ! (exec </dev/tty) 2>/dev/null; then
+		refuse "$ref" "$sha" "no terminal to type the confirmation phrase (agents cannot approve)"
+	fi
+	printf '\n  Owner approval for push to %s at %s\n  Type exactly:  push %s %s\n  > ' \
+		"$ref" "$short" "$name" "$short" >/dev/tty
+	typed=""
+	IFS= read -r typed </dev/tty || typed=""
+	if [ "$typed" != "push $name $short" ]; then
+		refuse "$ref" "$sha" "confirmation phrase did not match"
+	fi
+	say "  Approved by owner at the terminal: push to $ref at $short"
+}
+
+# git feeds one line per ref being pushed: <local ref> <local sha> <remote ref> <remote sha>
+while read -r local_ref local_sha remote_ref remote_sha; do
+	is_protected "$remote_ref" || continue
+
+	if [ "$local_sha" = "$ZERO_SHA" ]; then
+		refuse "$remote_ref" "$local_sha" "deleting a protected ref is never allowed from here"
+	fi
+
+	if [ -e "$verifier" ]; then
+		# Present but not runnable = refuse (fail closed), never fall back to v0.
+		[ -x "$verifier" ] || refuse "$remote_ref" "$local_sha" "approval-verifier exists but is not executable (fail closed)"
+		if "$verifier" "$remote_ref" "$local_sha" "$remote_name" "$remote_url" </dev/null; then
+			say "  Approved by .githooks/approval-verifier: $remote_ref at $local_sha"
+			continue
+		fi
+		refuse "$remote_ref" "$local_sha" "approval-verifier refused this push"
+	fi
+
+	approve_v0 "$remote_ref" "$local_sha"
+done
+
+exit 0

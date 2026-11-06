@@ -1,0 +1,17 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-upi-handle-no",
+  "op": "validator",
+  "description": "UPI handle not in list",
+  "input": {
+    "name": "upi_handle",
+    "value": "ramesh@gmail",
+    "handles": [
+      "okaxis",
+      "ybl"
+    ]
+  },
+  "expect": {
+    "valid": false
+  }
+}

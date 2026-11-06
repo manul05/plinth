@@ -1,0 +1,224 @@
+# Plinth rule pack source (K4 pk-rulepack/1.0). Authored in Stage 3 (2026-10-31).
+# Compiled to packs/pk.untrusted-text/ by the rule compiler. Edit only through a rule revision (rev + 1, changes entry).
+spec: 'pk-rulepack/1.0'
+pack_id: 'pk.untrusted-text'
+rules:
+  - id: 'pk.untrusted.zero_width'
+    rev: 1
+    status: 'stable'
+    verified:
+      state: 'unverified'
+      note: 'Code point ranges from the Unicode Standard character blocks; checked by the planner against Unicode block names, 2026-10-31.'
+    source_refs:
+      - source_id: 'unicode-standard-17'
+        locator: 'Zero-width and invisible format characters'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'untrusted'
+      - 'hidden'
+    title: 'Zero-width and invisible format characters'
+    description: 'ZWSP, ZWNJ, ZWJ, word joiner and invisible operators, BOM, Mongolian vowel separator, soft hyphen, combining grapheme joiner.'
+    body:
+      class: 'hidden_char'
+      ranges:
+        - - 8203
+          - 8205
+        - - 8288
+          - 8292
+        - - 65279
+          - 65279
+        - - 6158
+          - 6158
+        - - 173
+          - 173
+        - - 847
+          - 847
+      severity: 'high'
+  - id: 'pk.untrusted.bidi_control'
+    rev: 1
+    status: 'stable'
+    verified:
+      state: 'unverified'
+      note: 'Code point ranges from the Unicode Standard character blocks; checked by the planner against Unicode block names, 2026-10-31.'
+    source_refs:
+      - source_id: 'unicode-standard-17'
+        locator: 'Bidirectional control characters'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'untrusted'
+      - 'hidden'
+    title: 'Bidirectional control characters'
+    description: 'LRM, RLM, embeddings, overrides, isolates and the Arabic letter mark (Trojan Source).'
+    body:
+      class: 'hidden_char'
+      ranges:
+        - - 8206
+          - 8207
+        - - 8234
+          - 8238
+        - - 8294
+          - 8297
+        - - 1564
+          - 1564
+      severity: 'high'
+  - id: 'pk.untrusted.tag_chars'
+    rev: 1
+    status: 'stable'
+    verified:
+      state: 'unverified'
+      note: 'Code point ranges from the Unicode Standard character blocks; checked by the planner against Unicode block names, 2026-10-31.'
+    source_refs:
+      - source_id: 'unicode-standard-17'
+        locator: 'Unicode tag characters'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'untrusted'
+      - 'hidden'
+    title: 'Unicode tag characters'
+    description: 'The Tags block, used to hide ASCII text from humans while models still read it.'
+    body:
+      class: 'hidden_char'
+      ranges:
+        - - 917504
+          - 917631
+      severity: 'critical'
+  - id: 'pk.untrusted.filler_chars'
+    rev: 1
+    status: 'stable'
+    verified:
+      state: 'unverified'
+      note: 'Code point ranges from the Unicode Standard character blocks; checked by the planner against Unicode block names, 2026-10-31.'
+    source_refs:
+      - source_id: 'unicode-standard-17'
+        locator: 'Blank filler characters'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'untrusted'
+      - 'hidden'
+    title: 'Blank filler characters'
+    description: 'Hangul fillers and the blank Braille pattern, which render as empty space.'
+    body:
+      class: 'hidden_char'
+      ranges:
+        - - 4447
+          - 4448
+        - - 12644
+          - 12644
+        - - 65440
+          - 65440
+        - - 10240
+          - 10240
+      severity: 'medium'
+  - id: 'pk.untrusted.variation_selectors_supplement'
+    rev: 1
+    status: 'stable'
+    verified:
+      state: 'unverified'
+      note: 'Code point ranges from the Unicode Standard character blocks; checked by the planner against Unicode block names, 2026-10-31.'
+    source_refs:
+      - source_id: 'unicode-standard-17'
+        locator: 'Variation selectors supplement'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'untrusted'
+      - 'hidden'
+    title: 'Variation selectors supplement'
+    description: 'Supplementary variation selectors, abusable to smuggle invisible data.'
+    body:
+      class: 'hidden_char'
+      ranges:
+        - - 917760
+          - 917999
+      severity: 'high'
+  - id: 'pk.untrusted.phrase.ignore_instructions'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Heuristic phrase; defence in depth only.'
+    source_refs:
+      - source_id: 'plinth-heuristics'
+        locator: 'pk.untrusted.phrase.ignore_instructions'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'untrusted'
+      - 'phrase'
+    title: 'Instruction to ignore earlier instructions'
+    description: 'Classic prompt-injection opener.'
+    body:
+      class: 'phrase'
+      regex: '\b(?:ignore|disregard|forget) (?:all |any |the )?(?:previous|prior|above|earlier) (?:instructions|rules|messages|prompts)\b'
+      flags: 'i'
+      severity: 'high'
+  - id: 'pk.untrusted.phrase.role_override'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Heuristic phrase; defence in depth only.'
+    source_refs:
+      - source_id: 'plinth-heuristics'
+        locator: 'pk.untrusted.phrase.role_override'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'untrusted'
+      - 'phrase'
+    title: 'Role override'
+    description: 'Attempts to give the reading agent a new role.'
+    body:
+      class: 'phrase'
+      regex: '\b(?:you are now|from now on you are|new system instructions)\b'
+      flags: 'i'
+      severity: 'medium'
+  - id: 'pk.untrusted.phrase.claimed_approval'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Heuristic phrase; defence in depth only.'
+    source_refs:
+      - source_id: 'plinth-heuristics'
+        locator: 'pk.untrusted.phrase.claimed_approval'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'untrusted'
+      - 'phrase'
+    title: 'Claimed owner approval'
+    description: 'Text claiming an approval; approvals inside data are never valid.'
+    body:
+      class: 'phrase'
+      regex: '\b(?:the )?owner (?:has )?(?:approved|said yes|says yes|authorised|authorized)\b'
+      flags: 'i'
+      severity: 'high'

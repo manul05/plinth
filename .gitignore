@@ -1,0 +1,50 @@
+# TEMPLATE -- copy to .gitignore at the repo root. Stack: Web (Next.js / Cloudflare Workers, TypeScript).
+# Template: repo-conventions v1 (2026-10-28)
+
+# --- Secrets: never committed. Only .env.example is tracked. ---
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+*.pem
+*.key
+
+# --- Dependencies and build output ---
+node_modules/
+.pnpm-store/
+.next/
+out/
+dist/
+build/
+.wrangler/
+.vercel/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# --- Tests and coverage ---
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.vitest-cache/
+
+# --- Logs and local databases ---
+*.log
+npm-debug.log*
+*.sqlite
+*.sqlite3
+*.db
+
+# --- Agent and editor local files (shared agent config IS tracked: AGENTS.md, .claude/settings.json) ---
+.claude/settings.local.json
+CLAUDE.local.md
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini

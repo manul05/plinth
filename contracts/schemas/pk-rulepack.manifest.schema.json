@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-rulepack.manifest.schema.json",
+  "title": "pack.json (compiled rule-pack manifest, K4)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "const": "pk-rulepack/1.0"
+    },
+    "id": {
+      "$ref": "common.schema.json#/$defs/dottedName"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "secret-detection",
+        "pii-detection",
+        "untrusted-text",
+        "regulatory-obligation",
+        "incident-clock",
+        "retention",
+        "control-catalogue",
+        "scam-pattern",
+        "risk-rule",
+        "sigma-bundle",
+        "reference-data"
+      ]
+    },
+    "version": {
+      "$ref": "common.schema.json#/$defs/semver"
+    },
+    "released_at": {
+      "$ref": "common.schema.json#/$defs/timestamp"
+    },
+    "tz": {
+      "type": "string",
+      "enum": [
+        "Asia/Kolkata",
+        "UTC"
+      ]
+    },
+    "licence": {
+      "const": "MIT"
+    },
+    "attribution": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9.-]*$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "publisher": {
+            "type": "string",
+            "minLength": 1
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          },
+          "retrieved_at": {
+            "$ref": "common.schema.json#/$defs/date"
+          },
+          "doc_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "doc_sha256": {
+            "$ref": "common.schema.json#/$defs/digest"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "publisher",
+          "url",
+          "retrieved_at",
+          "doc_version"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "min_engine": {
+      "const": "pk-rulepack/1.0"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "enum": [
+              "rules.json",
+              "tests.json"
+            ]
+          },
+          "sha256": {
+            "$ref": "common.schema.json#/$defs/digest"
+          }
+        },
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 2,
+      "maxItems": 2
+    }
+  },
+  "required": [
+    "spec",
+    "id",
+    "kind",
+    "version",
+    "released_at",
+    "tz",
+    "licence",
+    "attribution",
+    "sources",
+    "min_engine",
+    "files"
+  ],
+  "additionalProperties": false
+}

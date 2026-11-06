@@ -1,0 +1,35 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-asof-before-first",
+  "op": "selectAsOf",
+  "description": "Date before any window: no rule",
+  "input": {
+    "rules": [
+      {
+        "id": "pk.test.dir3kyc",
+        "rev": 1,
+        "status": "stable",
+        "effective_from": "2019-01-01",
+        "effective_until": "2026-03-31"
+      },
+      {
+        "id": "pk.test.dir3kyc",
+        "rev": 2,
+        "status": "stable",
+        "effective_from": "2026-03-31"
+      },
+      {
+        "id": "pk.test.withdrawn",
+        "rev": 1,
+        "status": "withdrawn",
+        "effective_from": "2020-01-01"
+      }
+    ],
+    "rule_id": "pk.test.dir3kyc",
+    "date": "2018-12-31"
+  },
+  "expect": {
+    "rev": 0,
+    "found": false
+  }
+}

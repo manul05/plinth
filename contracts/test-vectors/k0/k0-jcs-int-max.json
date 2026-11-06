@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-int-max",
+  "op": "parseAndCanonicalize",
+  "description": "Largest allowed integer 2^53-1",
+  "input": {
+    "json_text": "{\"n\":9007199254740991,\"m\":-9007199254740991}"
+  },
+  "expect": {
+    "canonical": "{\"m\":-9007199254740991,\"n\":9007199254740991}",
+    "digest": "sha256:3f54c80abdfbc38f08ed5654622eea6e7d7e58cbac36cf5a0670c8aeb054703d"
+  }
+}

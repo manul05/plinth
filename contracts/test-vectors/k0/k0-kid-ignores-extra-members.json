@@ -1,0 +1,21 @@
+{
+  "suite": "pk-kid/1.0",
+  "id": "k0-kid-ignores-extra-members",
+  "op": "kidOf",
+  "description": "kid ignores members outside the RFC 7638 set (kid, use, alg)",
+  "input": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y",
+      "y": "eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk",
+      "kid": "anything",
+      "use": "sig",
+      "alg": "ES256"
+    }
+  },
+  "expect": {
+    "kid": "sha256:0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+    "canonical_member_set": "{\"crv\":\"P-256\",\"kty\":\"EC\",\"x\":\"YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y\",\"y\":\"eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk\"}"
+  }
+}

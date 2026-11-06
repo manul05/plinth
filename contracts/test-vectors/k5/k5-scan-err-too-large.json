@@ -1,0 +1,19 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-scan-err-too-large",
+  "op": "scan",
+  "description": "Input over 1,000,000 UTF-16 code units is refused",
+  "input": {
+    "text_repeat": {
+      "unit": "a",
+      "times": 1000001
+    },
+    "packs": [
+      "pk.secrets.global"
+    ],
+    "date": "2026-11-01"
+  },
+  "expect": {
+    "error": "PK_DETECT_INPUT_TOO_LARGE"
+  }
+}

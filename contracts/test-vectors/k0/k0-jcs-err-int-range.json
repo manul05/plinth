@@ -1,0 +1,12 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-err-int-range",
+  "op": "parseAndCanonicalize",
+  "description": "2^53 is out of range",
+  "input": {
+    "json_text": "{\"n\":9007199254740992}"
+  },
+  "expect": {
+    "error": "PK_JCS_INT_RANGE"
+  }
+}

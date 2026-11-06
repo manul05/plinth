@@ -1,0 +1,17 @@
+{
+  "suite": "pk-kid/1.0",
+  "id": "k0-kid-err-p384",
+  "op": "kidOf",
+  "description": "P-384 is not supported",
+  "input": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-384",
+      "x": "AA",
+      "y": "AA"
+    }
+  },
+  "expect": {
+    "error": "PK_KEY_UNSUPPORTED"
+  }
+}

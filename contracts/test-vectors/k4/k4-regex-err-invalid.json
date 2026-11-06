@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-regex-err-invalid",
+  "op": "lintRegex",
+  "description": "Does not compile",
+  "input": {
+    "regex": "[a-",
+    "flags": ""
+  },
+  "expect": {
+    "error": "PK_RULEPACK_REGEX_INVALID"
+  }
+}

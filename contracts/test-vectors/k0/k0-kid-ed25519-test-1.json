@@ -1,0 +1,17 @@
+{
+  "suite": "pk-kid/1.0",
+  "id": "k0-kid-ed25519-test-1",
+  "op": "kidOf",
+  "description": "kid of the RFC 8032 TEST 1 public key",
+  "input": {
+    "jwk": {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "x": "11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo"
+    }
+  },
+  "expect": {
+    "kid": "sha256:90facafea9b1556698540f70c0117a22ea37bd5cf3ed3c47093c1707282b4b89",
+    "canonical_member_set": "{\"crv\":\"Ed25519\",\"kty\":\"OKP\",\"x\":\"11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo\"}"
+  }
+}

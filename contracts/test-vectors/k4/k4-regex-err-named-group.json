@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-regex-err-named-group",
+  "op": "lintRegex",
+  "description": "Named group",
+  "input": {
+    "regex": "(?<n>a)",
+    "flags": ""
+  },
+  "expect": {
+    "error": "PK_RULEPACK_REGEX_DIALECT"
+  }
+}

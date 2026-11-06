@@ -1,0 +1,12 @@
+{
+  "suite": "pk-der/1.0",
+  "id": "k0-der-err-negative",
+  "op": "derToP1363",
+  "description": "INTEGER with high bit set (negative) rejected",
+  "input": {
+    "der_hex": "3006020180020101"
+  },
+  "expect": {
+    "error": "PK_ENCODING_INVALID"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-pack-digests-pk-pii-india",
+  "op": "compilePackDigests",
+  "description": "Digests of the compiled pk.pii.india files built from rules/pk.pii.india/*.yaml at 0.1",
+  "input": {
+    "pack_id": "pk.pii.india",
+    "source_dir": "rules/pk.pii.india"
+  },
+  "expect": {
+    "manifest_files": [
+      {
+        "path": "rules.json",
+        "sha256": "sha256:401afc58557ad7fd26ecc5045e3133b7b20149c976a636214ac4a89b159b8a8d"
+      },
+      {
+        "path": "tests.json",
+        "sha256": "sha256:ca8ab4308c9b8478e7ca801434e208746a083c881367bf7026786330641d65cf"
+      }
+    ],
+    "manifest_digest": "sha256:e785a9ff9ab96dffb8060aed3132b587aedc1e476ecb7484fdb68945371375f2",
+    "rule_count": 7,
+    "test_count": 14
+  }
+}

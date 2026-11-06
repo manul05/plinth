@@ -1,0 +1,12 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-yaml-err-multi-doc",
+  "op": "yamlSubset",
+  "description": "More than one document is refused",
+  "input": {
+    "yaml_text": "a: 1\n---\nb: 2\n"
+  },
+  "expect": {
+    "error": "PK_RULEPACK_YAML_MULTI_DOC"
+  }
+}

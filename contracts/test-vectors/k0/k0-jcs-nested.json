@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-nested",
+  "op": "parseAndCanonicalize",
+  "description": "Nested objects sorted at every level",
+  "input": {
+    "json_text": "{\"z\":{\"y\":true,\"x\":false},\"a\":{\"k\":\"v\"}}"
+  },
+  "expect": {
+    "canonical": "{\"a\":{\"k\":\"v\"},\"z\":{\"x\":false,\"y\":true}}",
+    "digest": "sha256:65763a5045a34666fd93882cb691b3624c04eed21a3abbcbf456549580fdbbb2"
+  }
+}

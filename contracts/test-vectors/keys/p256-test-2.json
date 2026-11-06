@@ -1,0 +1,14 @@
+{
+  "name": "TEST-ONLY p256-test-2",
+  "test_only": true,
+  "alg": "ES256",
+  "private_hex": "417dcd67769b215874079a685b98c40d7cec12c8b00d416e9468271e9208b711",
+  "public_jwk": {
+    "kty": "EC",
+    "crv": "P-256",
+    "x": "eK2H-sM2TvryULrVOcmVGhdip5TA8kY21YDty-DBhS0",
+    "y": "PpFxvmSRroE521uULVeIOjV32hnUZKJseBULEl7Y2co"
+  },
+  "kid": "sha256:6b417f1e6a7b2841e17d717e072b24ad4fa85e301efde77a2f98b33a8ec5964e",
+  "source": "SHA-256 of the ASCII text \"plinth TEST-ONLY p256 key 2\""
+}

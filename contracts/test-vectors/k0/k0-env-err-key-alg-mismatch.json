@@ -1,0 +1,54 @@
+{
+  "suite": "pk-sig/1.0",
+  "id": "k0-env-err-key-alg-mismatch",
+  "op": "verifyEnvelope",
+  "description": "kid points at an EC key but alg says Ed25519",
+  "input": {
+    "envelope": {
+      "spec": "pk-sig/1.0",
+      "type": "pk.example.document",
+      "payload": {
+        "spec": "pk-example/1.0",
+        "note": "Plinth envelope vector",
+        "items": [
+          1,
+          2,
+          3
+        ],
+        "unicode": "caf\u00e9 \u20b9"
+      },
+      "signatures": [
+        {
+          "alg": "Ed25519",
+          "kid": "sha256:0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+          "role": "producer",
+          "sig": "ufUPOsKf-ip_vlj76m43QOy7uEUUuqQT5RmYdo15FsVtF_d5Agdgr5ksZoKqL8Ts1h8qC6WbYNHpVSO0602rDg"
+        }
+      ]
+    },
+    "trusted_keys": [
+      {
+        "kid": "sha256:0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+        "jwk": {
+          "kty": "EC",
+          "crv": "P-256",
+          "x": "YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y",
+          "y": "eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk"
+        }
+      }
+    ],
+    "policy": {
+      "pk.example.document": {
+        "algs": [
+          "Ed25519",
+          "ES256"
+        ],
+        "min_signatures": 1
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "error": "PK_SIG_KEY_ALG_MISMATCH"
+  }
+}

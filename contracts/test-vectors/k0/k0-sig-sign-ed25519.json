@@ -1,0 +1,29 @@
+{
+  "suite": "pk-sig/1.0",
+  "id": "k0-sig-sign-ed25519",
+  "op": "signEd25519",
+  "description": "Ed25519 signature is byte-identical in every language",
+  "input": {
+    "type": "pk.example.document",
+    "payload": {
+      "spec": "pk-example/1.0",
+      "note": "Plinth envelope vector",
+      "items": [
+        1,
+        2,
+        3
+      ],
+      "unicode": "caf\u00e9 \u20b9"
+    },
+    "key_file": "keys/ed25519-test-1.json",
+    "role": "producer"
+  },
+  "expect": {
+    "signature": {
+      "alg": "Ed25519",
+      "kid": "sha256:90facafea9b1556698540f70c0117a22ea37bd5cf3ed3c47093c1707282b4b89",
+      "role": "producer",
+      "sig": "ufUPOsKf-ip_vlj76m43QOy7uEUUuqQT5RmYdo15FsVtF_d5Agdgr5ksZoKqL8Ts1h8qC6WbYNHpVSO0602rDg"
+    }
+  }
+}

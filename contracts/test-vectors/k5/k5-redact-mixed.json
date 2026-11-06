@@ -1,0 +1,78 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-redact-mixed",
+  "op": "redact",
+  "description": "Secret, PAN, mobile and e-mail in one text; offsets refer to the original text",
+  "input": {
+    "text_parts": [
+      "Deploy with AKIA",
+      "MIUSWEXBSQQOSKQD",
+      " then call +91 98765 43210 or mail priya.s@example.in; PAN ABCPE1234F."
+    ],
+    "packs": [
+      "pk.secrets.global",
+      "pk.secrets.india",
+      "pk.pii.india",
+      "pk.untrusted-text"
+    ],
+    "date": "2026-11-01",
+    "installation_secret_hex": "8a4c1e3b2240d19907e9e9e5c7d16f087b65ed8d9942b917137bcb05ee8b1bbe"
+  },
+  "expect": {
+    "output": "Deploy with [REDACTED:aws_access_key:\u202605d3] then call [REDACTED:in_mobile] or mail [REDACTED:email]; PAN [REDACTED:pan].",
+    "findings": [
+      {
+        "rule_id": "pk.secret.aws.access_key_id",
+        "rev": 1,
+        "kind": "secret",
+        "start": 12,
+        "end": 32,
+        "severity": "high",
+        "provider": "aws",
+        "secret_kind": "public_id",
+        "environment": "live",
+        "short": "aws_access_key",
+        "masked_preview": "AKIA\u2026QD",
+        "fingerprint": "05d349c43115ac4e51980d056b2829f43e03a02264b4c55484de560090cf1444",
+        "placeholder": "[REDACTED:aws_access_key:\u202605d3]"
+      },
+      {
+        "rule_id": "pk.pii.in.mobile",
+        "rev": 1,
+        "kind": "pii",
+        "start": 43,
+        "end": 58,
+        "severity": "medium",
+        "pii_type": "in_mobile",
+        "masked_preview": "\u20263210",
+        "placeholder": "[REDACTED:in_mobile]"
+      },
+      {
+        "rule_id": "pk.pii.email",
+        "rev": 1,
+        "kind": "pii",
+        "start": 67,
+        "end": 85,
+        "severity": "medium",
+        "pii_type": "email",
+        "masked_preview": "\u2026",
+        "placeholder": "[REDACTED:email]"
+      },
+      {
+        "rule_id": "pk.pii.in.pan",
+        "rev": 1,
+        "kind": "pii",
+        "start": 91,
+        "end": 101,
+        "severity": "high",
+        "pii_type": "pan",
+        "masked_preview": "\u2026234F",
+        "placeholder": "[REDACTED:pan]"
+      }
+    ],
+    "counts": {
+      "secret": 1,
+      "pii": 3
+    }
+  }
+}

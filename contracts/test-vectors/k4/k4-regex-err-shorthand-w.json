@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-regex-err-shorthand-w",
+  "op": "lintRegex",
+  "description": "\\w differs across engines",
+  "input": {
+    "regex": "\\w+",
+    "flags": ""
+  },
+  "expect": {
+    "error": "PK_RULEPACK_REGEX_DIALECT"
+  }
+}

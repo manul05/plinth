@@ -1,0 +1,13 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-gstin-invalid",
+  "op": "validator",
+  "description": "GSTIN with wrong check character",
+  "input": {
+    "name": "gstin",
+    "value": "27AAPFU0939F1ZW"
+  },
+  "expect": {
+    "valid": false
+  }
+}

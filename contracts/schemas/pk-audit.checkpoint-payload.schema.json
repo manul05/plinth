@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-audit.checkpoint-payload.schema.json",
+  "title": "Payload of a pk.audit.checkpoint envelope (K1)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "const": "pk-audit/1.0"
+    },
+    "chain": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "seq": {
+      "$ref": "common.schema.json#/$defs/nonNegInt"
+    },
+    "head": {
+      "$ref": "common.schema.json#/$defs/digest"
+    },
+    "ts": {
+      "$ref": "common.schema.json#/$defs/timestamp"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 1
+    }
+  },
+  "required": [
+    "spec",
+    "chain",
+    "seq",
+    "head",
+    "ts",
+    "count"
+  ],
+  "additionalProperties": false
+}

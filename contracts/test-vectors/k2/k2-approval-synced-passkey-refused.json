@@ -1,0 +1,157 @@
+{
+  "suite": "pk-approval/1.0",
+  "id": "k2-approval-synced-passkey-refused",
+  "op": "verifyApproval",
+  "description": "Realm requires device-bound keys; assertion has BE=1 (synced passkey)",
+  "input": {
+    "request": {
+      "spec": "pk-approval/1.0",
+      "id": "0192f5e2-3a4b-7c5d-8e6f-0123456789ab",
+      "realm": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+      "action": "passdown.git.push_protected_ref",
+      "subject": {
+        "kind": "git-commit",
+        "digest": "sha256:83c9ceb77545e1dd9dcddbf3f5815191b27d29bd9e94ebc5e6351e9ea5dddf59",
+        "attributes": {
+          "repo": "github.com/example/passdown",
+          "ref": "refs/heads/main",
+          "sha": "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678"
+        }
+      },
+      "display": {
+        "title": "Push 3 commits to main",
+        "risk": [
+          "main"
+        ]
+      },
+      "requester": {
+        "kind": "agent",
+        "id": "codex:client:02",
+        "human_id": "owner"
+      },
+      "created_at": "2026-11-02T09:00:00.000Z",
+      "expires_at": "2026-11-02T09:10:00.000Z",
+      "nonce": "nj8VYyTULw6ktvT86B1W-w",
+      "policy": {
+        "registry_version": 1,
+        "min_approvals": 1,
+        "distinct_from_requester": false
+      }
+    },
+    "decisions": [
+      {
+        "spec": "pk-sig/1.0",
+        "type": "pk.approval.decision",
+        "payload": {
+          "spec": "pk-approval/1.0",
+          "request_digest": "sha256:8398b81a96b94ec8a719a88bc9eca052caa0d34c86fb004b1f81f92137894f21",
+          "decision": "approve",
+          "decided_at": "2026-11-02T09:03:00.000Z",
+          "approver_id": "third"
+        },
+        "signatures": [
+          {
+            "alg": "webauthn-ES256",
+            "kid": "sha256:3ac89067e535ba409c9073ef96f35548806a960e63fde900d70cc2d2fb82018c",
+            "role": "approver",
+            "sig": "MEUCIQDhLexTMo5cXoCEgbv4f8DeaEkuhbyKnEw7lnhXt4iJegIgCJLVqez8eTsVb2iUyeBg2JS1o5oQPP8n2ctIEF0jIrw",
+            "authenticator_data": "isa3hwuRDLq5XLX1pv8q6crLzD9ymayLjlqZsqdOsIMdAAAAAA",
+            "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoieDVmU3JMMjVzNGlGaWVUaUdhTmQwb1o5bDZzaVNjV1JhMG1DdU81UU9XbyIsIm9yaWdpbiI6Imh0dHBzOi8vYXBwcm92YWxzLmV4YW1wbGUiLCJjcm9zc09yaWdpbiI6ZmFsc2V9"
+          }
+        ]
+      }
+    ],
+    "registry": {
+      "spec": "pk-approval/1.0",
+      "realm": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+      "version": 2,
+      "approvers": [
+        {
+          "id": "owner",
+          "display": "Owner (TEST)",
+          "kid": "sha256:0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+          "jwk": {
+            "kty": "EC",
+            "crv": "P-256",
+            "x": "YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y",
+            "y": "eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk"
+          },
+          "profile": "webauthn",
+          "roles": [
+            "approver"
+          ],
+          "added_at": "2026-11-01T08:00:00.000Z",
+          "webauthn": {
+            "rp_id": "approvals.example",
+            "origins": [
+              "https://approvals.example"
+            ],
+            "credential_id": "HZnz0G6avl4oxre5av0HNMsi3Sak0lLlUcFyHO4MW3c",
+            "backup_eligible": false,
+            "backup_state": false
+          }
+        },
+        {
+          "id": "reviewer",
+          "display": "Second reviewer (TEST)",
+          "kid": "sha256:6b417f1e6a7b2841e17d717e072b24ad4fa85e301efde77a2f98b33a8ec5964e",
+          "jwk": {
+            "kty": "EC",
+            "crv": "P-256",
+            "x": "eK2H-sM2TvryULrVOcmVGhdip5TA8kY21YDty-DBhS0",
+            "y": "PpFxvmSRroE521uULVeIOjV32hnUZKJseBULEl7Y2co"
+          },
+          "profile": "android-keystore",
+          "roles": [
+            "approver"
+          ],
+          "added_at": "2026-11-01T08:00:00.000Z",
+          "hardware": true
+        },
+        {
+          "id": "third",
+          "display": "Third approver (TEST)",
+          "kid": "sha256:3ac89067e535ba409c9073ef96f35548806a960e63fde900d70cc2d2fb82018c",
+          "jwk": {
+            "kty": "EC",
+            "crv": "P-256",
+            "x": "VCMKUWFWDP0vO5O0bLNVjbWGXet-EkzLrsHClAlFG_o",
+            "y": "5SuU8pOREYMzs9mG-i-pFImpqoaVPVtqnpg2dxNp6xQ"
+          },
+          "profile": "webauthn",
+          "roles": [
+            "approver"
+          ],
+          "added_at": "2026-11-01T09:00:00.000Z",
+          "webauthn": {
+            "rp_id": "approvals.example",
+            "origins": [
+              "https://approvals.example"
+            ],
+            "credential_id": "uh9olF9CsdGIsdC5IU_eNlJCnkEPc-M4uUHtncFZg5o",
+            "backup_eligible": true,
+            "backup_state": true
+          }
+        }
+      ],
+      "break_glass": [
+        {
+          "code_digest": "sha256:444361933609d23e64cb267c3a740a4e908cbfe7e17ff6af23ec9c38999e698e"
+        }
+      ],
+      "max_ttl_seconds": 600,
+      "allow_synced_passkeys": false
+    },
+    "actual_subject_digest": "sha256:83c9ceb77545e1dd9dcddbf3f5815191b27d29bd9e94ebc5e6351e9ea5dddf59",
+    "allowed_actions": [
+      "passdown.git.push_protected_ref",
+      "passdown.prod.window_open"
+    ],
+    "now": "2026-11-02T09:03:30.000Z",
+    "consumed_ids": []
+  },
+  "expect": {
+    "valid": false,
+    "error": "PK_APPROVAL_SYNCED_KEY_NOT_ALLOWED"
+  }
+}

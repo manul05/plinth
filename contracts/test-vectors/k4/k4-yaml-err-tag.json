@@ -1,0 +1,12 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-yaml-err-tag",
+  "op": "yamlSubset",
+  "description": "Explicit tags are refused",
+  "input": {
+    "yaml_text": "a: !!str 5\n"
+  },
+  "expect": {
+    "error": "PK_RULEPACK_YAML_TAG"
+  }
+}

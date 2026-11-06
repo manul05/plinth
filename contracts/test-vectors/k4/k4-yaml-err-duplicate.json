@@ -1,0 +1,12 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-yaml-err-duplicate",
+  "op": "yamlSubset",
+  "description": "Duplicate keys are refused",
+  "input": {
+    "yaml_text": "a: 1\na: 2\n"
+  },
+  "expect": {
+    "error": "PK_RULEPACK_YAML_DUPLICATE_KEY"
+  }
+}

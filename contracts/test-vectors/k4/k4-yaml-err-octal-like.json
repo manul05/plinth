@@ -1,0 +1,12 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-yaml-err-octal-like",
+  "op": "yamlSubset",
+  "description": "010 is refused (ambiguous between YAML 1.1 and 1.2)",
+  "input": {
+    "yaml_text": "n: 010\n"
+  },
+  "expect": {
+    "error": "PK_RULEPACK_YAML_AMBIGUOUS_SCALAR"
+  }
+}

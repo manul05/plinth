@@ -1,0 +1,13 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-verhoeff-aadhaar-spaces",
+  "op": "validator",
+  "description": "Verhoeff ignores spaces and hyphens",
+  "input": {
+    "name": "verhoeff",
+    "value": "2949 1013 6515"
+  },
+  "expect": {
+    "valid": true
+  }
+}

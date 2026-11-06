@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-detect.finding.schema.json",
+  "title": "Finding returned by scan() and redact() (K5)",
+  "type": "object",
+  "properties": {
+    "rule_id": {
+      "$ref": "common.schema.json#/$defs/dottedName"
+    },
+    "rev": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "secret",
+        "pii",
+        "untrusted"
+      ]
+    },
+    "start": {
+      "$ref": "common.schema.json#/$defs/nonNegInt"
+    },
+    "end": {
+      "$ref": "common.schema.json#/$defs/nonNegInt"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "masked_preview": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "secret_kind": {
+      "type": "string",
+      "enum": [
+        "secret",
+        "public_id",
+        "token",
+        "private_key"
+      ]
+    },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "live",
+        "test",
+        "unknown"
+      ]
+    },
+    "short": {
+      "type": "string"
+    },
+    "fingerprint": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pii_type": {
+      "type": "string"
+    },
+    "placeholder": {
+      "type": "string",
+      "pattern": "^\\[REDACTED:[a-z0-9_]+(:…[0-9a-f]{4})?\\]$"
+    }
+  },
+  "required": [
+    "rule_id",
+    "rev",
+    "kind",
+    "start",
+    "end",
+    "severity",
+    "masked_preview"
+  ],
+  "additionalProperties": false
+}

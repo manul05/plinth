@@ -1,0 +1,174 @@
+# Plinth rule pack source (K4 pk-rulepack/1.0). Authored in Stage 3 (2026-10-31).
+# Compiled to packs/pk.secrets.global/ by the rule compiler. Edit only through a rule revision (rev + 1, changes entry).
+# Secret-like inputs are split into input_parts so the repo never holds a whole token (GitHub push protection). Joined with no separator at test time.
+spec: 'pk-rulepack/1.0'
+pack_id: 'pk.secrets.global'
+tests:
+  - rule_id: 'pk.secret.github.pat'
+    input_parts:
+      - 'ghp_'
+      - '53U7cV5zIP9nkpgKB0JmxG548nBLKjVlTfIl'
+    expect: 'match'
+    note: 'token in a config line'
+  - rule_id: 'pk.secret.github.pat'
+    input_parts:
+      - 'ghp_'
+      - 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+    expect: 'no_match'
+    note: 'low entropy filler'
+  - rule_id: 'pk.secret.github.fine_grained_pat'
+    input_parts:
+      - 'github_pat_'
+      - 'qgQ6x_NCPv34sEUX7acIbrzzIvioQdVaoswFkFRSw7jnRz3Adg6BCMMdJn4_wZabNz1yhK0C0hlMmycAyC'
+    expect: 'match'
+  - rule_id: 'pk.secret.github.fine_grained_pat'
+    input_parts:
+      - 'github_pat_'
+      - 'CUoObNOAVakQy1JBBmz0wsaOWarZAqSvQGCsE4sn'
+    expect: 'no_match'
+    note: 'too short'
+  - rule_id: 'pk.secret.github.oauth'
+    input_parts:
+      - 'gho_'
+      - '3q33e1hk5ok7xKQk4q3xVLkX64DLjoeDOFE2'
+    expect: 'match'
+  - rule_id: 'pk.secret.github.oauth'
+    input_parts:
+      - 'gho_'
+      - 'n7pD6SPXdu9myYnUxpNw'
+    expect: 'no_match'
+    note: 'too short'
+  - rule_id: 'pk.secret.github.app_token'
+    input_parts:
+      - 'ghs_'
+      - '0Y01U1QTCZrSKIGmYN74Pi20QuPA53wAcBak'
+    expect: 'match'
+  - rule_id: 'pk.secret.github.app_token'
+    input_parts:
+      - 'ghx_'
+      - 'k3pGENFZBBrAG5btAJauhZGLUL4sZWBX0k59'
+    expect: 'no_match'
+    note: 'wrong prefix'
+  - rule_id: 'pk.secret.gitlab.pat'
+    input_parts:
+      - 'glpat-'
+      - 'UwfawIOHGY218jRtpZLU'
+    expect: 'match'
+  - rule_id: 'pk.secret.gitlab.pat'
+    input_parts:
+      - 'glpat-'
+      - 'xxxxxxxxxxxxxxxxxxxx'
+    expect: 'no_match'
+    note: 'low entropy'
+  - rule_id: 'pk.secret.aws.access_key_id'
+    input_parts:
+      - 'aws_access_key_id = AKIA'
+      - 'XXOZZ4MRRQX43QP7'
+    expect: 'match'
+  - rule_id: 'pk.secret.aws.access_key_id'
+    input_parts:
+      - 'AKIA'
+      - '2gojyyr4xgtktsto'
+    expect: 'no_match'
+    note: 'lower case is not an AWS key id'
+  - rule_id: 'pk.secret.slack.bot_token'
+    input_parts:
+      - 'xoxb-'
+      - '493948326680'
+      - '-'
+      - '3200470804831'
+      - '-'
+      - 'Q39QVSUbGJ6ntUQ2CLpP23Ki'
+    expect: 'match'
+  - rule_id: 'pk.secret.slack.bot_token'
+    input_parts:
+      - 'xoxb-12345-67890'
+    expect: 'no_match'
+    note: 'numeric groups too short'
+  - rule_id: 'pk.secret.stripe.secret_key'
+    input_parts:
+      - 'STRIPE_KEY=sk_'
+      - 'test_'
+      - 'mBQOJSJHBbrEdLgnvR06OMHT'
+      - '
+
+        '
+    expect: 'match'
+  - rule_id: 'pk.secret.stripe.secret_key'
+    input_parts:
+      - 'sk_'
+      - 'demo_'
+      - 'EiZJ5vgmWGErsangLskLAVxH'
+    expect: 'no_match'
+    note: 'unknown mode'
+  - rule_id: 'pk.secret.npm.access_token'
+    input_parts:
+      - '//registry.npmjs.org/:_authToken=npm_'
+      - 'iyzqqdnckfzpe90obbyc2tl5xcrhf5lxmh64'
+      - '
+
+        '
+    expect: 'match'
+  - rule_id: 'pk.secret.npm.access_token'
+    input_parts:
+      - 'npm_'
+      - 'cjsjb0hydu7s1nd80bzj'
+      - '
+
+        '
+    expect: 'no_match'
+    note: 'too short'
+  - rule_id: 'pk.secret.anthropic.api_key'
+    input_parts:
+      - 'ANTHROPIC_API_KEY="sk-ant-'
+      - 'api03-'
+      - 'pkrLy4syeElfpG-yLN5rcmXwoBlc0u-vNxr_eDHSPyKbTczKuiPQhNtXGAw6tecvoL5CtqVNkNs3QiRC5SZ4Fs_4i8kq5'
+      - 'AA"'
+    expect: 'match'
+  - rule_id: 'pk.secret.anthropic.api_key'
+    input_parts:
+      - 'sk-ant-'
+      - 'api03-'
+      - 'iGkpYox0poFdLpErbgELKCtl6a5Ko0C5P2sc5yOf7fyLKqy3T8'
+      - 'AA '
+    expect: 'no_match'
+    note: 'too short'
+  - rule_id: 'pk.secret.google.api_key'
+    input_parts:
+      - 'key: AIza'
+      - 'XUlxdYUBVygHf2MTPfYl-Q7w0JOlJpQV5hZ'
+      - '
+
+        '
+    expect: 'match'
+  - rule_id: 'pk.secret.google.api_key'
+    input_parts:
+      - 'AIza'
+      - 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+      - '
+
+        '
+    expect: 'no_match'
+    note: 'low entropy'
+  - rule_id: 'pk.secret.generic.private_key'
+    input_parts:
+      - '-----BEGIN '
+      - 'OPENSSH PRIVATE KEY-----
+
+        '
+      - 'ff/Y19/m1DLlcxS0iqYoAMVl2rXl/dSbooq9x8V37BPLUOGvbtpkItji7bgM2S72XKgend'
+      - '
+
+        -----END OPENSSH PRIVATE KEY-----'
+    expect: 'match'
+  - rule_id: 'pk.secret.generic.private_key'
+    input_parts:
+      - '-----BEGIN PUBLIC KEY-----
+
+        '
+      - 'UWDR49gl0w5pDxDMkqgEYa9ZnnascbQwHHj1KUC8N6mybBURcm29Q8huE0SofbpFh7R4oA'
+      - '
+
+        -----END PUBLIC KEY-----'
+    expect: 'no_match'
+    note: 'public key block'

@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-utf16-order",
+  "op": "parseAndCanonicalize",
+  "description": "Keys sorted by UTF-16 code units: U+1F600 (D83D DE00) sorts before U+FF61 because D83D < FF61; code point order would put U+FF61 first",
+  "input": {
+    "json_text": "{\"\\uff61\":1,\"\\ud83d\\ude00\":2,\"a\":3}"
+  },
+  "expect": {
+    "canonical": "{\"a\":3,\"\ud83d\ude00\":2,\"\uff61\":1}",
+    "digest": "sha256:abec372b4e59235407b56223f98d823bec3eaa45c7ae810db0b91fbabc074673"
+  }
+}

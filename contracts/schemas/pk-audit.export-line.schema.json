@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-audit.export-line.schema.json",
+  "title": "One line of a JSON Lines audit export (K1)",
+  "type": "object",
+  "properties": {
+    "event": {
+      "$ref": "pk-audit.event.schema.json"
+    },
+    "hash": {
+      "$ref": "common.schema.json#/$defs/digest"
+    }
+  },
+  "required": [
+    "event",
+    "hash"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,17 @@
+{
+  "suite": "pk-approval/1.0",
+  "id": "k2-jwk-from-spki",
+  "op": "jwkFromP256Spki",
+  "description": "Browser getPublicKey() SPKI (91 bytes) to JWK",
+  "input": {
+    "spki_hex": "3059301306072a8648ce3d020106082a8648ce3d0301070342000460fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb67903fe1008b8bc99a41ae9e95628bc64f2f1b20c2d7e9f5177a3c294d4462299"
+  },
+  "expect": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y",
+      "y": "eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk"
+    }
+  }
+}

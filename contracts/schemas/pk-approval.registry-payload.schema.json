@@ -1,0 +1,239 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-approval.registry-payload.schema.json",
+  "title": "Payload of a pk.approval.registry envelope (K2)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "const": "pk-approval/1.0"
+    },
+    "realm": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "approvers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "display": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "kid": {
+            "$ref": "common.schema.json#/$defs/digest"
+          },
+          "jwk": {
+            "$ref": "jwk.schema.json"
+          },
+          "profile": {
+            "type": "string",
+            "enum": [
+              "webauthn",
+              "android-keystore",
+              "windows-tpm"
+            ]
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64
+            },
+            "minItems": 1
+          },
+          "added_at": {
+            "$ref": "common.schema.json#/$defs/timestamp"
+          },
+          "webauthn": {
+            "type": "object",
+            "properties": {
+              "rp_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 253
+              },
+              "origins": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^https://[a-z0-9.-]+(:[0-9]{1,5})?$|^http://localhost(:[0-9]{1,5})?$"
+                },
+                "minItems": 1
+              },
+              "credential_id": {
+                "$ref": "common.schema.json#/$defs/b64url"
+              },
+              "backup_eligible": {
+                "type": "boolean"
+              },
+              "backup_state": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "rp_id",
+              "origins",
+              "credential_id",
+              "backup_eligible",
+              "backup_state"
+            ],
+            "additionalProperties": false
+          },
+          "hardware": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "display",
+          "kid",
+          "jwk",
+          "profile",
+          "roles",
+          "added_at"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 32
+    },
+    "break_glass": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code_digest": {
+            "$ref": "common.schema.json#/$defs/digest"
+          }
+        },
+        "required": [
+          "code_digest"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 16
+    },
+    "max_ttl_seconds": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 86400
+    },
+    "allow_synced_passkeys": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "spec",
+    "realm",
+    "version",
+    "approvers",
+    "break_glass",
+    "max_ttl_seconds",
+    "allow_synced_passkeys"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "approver": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "display": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "kid": {
+          "$ref": "common.schema.json#/$defs/digest"
+        },
+        "jwk": {
+          "$ref": "jwk.schema.json"
+        },
+        "profile": {
+          "type": "string",
+          "enum": [
+            "webauthn",
+            "android-keystore",
+            "windows-tpm"
+          ]
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "minItems": 1
+        },
+        "added_at": {
+          "$ref": "common.schema.json#/$defs/timestamp"
+        },
+        "webauthn": {
+          "type": "object",
+          "properties": {
+            "rp_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 253
+            },
+            "origins": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^https://[a-z0-9.-]+(:[0-9]{1,5})?$|^http://localhost(:[0-9]{1,5})?$"
+              },
+              "minItems": 1
+            },
+            "credential_id": {
+              "$ref": "common.schema.json#/$defs/b64url"
+            },
+            "backup_eligible": {
+              "type": "boolean"
+            },
+            "backup_state": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "rp_id",
+            "origins",
+            "credential_id",
+            "backup_eligible",
+            "backup_state"
+          ],
+          "additionalProperties": false
+        },
+        "hardware": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "display",
+        "kid",
+        "jwk",
+        "profile",
+        "roles",
+        "added_at"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

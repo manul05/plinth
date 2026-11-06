@@ -1,0 +1,10 @@
+{
+  "suite": "pk-audit/1.0",
+  "id": "k1-genesis-prev",
+  "op": "genesisPrev",
+  "description": "prev of seq 0",
+  "input": {},
+  "expect": {
+    "prev": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-pack-digests-pk-untrusted-text",
+  "op": "compilePackDigests",
+  "description": "Digests of the compiled pk.untrusted-text files built from rules/pk.untrusted-text/*.yaml at 0.1",
+  "input": {
+    "pack_id": "pk.untrusted-text",
+    "source_dir": "rules/pk.untrusted-text"
+  },
+  "expect": {
+    "manifest_files": [
+      {
+        "path": "rules.json",
+        "sha256": "sha256:4f361dcd054be6f1ea7d82ebf4b825c3b6fd4c12fee0e41116da9f8d8b8622ae"
+      },
+      {
+        "path": "tests.json",
+        "sha256": "sha256:2c3e5744a32604332e9fdcfd7d333561903ffed1d9855fb317bbe81971ff75be"
+      }
+    ],
+    "manifest_digest": "sha256:67a498b85d07873e5e838ea11ddcc63f4b223d8fbaab871f10391cdf626708e8",
+    "rule_count": 8,
+    "test_count": 16
+  }
+}

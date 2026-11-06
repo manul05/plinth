@@ -1,0 +1,228 @@
+# Plinth rule pack source (K4 pk-rulepack/1.0). Authored in Stage 3 (2026-10-31).
+# Compiled to packs/pk.pii.india/ by the rule compiler. Edit only through a rule revision (rev + 1, changes entry).
+spec: 'pk-rulepack/1.0'
+pack_id: 'pk.pii.india'
+rules:
+  - id: 'pk.pii.in.aadhaar'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Structure taken from the programme India compliance pack and widely published descriptions; not yet checked against the issuing authority primary documents (UIDAI, Income Tax Department, NPCI, RBI, GSTN).'
+    source_refs:
+      - source_id: 'india-pii-structures'
+        locator: 'aadhaar'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'pii'
+      - 'india'
+    title: 'Aadhaar-like number'
+    description: '12 digits, first digit 2-9, optional space or hyphen after each group of four, valid Verhoeff check digit. Never stored, never fingerprinted.'
+    body:
+      pii_type: 'aadhaar'
+      regex: '\b[2-9][0-9]{3}[ -]?[0-9]{4}[ -]?[0-9]{4}\b'
+      validator: 'verhoeff'
+      context_keywords:
+        - 'aadhaar'
+        - 'aadhar'
+        - 'uidai'
+        - 'uid'
+      mask:
+        store: 'never'
+        display: 'none'
+      severity: 'critical'
+  - id: 'pk.pii.in.pan'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Structure taken from the programme India compliance pack and widely published descriptions; not yet checked against the issuing authority primary documents (UIDAI, Income Tax Department, NPCI, RBI, GSTN).'
+    source_refs:
+      - source_id: 'india-pii-structures'
+        locator: 'pan'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'pii'
+      - 'india'
+    title: 'PAN (Permanent Account Number)'
+    description: '5 letters, 4 digits, 1 letter; the 4th letter is the holder type (P, C, H, F, A, T, B, L, J or G).'
+    body:
+      pii_type: 'pan'
+      regex: '\b[A-Z]{3}[ABCFGHJLPT][A-Z][0-9]{4}[A-Z]\b'
+      validator: 'none'
+      context_keywords:
+        - 'pan'
+      mask:
+        store: 'masked'
+        display: 'last4'
+      severity: 'high'
+  - id: 'pk.pii.in.mobile'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Structure taken from the programme India compliance pack and widely published descriptions; not yet checked against the issuing authority primary documents (UIDAI, Income Tax Department, NPCI, RBI, GSTN).'
+    source_refs:
+      - source_id: 'india-pii-structures'
+        locator: 'in_mobile'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'pii'
+      - 'india'
+    title: 'Indian mobile number'
+    description: '10 digits starting 6-9 (optionally split 5+5 by one space or hyphen), optionally preceded by +91 (with an optional space or hyphen) or a leading 0.'
+    body:
+      pii_type: 'in_mobile'
+      regex: '(?:\+91[ -]?|\b0|\b)[6-9][0-9]{4}[ -]?[0-9]{5}\b'
+      validator: 'none'
+      context_keywords: []
+      mask:
+        store: 'masked'
+        display: 'last4'
+      severity: 'medium'
+  - id: 'pk.pii.in.upi_id'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Structure taken from the programme India compliance pack and widely published descriptions; not yet checked against the issuing authority primary documents (UIDAI, Income Tax Department, NPCI, RBI, GSTN).'
+    source_refs:
+      - source_id: 'india-pii-structures'
+        locator: 'upi_id'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'pii'
+      - 'india'
+    title: 'UPI ID (VPA)'
+    description: 'name@handle where the handle is in the reference list of PSP handles (list unverified, extend through rule revisions).'
+    body:
+      pii_type: 'upi_id'
+      regex: '\b[a-zA-Z0-9][a-zA-Z0-9._-]{1,255}@[a-zA-Z][a-zA-Z0-9]{1,63}\b'
+      validator: 'upi_handle'
+      context_keywords: []
+      mask:
+        store: 'masked'
+        display: 'none'
+      severity: 'medium'
+      handles:
+        - 'apl'
+        - 'axisbank'
+        - 'axl'
+        - 'hdfcbank'
+        - 'ibl'
+        - 'icici'
+        - 'idfcbank'
+        - 'kotak'
+        - 'okaxis'
+        - 'okhdfcbank'
+        - 'okicici'
+        - 'oksbi'
+        - 'paytm'
+        - 'pthdfc'
+        - 'ptaxis'
+        - 'ptsbi'
+        - 'ptyes'
+        - 'sbi'
+        - 'upi'
+        - 'ybl'
+        - 'yesbank'
+  - id: 'pk.pii.in.ifsc'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Structure taken from the programme India compliance pack and widely published descriptions; not yet checked against the issuing authority primary documents (UIDAI, Income Tax Department, NPCI, RBI, GSTN).'
+    source_refs:
+      - source_id: 'india-pii-structures'
+        locator: 'ifsc'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'pii'
+      - 'india'
+    title: 'IFSC bank branch code'
+    description: '4 letters, the digit 0, then 6 letters or digits.'
+    body:
+      pii_type: 'ifsc'
+      regex: '\b[A-Z]{4}0[A-Z0-9]{6}\b'
+      validator: 'none'
+      context_keywords: []
+      mask:
+        store: 'masked'
+        display: 'none'
+      severity: 'low'
+  - id: 'pk.pii.in.gstin'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Structure taken from the programme India compliance pack and widely published descriptions; not yet checked against the issuing authority primary documents (UIDAI, Income Tax Department, NPCI, RBI, GSTN).'
+    source_refs:
+      - source_id: 'india-pii-structures'
+        locator: 'gstin'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'pii'
+      - 'india'
+    title: 'GSTIN'
+    description: '15 characters: state code, PAN, entity number, Z, and a mod-36 check character.'
+    body:
+      pii_type: 'gstin'
+      regex: '\b[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]\b'
+      validator: 'gstin'
+      context_keywords: []
+      mask:
+        store: 'masked'
+        display: 'last4'
+      severity: 'medium'
+  - id: 'pk.pii.email'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Structure taken from the programme India compliance pack and widely published descriptions; not yet checked against the issuing authority primary documents (UIDAI, Income Tax Department, NPCI, RBI, GSTN).'
+    source_refs:
+      - source_id: 'india-pii-structures'
+        locator: 'email'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'pii'
+      - 'india'
+    title: 'E-mail address'
+    description: 'local@domain.tld with a 2-24 letter top-level domain.'
+    body:
+      pii_type: 'email'
+      regex: '\b[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]{1,253}\.[a-zA-Z]{2,24}\b'
+      validator: 'none'
+      context_keywords: []
+      mask:
+        store: 'masked'
+        display: 'none'
+      severity: 'medium'

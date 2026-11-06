@@ -1,0 +1,411 @@
+# Plinth rule pack source (K4 pk-rulepack/1.0). Authored in Stage 3 (2026-10-31).
+# Compiled to packs/pk.secrets.global/ by the rule compiler. Edit only through a rule revision (rev + 1, changes entry).
+spec: 'pk-rulepack/1.0'
+pack_id: 'pk.secrets.global'
+rules:
+  - id: 'pk.secret.github.pat'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule github-pat (MIT), retrieved 2026-10-31. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "github-pat"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'github'
+    title: 'GitHub personal access token (classic)'
+    description: 'Classic GitHub personal access token: ghp_ followed by 36 letters or digits.'
+    body:
+      provider: 'github'
+      short: 'github_pat'
+      secret_kind: 'token'
+      environment: 'live'
+      regex: 'ghp_[0-9a-zA-Z]{36}'
+      secret_group: 0
+      keywords:
+        - 'ghp_'
+      entropy_min: '3.0'
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'Every repository, issue and setting the token owner can reach, including private code and collaborator e-mail addresses.'
+      rotation_url: 'https://github.com/settings/tokens'
+  - id: 'pk.secret.github.fine_grained_pat'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule github-fine-grained-pat (MIT), retrieved 2026-10-31; \w replaced by [0-9A-Za-z_]. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "github-fine-grained-pat"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'github'
+    title: 'GitHub fine-grained personal access token'
+    description: 'Fine-grained GitHub token: github_pat_ followed by 82 word characters.'
+    body:
+      provider: 'github'
+      short: 'github_fine_grained_pat'
+      secret_kind: 'token'
+      environment: 'live'
+      regex: 'github_pat_[0-9A-Za-z_]{82}'
+      secret_group: 0
+      keywords:
+        - 'github_pat_'
+      entropy_min: '3.0'
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'The repositories and permissions chosen when the token was created.'
+      rotation_url: 'https://github.com/settings/personal-access-tokens'
+  - id: 'pk.secret.github.oauth'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule github-oauth (MIT), retrieved 2026-10-31. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "github-oauth"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'github'
+    title: 'GitHub OAuth access token'
+    description: 'GitHub OAuth token: gho_ followed by 36 letters or digits.'
+    body:
+      provider: 'github'
+      short: 'github_oauth'
+      secret_kind: 'token'
+      environment: 'live'
+      regex: 'gho_[0-9a-zA-Z]{36}'
+      secret_group: 0
+      keywords:
+        - 'gho_'
+      entropy_min: '3.0'
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'Whatever the OAuth app was granted for that user.'
+      rotation_url: 'https://github.com/settings/applications'
+  - id: 'pk.secret.github.app_token'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule github-app-token (MIT), retrieved 2026-10-31. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "github-app-token"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'github'
+    title: 'GitHub App user or installation token'
+    description: 'GitHub App token: ghu_ or ghs_ followed by 36 letters or digits.'
+    body:
+      provider: 'github'
+      short: 'github_app_token'
+      secret_kind: 'token'
+      environment: 'live'
+      regex: '(?:ghu|ghs)_[0-9a-zA-Z]{36}'
+      secret_group: 0
+      keywords:
+        - 'ghu_'
+        - 'ghs_'
+      entropy_min: '3.0'
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'Repositories the GitHub App installation can access.'
+      rotation_url: 'https://github.com/settings/installations'
+  - id: 'pk.secret.gitlab.pat'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule gitlab-pat (MIT), retrieved 2026-10-31; [\w-] replaced by [0-9A-Za-z_-]. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "gitlab-pat"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'gitlab'
+    title: 'GitLab personal access token'
+    description: 'GitLab token: glpat- followed by 20 word characters or hyphens.'
+    body:
+      provider: 'gitlab'
+      short: 'gitlab_pat'
+      secret_kind: 'token'
+      environment: 'live'
+      regex: 'glpat-[0-9A-Za-z_-]{20}'
+      secret_group: 0
+      keywords:
+        - 'glpat-'
+      entropy_min: '3.0'
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'Projects and groups the token owner can reach.'
+      rotation_url: 'https://gitlab.com/-/user_settings/personal_access_tokens'
+  - id: 'pk.secret.aws.access_key_id'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule aws-access-token (MIT), retrieved 2026-10-31. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "aws-access-token"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'aws'
+    title: 'AWS access key ID'
+    description: 'AWS access key ID (AKIA, ASIA and related prefixes).'
+    body:
+      provider: 'aws'
+      short: 'aws_access_key'
+      secret_kind: 'public_id'
+      environment: 'live'
+      regex: '\b((?:A3T[A-Z0-9]|AKIA|ASIA|ABIA|ACCA)[A-Z2-7]{16})\b'
+      secret_group: 1
+      keywords:
+        - 'a3t'
+        - 'akia'
+        - 'asia'
+        - 'abia'
+        - 'acca'
+      entropy_min: '3.0'
+      allow: []
+      severity: 'high'
+      personal_data_reach: 'Identifies an AWS key; with its secret it can reach any AWS resource the IAM user can.'
+      rotation_url: 'https://console.aws.amazon.com/iam/home#/security_credentials'
+  - id: 'pk.secret.slack.bot_token'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule slack-bot-token (MIT), retrieved 2026-10-31. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "slack-bot-token"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'slack'
+    title: 'Slack bot token'
+    description: 'Slack bot token: xoxb- plus two numeric groups and a tail.'
+    body:
+      provider: 'slack'
+      short: 'slack_bot_token'
+      secret_kind: 'token'
+      environment: 'live'
+      regex: 'xoxb-[0-9]{10,13}-[0-9]{10,13}[a-zA-Z0-9-]*'
+      secret_group: 0
+      keywords:
+        - 'xoxb'
+      entropy_min: '3.0'
+      allow: []
+      severity: 'high'
+      personal_data_reach: 'Messages and member profiles in channels the bot belongs to.'
+      rotation_url: 'https://api.slack.com/apps'
+  - id: 'pk.secret.stripe.secret_key'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule stripe-access-token (MIT), retrieved 2026-10-31; \s replaced by [\t\r\n ]. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "stripe-access-token"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'stripe'
+    title: 'Stripe secret or restricted key'
+    description: 'Stripe secret (sk_) or restricted (rk_) key for test, live or prod.'
+    body:
+      provider: 'stripe'
+      short: 'stripe_key'
+      secret_kind: 'secret'
+      environment: 'unknown'
+      regex: '\b((?:sk|rk)_(?:test|live|prod)_[a-zA-Z0-9]{10,99})(?:[\x60''"\t\r\n ;]|\\[nr]|$)'
+      secret_group: 1
+      keywords:
+        - 'sk_test'
+        - 'sk_live'
+        - 'sk_prod'
+        - 'rk_test'
+        - 'rk_live'
+        - 'rk_prod'
+      entropy_min: '2.0'
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'Customer names, e-mail addresses and payment records in the Stripe account.'
+      rotation_url: 'https://dashboard.stripe.com/apikeys'
+  - id: 'pk.secret.npm.access_token'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule npm-access-token (MIT), retrieved 2026-10-31; (?i) moved to the flags field; \s replaced by [\t\r\n ]. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "npm-access-token"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'npm'
+    title: 'npm access token'
+    description: 'npm access token: npm_ followed by 36 letters or digits.'
+    body:
+      provider: 'npm'
+      short: 'npm_token'
+      secret_kind: 'token'
+      environment: 'live'
+      regex: '\b(npm_[a-z0-9]{36})(?:[\x60''"\t\r\n ;]|\\[nr]|$)'
+      flags: 'i'
+      secret_group: 1
+      keywords:
+        - 'npm_'
+      entropy_min: '2.0'
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'Publishing rights to every package the owner maintains (supply-chain risk).'
+      rotation_url: 'https://www.npmjs.com/settings/~/tokens'
+  - id: 'pk.secret.anthropic.api_key'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule anthropic-api-key (MIT), retrieved 2026-10-31; [a-zA-Z0-9_\-] written as [a-zA-Z0-9_-]; \s replaced by [\t\r\n ]. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "anthropic-api-key"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'anthropic'
+    title: 'Anthropic API key'
+    description: 'Anthropic API key: sk-ant-api03- then 93 characters then AA.'
+    body:
+      provider: 'anthropic'
+      short: 'anthropic_api_key'
+      secret_kind: 'secret'
+      environment: 'live'
+      regex: '\b(sk-ant-api03-[a-zA-Z0-9_-]{93}AA)(?:[\x60''"\t\r\n ;]|\\[nr]|$)'
+      secret_group: 1
+      keywords:
+        - 'sk-ant-api03'
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'Model usage billed to the account; prompts sent with the key.'
+      rotation_url: 'https://console.anthropic.com/settings/keys'
+  - id: 'pk.secret.google.api_key'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule gcp-api-key (MIT), retrieved 2026-10-31; [\w-] replaced by [0-9A-Za-z_-]; \s replaced by [\t\r\n ]. Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "gcp-api-key"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'google'
+    title: 'Google API key'
+    description: 'Google API key: AIza followed by 35 characters.'
+    body:
+      provider: 'google'
+      short: 'gcp_api_key'
+      secret_kind: 'secret'
+      environment: 'live'
+      regex: '\b(AIza[0-9A-Za-z_-]{35})(?:[\x60''"\t\r\n ;]|\\[nr]|$)'
+      secret_group: 1
+      keywords:
+        - 'aiza'
+      entropy_min: '4.0'
+      allow: []
+      severity: 'high'
+      personal_data_reach: 'Any Google API enabled for the project that the key is not restricted from.'
+      rotation_url: 'https://console.cloud.google.com/apis/credentials'
+  - id: 'pk.secret.generic.private_key'
+    rev: 1
+    status: 'experimental'
+    verified:
+      state: 'unverified'
+      note: 'Regex adapted from gitleaks rule private-key (MIT), retrieved 2026-10-31; (?i) moved to flags; [\s\S-]{64,}? replaced by .{64,8192}? with the s flag (bounded). Provider documentation not re-checked.'
+    source_refs:
+      - source_id: 'gitleaks-default-config'
+        locator: '[[rules]] id = "private-key"'
+    effective_from: '2026-10-31'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'generic'
+    title: 'Private key block (PEM)'
+    description: 'A PEM private key block, header to footer.'
+    body:
+      provider: 'generic'
+      short: 'private_key'
+      secret_kind: 'private_key'
+      environment: 'unknown'
+      regex: '-----BEGIN[ A-Z0-9_-]{0,100}PRIVATE KEY(?: BLOCK)?-----.{64,8192}?KEY(?: BLOCK)?-----'
+      flags: 'is'
+      secret_group: 0
+      keywords:
+        - '-----begin'
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'Whatever the key signs or decrypts: servers, TLS traffic, signed releases.'
+      rotation_url: 'https://www.ssh.com/academy/ssh/keygen'

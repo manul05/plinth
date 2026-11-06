@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-sig.envelope.schema.json",
+  "title": "Signed envelope pk-sig/1.0 (K0)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "const": "pk-sig/1.0"
+    },
+    "type": {
+      "$ref": "common.schema.json#/$defs/dottedName"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "kid": {
+                "$ref": "common.schema.json#/$defs/digest"
+              },
+              "alg": {
+                "type": "string",
+                "enum": [
+                  "Ed25519",
+                  "ES256"
+                ]
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "sig": {
+                "$ref": "common.schema.json#/$defs/b64url"
+              }
+            },
+            "required": [
+              "kid",
+              "alg",
+              "role",
+              "sig"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kid": {
+                "$ref": "common.schema.json#/$defs/digest"
+              },
+              "alg": {
+                "const": "webauthn-ES256"
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "sig": {
+                "$ref": "common.schema.json#/$defs/b64url"
+              },
+              "authenticator_data": {
+                "$ref": "common.schema.json#/$defs/b64url"
+              },
+              "client_data_json": {
+                "$ref": "common.schema.json#/$defs/b64url"
+              }
+            },
+            "required": [
+              "kid",
+              "alg",
+              "role",
+              "sig",
+              "authenticator_data",
+              "client_data_json"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "spec",
+    "type",
+    "payload",
+    "signatures"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "signaturePlain": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "$ref": "common.schema.json#/$defs/digest"
+        },
+        "alg": {
+          "type": "string",
+          "enum": [
+            "Ed25519",
+            "ES256"
+          ]
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "sig": {
+          "$ref": "common.schema.json#/$defs/b64url"
+        }
+      },
+      "required": [
+        "kid",
+        "alg",
+        "role",
+        "sig"
+      ],
+      "additionalProperties": false
+    },
+    "signatureWebauthn": {
+      "type": "object",
+      "properties": {
+        "kid": {
+          "$ref": "common.schema.json#/$defs/digest"
+        },
+        "alg": {
+          "const": "webauthn-ES256"
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "sig": {
+          "$ref": "common.schema.json#/$defs/b64url"
+        },
+        "authenticator_data": {
+          "$ref": "common.schema.json#/$defs/b64url"
+        },
+        "client_data_json": {
+          "$ref": "common.schema.json#/$defs/b64url"
+        }
+      },
+      "required": [
+        "kid",
+        "alg",
+        "role",
+        "sig",
+        "authenticator_data",
+        "client_data_json"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

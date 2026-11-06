@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-regex-err-lookbehind",
+  "op": "lintRegex",
+  "description": "Lookbehind",
+  "input": {
+    "regex": "(?<=a)b",
+    "flags": ""
+  },
+  "expect": {
+    "error": "PK_RULEPACK_REGEX_DIALECT"
+  }
+}

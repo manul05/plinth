@@ -1,0 +1,24 @@
+{
+  "suite": "pk-sig/1.0",
+  "id": "k0-sig-signing-input",
+  "op": "signingInput",
+  "description": "PAE bytes: \"pk-sig/1\\n\" + type + \"\\n\" followed by the raw 32-byte SHA-256 of the canonical payload",
+  "input": {
+    "type": "pk.example.document",
+    "payload": {
+      "spec": "pk-example/1.0",
+      "note": "Plinth envelope vector",
+      "items": [
+        1,
+        2,
+        3
+      ],
+      "unicode": "caf\u00e9 \u20b9"
+    }
+  },
+  "expect": {
+    "payload_canonical": "{\"items\":[1,2,3],\"note\":\"Plinth envelope vector\",\"spec\":\"pk-example/1.0\",\"unicode\":\"caf\u00e9 \u20b9\"}",
+    "signing_input_hex": "706b2d7369672f310a706b2e6578616d706c652e646f63756d656e740a90a8f3e96b7c4c0934cbc4440b84449a6705a6db73611f1dfe5b291fbcb151a5",
+    "webauthn_challenge_b64url": "yEz9RninT5_mLGnqm0VwjCrr_18_W-B4gA7LxsKB-u8"
+  }
+}

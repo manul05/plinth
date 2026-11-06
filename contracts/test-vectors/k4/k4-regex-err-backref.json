@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-regex-err-backref",
+  "op": "lintRegex",
+  "description": "Backreference",
+  "input": {
+    "regex": "(a)\\1",
+    "flags": ""
+  },
+  "expect": {
+    "error": "PK_RULEPACK_REGEX_DIALECT"
+  }
+}

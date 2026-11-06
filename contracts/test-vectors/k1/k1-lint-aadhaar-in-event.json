@@ -1,0 +1,33 @@
+{
+  "suite": "pk-audit/1.0",
+  "id": "k1-lint-aadhaar-in-event",
+  "op": "lintPersonalData",
+  "description": "An event holding an Aadhaar-like number fails the personal-data lint",
+  "input": {
+    "event": {
+      "spec": "pk-audit/1.0",
+      "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+      "seq": 0,
+      "prev": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "ts": "2026-11-02T09:00:00.000Z",
+      "actor": {
+        "kind": "agent",
+        "id": "claude-code:client:01",
+        "display": "Claude Code"
+      },
+      "action": "passdown.handoff.created",
+      "data": {
+        "note": "customer aadhaar 2949 1013 6515"
+      }
+    },
+    "packs": [
+      "pk.pii.india"
+    ],
+    "date": "2026-11-02"
+  },
+  "expect": {
+    "rule_ids": [
+      "pk.pii.in.aadhaar"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-yaml-err-implicit-date",
+  "op": "yamlSubset",
+  "description": "Unquoted date-like scalar is refused",
+  "input": {
+    "yaml_text": "effective_from: 2026-03-31\n"
+  },
+  "expect": {
+    "error": "PK_RULEPACK_YAML_AMBIGUOUS_SCALAR"
+  }
+}

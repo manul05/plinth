@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-empty",
+  "op": "parseAndCanonicalize",
+  "description": "Empty object and array",
+  "input": {
+    "json_text": "{\"o\":{},\"a\":[]}"
+  },
+  "expect": {
+    "canonical": "{\"a\":[],\"o\":{}}",
+    "digest": "sha256:9bee7ebfc94b459dacb8cbc72cb2900e61f0aa42189df18329f84f92568f4f89"
+  }
+}

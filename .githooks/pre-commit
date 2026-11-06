@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# pre-commit guard -- two cheap checks before every commit.
+# Template: repo-conventions v1 (2026-10-28). Spec: CONVENTIONS.md.
+#
+# 1. Refuse commits made while standing on 'main'. The pre-push hook would stop the
+#    push anyway, but catching it here means work never piles up on the wrong branch.
+# 2. Run scripts/check-doc-sizes.sh so agent files and the status log stay lean
+#    (one past CONTEXT.md grew to 1.2 MB; the caps stop that happening again).
+#
+# Owner-only emergency escape: git commit --no-verify   (agents must never use it)
+
+branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+if [ "$branch" = "main" ]; then
+	echo "" >&2
+	echo "  BLOCKED: you are committing on 'main'. All work happens on 'development'." >&2
+	echo "  Move there, keeping your changes:   git switch development" >&2
+	echo "  (If that fails because the branches diverged: git stash; git switch development; git stash pop)" >&2
+	echo "" >&2
+	exit 1
+fi
+
+root=$(git rev-parse --show-toplevel) || exit 1
+if [ -f "$root/scripts/check-doc-sizes.sh" ]; then
+	sh "$root/scripts/check-doc-sizes.sh" || {
+		echo "" >&2
+		echo "  Commit blocked: a size cap is exceeded (details above)." >&2
+		echo "  Rotate docs/status/LOG.md or shorten the file, then commit again." >&2
+		exit 1
+	}
+fi
+
+exit 0

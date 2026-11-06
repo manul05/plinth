@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-regex-err-lookahead",
+  "op": "lintRegex",
+  "description": "Lookahead is not RE2-compatible",
+  "input": {
+    "regex": "ab(?=c)",
+    "flags": ""
+  },
+  "expect": {
+    "error": "PK_RULEPACK_REGEX_DIALECT"
+  }
+}

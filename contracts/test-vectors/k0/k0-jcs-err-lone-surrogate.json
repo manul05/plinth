@@ -1,0 +1,12 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-err-lone-surrogate",
+  "op": "parseAndCanonicalize",
+  "description": "Escaped lone high surrogate rejected",
+  "input": {
+    "json_text": "{\"a\":\"\\ud800\"}"
+  },
+  "expect": {
+    "error": "PK_JCS_LONE_SURROGATE"
+  }
+}

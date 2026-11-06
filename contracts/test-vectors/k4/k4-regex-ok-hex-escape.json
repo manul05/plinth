@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-regex-ok-hex-escape",
+  "op": "lintRegex",
+  "description": "\\x60 (backtick) is allowed",
+  "input": {
+    "regex": "[\\x60'\"]",
+    "flags": ""
+  },
+  "expect": {
+    "ok": true
+  }
+}

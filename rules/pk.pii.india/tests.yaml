@@ -1,0 +1,72 @@
+# Plinth rule pack source (K4 pk-rulepack/1.0). Authored in Stage 3 (2026-10-31).
+# Compiled to packs/pk.pii.india/ by the rule compiler. Edit only through a rule revision (rev + 1, changes entry).
+# Secret-like inputs are split into input_parts so the repo never holds a whole token (GitHub push protection). Joined with no separator at test time.
+spec: 'pk-rulepack/1.0'
+pack_id: 'pk.pii.india'
+tests:
+  - rule_id: 'pk.pii.in.aadhaar'
+    input_parts:
+      - 'Aadhaar: 2949 1013 6515'
+    expect: 'match'
+    note: 'synthetic number with a valid Verhoeff check digit'
+  - rule_id: 'pk.pii.in.aadhaar'
+    input_parts:
+      - 'Aadhaar: 294910136516'
+    expect: 'no_match'
+    note: 'wrong check digit'
+  - rule_id: 'pk.pii.in.pan'
+    input_parts:
+      - 'PAN ABCPE1234F on file'
+    expect: 'match'
+  - rule_id: 'pk.pii.in.pan'
+    input_parts:
+      - 'code ABCXE1234F'
+    expect: 'no_match'
+    note: 'X is not a holder type'
+  - rule_id: 'pk.pii.in.mobile'
+    input_parts:
+      - 'call +91 98765 43210'
+    expect: 'match'
+    note: '5+5 split with +91 prefix'
+  - rule_id: 'pk.pii.in.mobile'
+    input_parts:
+      - 'order 5876543210'
+    expect: 'no_match'
+    note: 'starts with 5'
+  - rule_id: 'pk.pii.in.upi_id'
+    input_parts:
+      - 'pay ramesh.k@okaxis today'
+    expect: 'match'
+  - rule_id: 'pk.pii.in.upi_id'
+    input_parts:
+      - 'ramesh@example'
+    expect: 'no_match'
+    note: 'handle not in list'
+  - rule_id: 'pk.pii.in.ifsc'
+    input_parts:
+      - 'IFSC SBIN0001234'
+    expect: 'match'
+  - rule_id: 'pk.pii.in.ifsc'
+    input_parts:
+      - 'SBIN1001234'
+    expect: 'no_match'
+    note: 'fifth character is not 0'
+  - rule_id: 'pk.pii.in.gstin'
+    input_parts:
+      - 'GSTIN 29ABCDE1234F1ZW'
+    expect: 'match'
+    note: 'synthetic GSTIN with a valid check character'
+  - rule_id: 'pk.pii.in.gstin'
+    input_parts:
+      - 'GSTIN 29ABCDE1234F1ZA'
+    expect: 'no_match'
+    note: 'wrong check character'
+  - rule_id: 'pk.pii.email'
+    input_parts:
+      - 'mail priya.s@example.in'
+    expect: 'match'
+  - rule_id: 'pk.pii.email'
+    input_parts:
+      - 'priya.s@localhost'
+    expect: 'no_match'
+    note: 'no top-level domain'

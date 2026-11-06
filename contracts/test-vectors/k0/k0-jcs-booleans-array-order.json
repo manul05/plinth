@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-booleans-array-order",
+  "op": "parseAndCanonicalize",
+  "description": "Array order is kept",
+  "input": {
+    "json_text": "[true,false,\"b\",\"a\",2,1]"
+  },
+  "expect": {
+    "canonical": "[true,false,\"b\",\"a\",2,1]",
+    "digest": "sha256:565b2326650bcb28cf244c34f0f073cdfe6744f39986de6b0ff95a9a3fa3d764"
+  }
+}

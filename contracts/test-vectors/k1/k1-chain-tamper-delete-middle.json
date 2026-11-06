@@ -1,0 +1,133 @@
+{
+  "suite": "pk-audit/1.0",
+  "id": "k1-chain-tamper-delete-middle",
+  "op": "verifyChain",
+  "description": "Event 2 deleted",
+  "input": {
+    "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+    "lines": [
+      {
+        "event": {
+          "spec": "pk-audit/1.0",
+          "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+          "seq": 0,
+          "prev": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+          "ts": "2026-11-02T09:00:00.000Z",
+          "actor": {
+            "kind": "agent",
+            "id": "claude-code:client:01",
+            "display": "Claude Code"
+          },
+          "action": "passdown.handoff.created",
+          "target": {
+            "kind": "handoff",
+            "id": "0192f5e1-0000-7000-8000-000000000001"
+          },
+          "data": {
+            "redactions": 1,
+            "body_digest": "sha256:eb8ed3ccb5023093b56f490a46501e88d09736687e609fdbc1c71b3df8b9ccd3"
+          }
+        },
+        "hash": "sha256:08c9735f5e478f6e59fd1fdd09a9b919f121fa8e7396123cdde66704855e5248"
+      },
+      {
+        "event": {
+          "spec": "pk-audit/1.0",
+          "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+          "seq": 1,
+          "prev": "sha256:08c9735f5e478f6e59fd1fdd09a9b919f121fa8e7396123cdde66704855e5248",
+          "ts": "2026-11-02T09:01:30.250Z",
+          "actor": {
+            "kind": "agent",
+            "id": "codex:client:02",
+            "display": "Codex"
+          },
+          "action": "passdown.handoff.accepted",
+          "target": {
+            "kind": "handoff",
+            "id": "0192f5e1-0000-7000-8000-000000000001"
+          }
+        },
+        "hash": "sha256:7f79fd808bca97e915286d119a4f520890b61a2729c732136382397a9fb7b738"
+      },
+      {
+        "event": {
+          "spec": "pk-audit/1.0",
+          "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+          "seq": 3,
+          "prev": "sha256:a8a9ac15493602a2f45c9cc081dbe0f5895dbce6743b9e85adee508b72f84a23",
+          "ts": "2026-11-02T09:06:10.000Z",
+          "actor": {
+            "kind": "human",
+            "id": "owner"
+          },
+          "action": "passdown.approval.granted",
+          "refs": [
+            {
+              "kind": "pk.approval.decision",
+              "digest": "sha256:99e6326a5a58748fb618850ce96523d192332126fbaeafd073b004f75148fdd3"
+            }
+          ]
+        },
+        "hash": "sha256:677fb05b1cc6ce7f5360440b543bce5c6a5ac03e28083c2df7e9c8c70092b9b2"
+      },
+      {
+        "event": {
+          "spec": "pk-audit/1.0",
+          "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+          "seq": 4,
+          "prev": "sha256:677fb05b1cc6ce7f5360440b543bce5c6a5ac03e28083c2df7e9c8c70092b9b2",
+          "ts": "2026-11-02T09:06:12.000Z",
+          "actor": {
+            "kind": "agent",
+            "id": "claude-code:client:01",
+            "display": "Claude Code"
+          },
+          "action": "passdown.git.push_allowed",
+          "data": {
+            "ref": "refs/heads/main",
+            "sha": "a1b2c3d4e5f60718293a4b5c6d7e8f9012345678"
+          }
+        },
+        "hash": "sha256:8548a1e231b920371404f2b04278175181bd5b882db4fad419842616777f3c76"
+      }
+    ],
+    "checkpoints": [
+      {
+        "spec": "pk-sig/1.0",
+        "type": "pk.audit.checkpoint",
+        "payload": {
+          "spec": "pk-audit/1.0",
+          "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+          "seq": 4,
+          "head": "sha256:8548a1e231b920371404f2b04278175181bd5b882db4fad419842616777f3c76",
+          "ts": "2026-11-02T10:00:00.000Z",
+          "count": 5
+        },
+        "signatures": [
+          {
+            "alg": "Ed25519",
+            "kid": "sha256:16d22ef956c6adf7bf281e821fb18dc0e0c1ef630dc63fe6975d5d12f3beee49",
+            "role": "service",
+            "sig": "xZT8xzJxo0TOkDVwMsu2Sud8nYk0RJRIsYjzsitIyxUEuICKcZeFKK7INUI0gBGNvlO-qY76wljqcsLun_0dBg"
+          }
+        ]
+      }
+    ],
+    "trusted_keys": [
+      {
+        "kid": "sha256:16d22ef956c6adf7bf281e821fb18dc0e0c1ef630dc63fe6975d5d12f3beee49",
+        "jwk": {
+          "kty": "OKP",
+          "crv": "Ed25519",
+          "x": "PUAXw-hDiVqStwqnTRt-vJyYLM8uxJaMwM1V8Sr0Zgw"
+        }
+      }
+    ]
+  },
+  "expect": {
+    "valid": false,
+    "error": "PK_AUDIT_SEQ_GAP",
+    "at_seq": 2
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-err-null",
+  "op": "parseAndCanonicalize",
+  "description": "null rejected",
+  "input": {
+    "json_text": "{\"a\":null}"
+  },
+  "expect": {
+    "error": "PK_JCS_NULL"
+  }
+}

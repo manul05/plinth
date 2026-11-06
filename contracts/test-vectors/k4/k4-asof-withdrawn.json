@@ -1,0 +1,35 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-asof-withdrawn",
+  "op": "selectAsOf",
+  "description": "Withdrawn rules are never selected",
+  "input": {
+    "rules": [
+      {
+        "id": "pk.test.dir3kyc",
+        "rev": 1,
+        "status": "stable",
+        "effective_from": "2019-01-01",
+        "effective_until": "2026-03-31"
+      },
+      {
+        "id": "pk.test.dir3kyc",
+        "rev": 2,
+        "status": "stable",
+        "effective_from": "2026-03-31"
+      },
+      {
+        "id": "pk.test.withdrawn",
+        "rev": 1,
+        "status": "withdrawn",
+        "effective_from": "2020-01-01"
+      }
+    ],
+    "rule_id": "pk.test.withdrawn",
+    "date": "2026-01-01"
+  },
+  "expect": {
+    "rev": 0,
+    "found": false
+  }
+}

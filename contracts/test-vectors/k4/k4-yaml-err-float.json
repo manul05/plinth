@@ -1,0 +1,12 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-yaml-err-float",
+  "op": "yamlSubset",
+  "description": "Plain 1.5 is refused (write a quoted string)",
+  "input": {
+    "yaml_text": "entropy_min: 3.5\n"
+  },
+  "expect": {
+    "error": "PK_RULEPACK_YAML_AMBIGUOUS_SCALAR"
+  }
+}

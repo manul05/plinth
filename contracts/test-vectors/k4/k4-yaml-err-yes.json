@@ -1,0 +1,12 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-yaml-err-yes",
+  "op": "yamlSubset",
+  "description": "Unquoted yes/no/on/off is refused",
+  "input": {
+    "yaml_text": "enabled: yes\n"
+  },
+  "expect": {
+    "error": "PK_RULEPACK_YAML_AMBIGUOUS_SCALAR"
+  }
+}

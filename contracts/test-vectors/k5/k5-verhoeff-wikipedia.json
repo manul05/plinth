@@ -1,0 +1,13 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-verhoeff-wikipedia",
+  "op": "validator",
+  "description": "Verhoeff: 2363 is valid (236 + check digit 3)",
+  "input": {
+    "name": "verhoeff",
+    "value": "2363"
+  },
+  "expect": {
+    "valid": true
+  }
+}

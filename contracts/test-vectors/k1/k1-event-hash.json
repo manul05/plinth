@@ -1,0 +1,33 @@
+{
+  "suite": "pk-audit/1.0",
+  "id": "k1-event-hash",
+  "op": "eventHash",
+  "description": "hash(event) = digest(event); the hash is stored next to the event, never inside it",
+  "input": {
+    "event": {
+      "spec": "pk-audit/1.0",
+      "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+      "seq": 0,
+      "prev": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "ts": "2026-11-02T09:00:00.000Z",
+      "actor": {
+        "kind": "agent",
+        "id": "claude-code:client:01",
+        "display": "Claude Code"
+      },
+      "action": "passdown.handoff.created",
+      "target": {
+        "kind": "handoff",
+        "id": "0192f5e1-0000-7000-8000-000000000001"
+      },
+      "data": {
+        "redactions": 1,
+        "body_digest": "sha256:eb8ed3ccb5023093b56f490a46501e88d09736687e609fdbc1c71b3df8b9ccd3"
+      }
+    }
+  },
+  "expect": {
+    "hash": "sha256:08c9735f5e478f6e59fd1fdd09a9b919f121fa8e7396123cdde66704855e5248",
+    "canonical": "{\"action\":\"passdown.handoff.created\",\"actor\":{\"display\":\"Claude Code\",\"id\":\"claude-code:client:01\",\"kind\":\"agent\"},\"chain\":\"passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b\",\"data\":{\"body_digest\":\"sha256:eb8ed3ccb5023093b56f490a46501e88d09736687e609fdbc1c71b3df8b9ccd3\",\"redactions\":1},\"prev\":\"sha256:0000000000000000000000000000000000000000000000000000000000000000\",\"seq\":0,\"spec\":\"pk-audit/1.0\",\"target\":{\"id\":\"0192f5e1-0000-7000-8000-000000000001\",\"kind\":\"handoff\"},\"ts\":\"2026-11-02T09:00:00.000Z\"}"
+  }
+}

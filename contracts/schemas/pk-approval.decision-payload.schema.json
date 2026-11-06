@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-approval.decision-payload.schema.json",
+  "title": "Payload of a pk.approval.decision envelope (K2)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "const": "pk-approval/1.0"
+    },
+    "request_digest": {
+      "$ref": "common.schema.json#/$defs/digest"
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "approve",
+        "deny"
+      ]
+    },
+    "decided_at": {
+      "$ref": "common.schema.json#/$defs/timestamp"
+    },
+    "approver_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 500
+    }
+  },
+  "required": [
+    "spec",
+    "request_digest",
+    "decision",
+    "decided_at",
+    "approver_id"
+  ],
+  "additionalProperties": false
+}

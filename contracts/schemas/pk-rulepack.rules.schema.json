@@ -1,0 +1,452 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-rulepack.rules.schema.json",
+  "title": "rules.yaml / rules.json (K4 with K5 bodies)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "const": "pk-rulepack/1.0"
+    },
+    "pack_id": {
+      "$ref": "common.schema.json#/$defs/dottedName"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "spec",
+    "pack_id",
+    "rules"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "common.schema.json#/$defs/dottedName"
+        },
+        "rev": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "experimental",
+            "stable",
+            "deprecated",
+            "withdrawn"
+          ]
+        },
+        "verified": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "verified",
+                "unverified"
+              ]
+            },
+            "by": {
+              "type": "string",
+              "minLength": 1
+            },
+            "at": {
+              "$ref": "common.schema.json#/$defs/date"
+            },
+            "note": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "state",
+            "note"
+          ],
+          "additionalProperties": false
+        },
+        "source_refs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "source_id",
+              "locator"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "effective_from": {
+          "$ref": "common.schema.json#/$defs/date"
+        },
+        "effective_until": {
+          "$ref": "common.schema.json#/$defs/date"
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rev": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "date": {
+                "$ref": "common.schema.json#/$defs/date"
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "rev",
+              "date",
+              "summary"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "body": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/secretBody"
+            },
+            {
+              "$ref": "#/$defs/piiBody"
+            },
+            {
+              "$ref": "#/$defs/untrustedBody"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "rev",
+        "title",
+        "description",
+        "status",
+        "verified",
+        "source_refs",
+        "effective_from",
+        "changes",
+        "tags",
+        "body"
+      ],
+      "additionalProperties": false
+    },
+    "secretBody": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "short": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]{2,40}$"
+        },
+        "secret_kind": {
+          "type": "string",
+          "enum": [
+            "secret",
+            "public_id",
+            "token",
+            "private_key"
+          ]
+        },
+        "environment": {
+          "type": "string",
+          "enum": [
+            "live",
+            "test",
+            "unknown"
+          ]
+        },
+        "regex": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "flags": {
+          "type": "string",
+          "pattern": "^(?!.*(.).*\\1)[ims]{0,3}$"
+        },
+        "secret_group": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.:-]+$"
+          }
+        },
+        "entropy_min": {
+          "type": "string",
+          "pattern": "^[0-7]\\.[0-9]$"
+        },
+        "pair_with": {
+          "type": "object",
+          "properties": {
+            "rules": {
+              "type": "array",
+              "items": {
+                "$ref": "common.schema.json#/$defs/dottedName"
+              },
+              "minItems": 1
+            },
+            "within_chars": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            }
+          },
+          "required": [
+            "rules",
+            "within_chars"
+          ],
+          "additionalProperties": false
+        },
+        "allow": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "personal_data_reach": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rotation_url": {
+          "type": "string",
+          "pattern": "^https://"
+        }
+      },
+      "required": [
+        "provider",
+        "short",
+        "secret_kind",
+        "environment",
+        "regex",
+        "secret_group",
+        "keywords",
+        "allow",
+        "severity",
+        "personal_data_reach",
+        "rotation_url"
+      ],
+      "additionalProperties": false
+    },
+    "piiBody": {
+      "type": "object",
+      "properties": {
+        "pii_type": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]{2,40}$"
+        },
+        "regex": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "flags": {
+          "type": "string",
+          "pattern": "^(?!.*(.).*\\1)[ims]{0,3}$"
+        },
+        "validator": {
+          "type": "string",
+          "enum": [
+            "verhoeff",
+            "gstin",
+            "upi_handle",
+            "none"
+          ]
+        },
+        "context_keywords": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.:-]+$"
+          }
+        },
+        "mask": {
+          "type": "object",
+          "properties": {
+            "store": {
+              "type": "string",
+              "enum": [
+                "never",
+                "masked",
+                "encrypted"
+              ]
+            },
+            "display": {
+              "type": "string",
+              "enum": [
+                "last4",
+                "none"
+              ]
+            }
+          },
+          "required": [
+            "store",
+            "display"
+          ],
+          "additionalProperties": false
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "critical",
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "handles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]{1,63}$"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "pii_type",
+        "regex",
+        "validator",
+        "context_keywords",
+        "mask",
+        "severity"
+      ],
+      "additionalProperties": false
+    },
+    "untrustedBody": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "class": {
+              "const": "hidden_char"
+            },
+            "ranges": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1114111
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "minItems": 1
+            },
+            "severity": {
+              "type": "string",
+              "enum": [
+                "critical",
+                "high",
+                "medium",
+                "low"
+              ]
+            }
+          },
+          "required": [
+            "class",
+            "ranges",
+            "severity"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "class": {
+              "const": "phrase"
+            },
+            "regex": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "flags": {
+              "type": "string",
+              "pattern": "^(?!.*(.).*\\1)[ims]{0,3}$"
+            },
+            "severity": {
+              "type": "string",
+              "enum": [
+                "critical",
+                "high",
+                "medium",
+                "low"
+              ]
+            }
+          },
+          "required": [
+            "class",
+            "regex",
+            "severity"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-redact-github-pat",
+  "op": "redact",
+  "description": "GitHub PAT in a handoff becomes a typed placeholder with a keyed 4-hex fingerprint",
+  "input": {
+    "text_parts": [
+      "Use token ghp_",
+      "FfCizQVisAGWXri6rlqU3SyNTihTgxSWbvhy",
+      " for the CI job."
+    ],
+    "packs": [
+      "pk.secrets.global",
+      "pk.secrets.india",
+      "pk.pii.india",
+      "pk.untrusted-text"
+    ],
+    "date": "2026-11-01",
+    "installation_secret_hex": "8a4c1e3b2240d19907e9e9e5c7d16f087b65ed8d9942b917137bcb05ee8b1bbe"
+  },
+  "expect": {
+    "output": "Use token [REDACTED:github_pat:\u20266591] for the CI job.",
+    "findings": [
+      {
+        "rule_id": "pk.secret.github.pat",
+        "rev": 1,
+        "kind": "secret",
+        "start": 10,
+        "end": 50,
+        "severity": "critical",
+        "provider": "github",
+        "secret_kind": "token",
+        "environment": "live",
+        "short": "github_pat",
+        "masked_preview": "ghp_\u2026hy",
+        "fingerprint": "6591ea7bdfd232d9f1d0a548c6e9eb4e1d2532618e636f4f0aa6a569bc2ad8e8",
+        "placeholder": "[REDACTED:github_pat:\u20266591]"
+      }
+    ],
+    "counts": {
+      "secret": 1,
+      "pii": 0
+    }
+  }
+}

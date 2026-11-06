@@ -1,0 +1,42 @@
+# TEMPLATE -- copy to .github/workflows/security-scan.yml. Template: repo-conventions v1 (2026-10-28).
+# Secret scan (gitleaks) + dependency vulnerability scan (osv-scanner) for every stack.
+# Runs on pull requests into main and on demand, NOT on every push (saves Actions minutes).
+#
+# UNVERIFIED at time of writing: image tags and CLI syntax below. At repo creation the
+# agent must check the current gitleaks and osv-scanner releases, pin exact versions
+# (or image digests), and run this once with workflow_dispatch to prove it works.
+#
+# Why not CodeQL / GitHub secret scanning? On PRIVATE repos they need paid GitHub
+# Code Security / Secret Protection. Turn them on (free) when the repo goes public.
+name: security-scan
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4          # UNVERIFIED: check latest major
+        with:
+          fetch-depth: 0                   # full history, so old leaked secrets are found too
+
+      - name: Secrets (gitleaks, whole history, values redacted in output)
+        run: |
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:{{GITLEAKS_VERSION}} \
+            git /repo --redact --verbose
+
+      - name: Vulnerable dependencies (osv-scanner, all lockfiles)
+        run: |
+          docker run --rm -v "$PWD:/src" ghcr.io/google/osv-scanner:{{OSV_SCANNER_VERSION}} \
+            scan source -r /src

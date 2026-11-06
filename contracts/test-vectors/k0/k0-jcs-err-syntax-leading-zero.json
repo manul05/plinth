@@ -1,0 +1,12 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-err-syntax-leading-zero",
+  "op": "parseAndCanonicalize",
+  "description": "Leading zero is a syntax error",
+  "input": {
+    "json_text": "{\"a\":01}"
+  },
+  "expect": {
+    "error": "PK_JSON_SYNTAX"
+  }
+}

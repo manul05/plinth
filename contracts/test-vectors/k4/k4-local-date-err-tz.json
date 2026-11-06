@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-local-date-err-tz",
+  "op": "localDate",
+  "description": "Only Asia/Kolkata and UTC are supported in 0.1",
+  "input": {
+    "ts": "2026-11-02T18:30:00.000Z",
+    "tz": "Europe/London"
+  },
+  "expect": {
+    "error": "PK_RULEPACK_TZ_UNSUPPORTED"
+  }
+}

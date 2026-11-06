@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-int-zero",
+  "op": "parseAndCanonicalize",
+  "description": "Zero and negative zero both serialise as 0",
+  "input": {
+    "json_text": "{\"a\":0,\"b\":-0}"
+  },
+  "expect": {
+    "canonical": "{\"a\":0,\"b\":0}",
+    "digest": "sha256:c82eac97ef55b2f05b20616da2e88f9459043ceb8aee7715dba4c730c3abd278"
+  }
+}

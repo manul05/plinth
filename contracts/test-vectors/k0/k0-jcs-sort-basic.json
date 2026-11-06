@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-sort-basic",
+  "op": "parseAndCanonicalize",
+  "description": "Members sorted, whitespace removed",
+  "input": {
+    "json_text": "{ \"b\": 2, \"a\": 1, \"c\": [3, 2, 1] }"
+  },
+  "expect": {
+    "canonical": "{\"a\":1,\"b\":2,\"c\":[3,2,1]}",
+    "digest": "sha256:cd36c2304f25be8bf976e83b14aacc918fdba619bfdb88195e3c14f48cd54ce6"
+  }
+}

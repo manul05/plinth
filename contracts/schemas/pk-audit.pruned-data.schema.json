@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-audit.pruned-data.schema.json",
+  "title": "data member of a pk.audit.pruned event (K1)",
+  "type": "object",
+  "properties": {
+    "up_to_seq": {
+      "$ref": "common.schema.json#/$defs/nonNegInt"
+    },
+    "checkpoint_digest": {
+      "$ref": "common.schema.json#/$defs/digest"
+    }
+  },
+  "required": [
+    "up_to_seq",
+    "checkpoint_digest"
+  ],
+  "additionalProperties": false
+}

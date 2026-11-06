@@ -1,0 +1,17 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-upi-handle-ok",
+  "op": "validator",
+  "description": "UPI handle in list",
+  "input": {
+    "name": "upi_handle",
+    "value": "ramesh.k@okaxis",
+    "handles": [
+      "okaxis",
+      "ybl"
+    ]
+  },
+  "expect": {
+    "valid": true
+  }
+}

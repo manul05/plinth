@@ -1,0 +1,19 @@
+# Plinth rule pack source (K4 pk-rulepack/1.0). Authored in Stage 3 (2026-10-31).
+# Compiled to packs/pk.secrets.global/ by the rule compiler. Edit only through a rule revision (rev + 1, changes entry).
+spec: 'pk-rulepack/1.0'
+id: 'pk.secrets.global'
+kind: 'secret-detection'
+version: '1.0.0'
+released_at: '2026-10-31T00:00:00.000Z'
+tz: 'Asia/Kolkata'
+licence: 'MIT'
+attribution:
+  - 'Regular expressions adapted from gitleaks (MIT licence, Copyright (c) 2019 Zachary Rice), https://github.com/gitleaks/gitleaks'
+sources:
+  - id: 'gitleaks-default-config'
+    title: 'gitleaks default configuration (config/gitleaks.toml)'
+    publisher: 'gitleaks project'
+    url: 'https://github.com/gitleaks/gitleaks/blob/master/config/gitleaks.toml'
+    retrieved_at: '2026-10-31'
+    doc_version: 'master branch, minVersion v8.25.0'
+min_engine: 'pk-rulepack/1.0'

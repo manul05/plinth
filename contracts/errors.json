@@ -1,0 +1,491 @@
+{
+  "description": "Every Plinth error code with its exact English message. Error codes are part of the contract; messages may be shown to users. Changing either needs an ADR.",
+  "version": "0.1.0",
+  "errors": [
+    {
+      "code": "PK_JSON_SYNTAX",
+      "component": "K0",
+      "message": "The JSON text is not valid JSON."
+    },
+    {
+      "code": "PK_JSON_TOO_DEEP",
+      "component": "K0",
+      "message": "The JSON value is nested deeper than 64 levels."
+    },
+    {
+      "code": "PK_JCS_DUPLICATE_KEY",
+      "component": "K0",
+      "message": "An object has the same member name twice."
+    },
+    {
+      "code": "PK_JCS_LONE_SURROGATE",
+      "component": "K0",
+      "message": "A string contains a lone UTF-16 surrogate."
+    },
+    {
+      "code": "PK_JCS_NON_INTEGER",
+      "component": "K0",
+      "message": "A number has a fraction or exponent; only integers are allowed."
+    },
+    {
+      "code": "PK_JCS_INT_RANGE",
+      "component": "K0",
+      "message": "An integer is outside -(2^53-1) to 2^53-1."
+    },
+    {
+      "code": "PK_JCS_NULL",
+      "component": "K0",
+      "message": "null is not allowed; omit the member instead."
+    },
+    {
+      "code": "PK_JCS_UNSUPPORTED_TYPE",
+      "component": "K0",
+      "message": "The value is not a string, integer, boolean, array or plain object."
+    },
+    {
+      "code": "PK_ENCODING_INVALID",
+      "component": "K0",
+      "message": "The bytes are not valid base64url, hex or DER."
+    },
+    {
+      "code": "PK_KEY_UNSUPPORTED",
+      "component": "K0",
+      "message": "Only Ed25519 (OKP) and P-256 (EC) public keys are supported."
+    },
+    {
+      "code": "PK_KEY_INVALID",
+      "component": "K0",
+      "message": "The public key bytes are malformed or the point is not on the curve."
+    },
+    {
+      "code": "PK_KEY_KID_MISMATCH",
+      "component": "K0",
+      "message": "The kid does not match the key it is listed with."
+    },
+    {
+      "code": "PK_ENVELOPE_MALFORMED",
+      "component": "K0",
+      "message": "The signed envelope does not have the required shape."
+    },
+    {
+      "code": "PK_SPEC_UNSUPPORTED",
+      "component": "K0",
+      "message": "The spec version is unknown or newer than this verifier supports."
+    },
+    {
+      "code": "PK_SIG_TYPE_NOT_ALLOWED",
+      "component": "K0",
+      "message": "The envelope type is not on this verifier's allowlist."
+    },
+    {
+      "code": "PK_SIG_NONE",
+      "component": "K0",
+      "message": "The envelope has no signatures."
+    },
+    {
+      "code": "PK_SIG_UNKNOWN_ALG",
+      "component": "K0",
+      "message": "The signature algorithm is unknown."
+    },
+    {
+      "code": "PK_SIG_ALG_NOT_ALLOWED",
+      "component": "K0",
+      "message": "The signature algorithm is not allowed for this envelope type."
+    },
+    {
+      "code": "PK_SIG_UNKNOWN_KID",
+      "component": "K0",
+      "message": "The signing key is not in the trusted keys."
+    },
+    {
+      "code": "PK_SIG_DUPLICATE_KID",
+      "component": "K0",
+      "message": "The same key signed the envelope twice."
+    },
+    {
+      "code": "PK_SIG_KEY_ALG_MISMATCH",
+      "component": "K0",
+      "message": "The key type does not match the signature algorithm."
+    },
+    {
+      "code": "PK_SIG_INVALID",
+      "component": "K0",
+      "message": "The signature does not verify."
+    },
+    {
+      "code": "PK_SIG_INSUFFICIENT",
+      "component": "K0",
+      "message": "Fewer valid signatures than the policy requires."
+    },
+    {
+      "code": "PK_WEBAUTHN_NO_CONFIG",
+      "component": "K0",
+      "message": "The trusted key has no WebAuthn relying-party settings."
+    },
+    {
+      "code": "PK_WEBAUTHN_MALFORMED",
+      "component": "K0",
+      "message": "The WebAuthn authenticator data or client data is malformed."
+    },
+    {
+      "code": "PK_WEBAUTHN_TYPE",
+      "component": "K0",
+      "message": "The WebAuthn client data type is not webauthn.get."
+    },
+    {
+      "code": "PK_WEBAUTHN_CHALLENGE",
+      "component": "K0",
+      "message": "The WebAuthn challenge does not match the signed content."
+    },
+    {
+      "code": "PK_WEBAUTHN_ORIGIN",
+      "component": "K0",
+      "message": "The WebAuthn origin is not one of the registered origins."
+    },
+    {
+      "code": "PK_WEBAUTHN_CROSS_ORIGIN",
+      "component": "K0",
+      "message": "The WebAuthn assertion was made in a cross-origin frame."
+    },
+    {
+      "code": "PK_WEBAUTHN_RPID",
+      "component": "K0",
+      "message": "The WebAuthn relying-party ID hash does not match."
+    },
+    {
+      "code": "PK_WEBAUTHN_UP",
+      "component": "K0",
+      "message": "The authenticator did not report user presence."
+    },
+    {
+      "code": "PK_WEBAUTHN_UV",
+      "component": "K0",
+      "message": "The authenticator did not report user verification (fingerprint, face or PIN)."
+    },
+    {
+      "code": "PK_AUDIT_EMPTY",
+      "component": "K1",
+      "message": "The audit export has no events."
+    },
+    {
+      "code": "PK_AUDIT_EVENT_MALFORMED",
+      "component": "K1",
+      "message": "An audit event does not have the required shape."
+    },
+    {
+      "code": "PK_AUDIT_RESERVED_ACTION",
+      "component": "K1",
+      "message": "Actions starting with pk. are reserved for Plinth."
+    },
+    {
+      "code": "PK_AUDIT_CHAIN_MISMATCH",
+      "component": "K1",
+      "message": "An event or checkpoint belongs to a different chain."
+    },
+    {
+      "code": "PK_AUDIT_HASH_MISMATCH",
+      "component": "K1",
+      "message": "An event does not match its stored hash."
+    },
+    {
+      "code": "PK_AUDIT_SEQ_GAP",
+      "component": "K1",
+      "message": "Event sequence numbers are missing or out of order."
+    },
+    {
+      "code": "PK_AUDIT_PREV_MISMATCH",
+      "component": "K1",
+      "message": "An event does not link to the hash of the event before it."
+    },
+    {
+      "code": "PK_AUDIT_CHECKPOINT_MALFORMED",
+      "component": "K1",
+      "message": "A checkpoint does not have the required shape."
+    },
+    {
+      "code": "PK_AUDIT_CHECKPOINT_SIG_INVALID",
+      "component": "K1",
+      "message": "A checkpoint signature does not verify against the trusted keys."
+    },
+    {
+      "code": "PK_AUDIT_CHECKPOINT_MISMATCH",
+      "component": "K1",
+      "message": "A checkpoint head does not match the event hash at its sequence number."
+    },
+    {
+      "code": "PK_AUDIT_TRUNCATED",
+      "component": "K1",
+      "message": "A checkpoint covers events that are missing from the export."
+    },
+    {
+      "code": "PK_AUDIT_PRUNED_WITHOUT_ANCHOR",
+      "component": "K1",
+      "message": "Older events were removed but no checkpoint anchors the new start."
+    },
+    {
+      "code": "PK_AUDIT_PRUNE_UNRECORDED",
+      "component": "K1",
+      "message": "Older events were removed without a pk.audit.pruned event."
+    },
+    {
+      "code": "PK_AUDIT_UNANCHORED_TAIL",
+      "component": "K1",
+      "message": "Warning: the newest events are intact but not yet covered by a checkpoint."
+    },
+    {
+      "code": "PK_APPROVAL_REQUEST_MALFORMED",
+      "component": "K2",
+      "message": "The approval request does not have the required shape."
+    },
+    {
+      "code": "PK_APPROVAL_REALM_MISMATCH",
+      "component": "K2",
+      "message": "The approval request or registry is for a different realm."
+    },
+    {
+      "code": "PK_APPROVAL_UNKNOWN_ACTION",
+      "component": "K2",
+      "message": "The action is not on this product's list of approvable actions."
+    },
+    {
+      "code": "PK_APPROVAL_REGISTRY_STALE",
+      "component": "K2",
+      "message": "The request was made against a newer approver registry than this verifier holds."
+    },
+    {
+      "code": "PK_APPROVAL_SUBJECT_MISMATCH",
+      "component": "K2",
+      "message": "The thing about to be done is not the thing that was approved."
+    },
+    {
+      "code": "PK_APPROVAL_TTL_TOO_LONG",
+      "component": "K2",
+      "message": "The request lifetime is longer than the registry allows."
+    },
+    {
+      "code": "PK_APPROVAL_NOT_YET_VALID",
+      "component": "K2",
+      "message": "The request was created more than 5 minutes in the future."
+    },
+    {
+      "code": "PK_APPROVAL_EXPIRED",
+      "component": "K2",
+      "message": "The approval has expired."
+    },
+    {
+      "code": "PK_APPROVAL_WINDOW_NOT_OPEN",
+      "component": "K2",
+      "message": "The approved window has not opened yet."
+    },
+    {
+      "code": "PK_APPROVAL_WINDOW_CLOSED",
+      "component": "K2",
+      "message": "The approved window has closed."
+    },
+    {
+      "code": "PK_APPROVAL_REPLAYED",
+      "component": "K2",
+      "message": "This approval has already been used."
+    },
+    {
+      "code": "PK_APPROVAL_NO_DECISION",
+      "component": "K2",
+      "message": "No signed decision was supplied."
+    },
+    {
+      "code": "PK_APPROVAL_DECISION_MALFORMED",
+      "component": "K2",
+      "message": "A decision does not have the required shape."
+    },
+    {
+      "code": "PK_APPROVAL_REQUEST_MISMATCH",
+      "component": "K2",
+      "message": "The decision was signed for a different request."
+    },
+    {
+      "code": "PK_APPROVAL_APPROVER_MISMATCH",
+      "component": "K2",
+      "message": "The decision names a different approver than the key that signed it."
+    },
+    {
+      "code": "PK_APPROVAL_PROFILE_ALG_MISMATCH",
+      "component": "K2",
+      "message": "The signature algorithm does not match the approver's key profile."
+    },
+    {
+      "code": "PK_APPROVAL_SYNCED_KEY_NOT_ALLOWED",
+      "component": "K2",
+      "message": "This realm requires a device-bound key; a synced passkey was used."
+    },
+    {
+      "code": "PK_APPROVAL_DENIED",
+      "component": "K2",
+      "message": "An approver denied the request."
+    },
+    {
+      "code": "PK_APPROVAL_DECISION_TIME",
+      "component": "K2",
+      "message": "The decision time is outside the request lifetime."
+    },
+    {
+      "code": "PK_APPROVAL_REQUESTER_UNKNOWN",
+      "component": "K2",
+      "message": "The policy needs the requester's human identity, and it is missing."
+    },
+    {
+      "code": "PK_APPROVAL_SELF_APPROVAL",
+      "component": "K2",
+      "message": "The requester cannot approve their own request."
+    },
+    {
+      "code": "PK_APPROVAL_INSUFFICIENT",
+      "component": "K2",
+      "message": "Not enough distinct approvers."
+    },
+    {
+      "code": "PK_APPROVAL_REGISTRY_MALFORMED",
+      "component": "K2",
+      "message": "The approver registry does not have the required shape."
+    },
+    {
+      "code": "PK_APPROVAL_REGISTRY_GENESIS_MISMATCH",
+      "component": "K2",
+      "message": "The first registry does not match the pinned genesis digest."
+    },
+    {
+      "code": "PK_APPROVAL_REGISTRY_VERSION_GAP",
+      "component": "K2",
+      "message": "Registry versions must increase by exactly 1."
+    },
+    {
+      "code": "PK_APPROVAL_REGISTRY_UNAUTHORISED",
+      "component": "K2",
+      "message": "A registry change was not signed by an existing approver."
+    },
+    {
+      "code": "PK_APPROVAL_REGISTRY_ROLLBACK",
+      "component": "K2",
+      "message": "The registry is older than one this verifier has already seen."
+    },
+    {
+      "code": "PK_APPROVAL_BREAK_GLASS_FORMAT",
+      "component": "K2",
+      "message": "A recovery code is 20 characters A-Z and 2-7, in four groups of five."
+    },
+    {
+      "code": "PK_APPROVAL_BREAK_GLASS_UNKNOWN",
+      "component": "K2",
+      "message": "This recovery code is not in the registry."
+    },
+    {
+      "code": "PK_APPROVAL_BREAK_GLASS_USED",
+      "component": "K2",
+      "message": "This recovery code has already been used."
+    },
+    {
+      "code": "PK_RULEPACK_YAML_SYNTAX",
+      "component": "K4",
+      "message": "The YAML file has a syntax error."
+    },
+    {
+      "code": "PK_RULEPACK_YAML_DUPLICATE_KEY",
+      "component": "K4",
+      "message": "The YAML file has a duplicate key."
+    },
+    {
+      "code": "PK_RULEPACK_YAML_MULTI_DOC",
+      "component": "K4",
+      "message": "The YAML file has more than one document."
+    },
+    {
+      "code": "PK_RULEPACK_YAML_ANCHOR",
+      "component": "K4",
+      "message": "YAML anchors and aliases are not allowed."
+    },
+    {
+      "code": "PK_RULEPACK_YAML_TAG",
+      "component": "K4",
+      "message": "Explicit YAML tags are not allowed."
+    },
+    {
+      "code": "PK_RULEPACK_YAML_AMBIGUOUS_SCALAR",
+      "component": "K4",
+      "message": "Quote this value: unquoted dates, yes/no/on/off, decimals, octal-like numbers and empty values are not allowed."
+    },
+    {
+      "code": "PK_RULEPACK_SCHEMA",
+      "component": "K4",
+      "message": "The rule-pack file does not match its JSON Schema."
+    },
+    {
+      "code": "PK_RULEPACK_KIND_UNSUPPORTED",
+      "component": "K4",
+      "message": "This rule-pack kind has no body definition in this version."
+    },
+    {
+      "code": "PK_RULEPACK_DUPLICATE_REV",
+      "component": "K4",
+      "message": "Two rules have the same id and rev."
+    },
+    {
+      "code": "PK_RULEPACK_OVERLAP",
+      "component": "K4",
+      "message": "Two revisions of one rule have overlapping effective dates."
+    },
+    {
+      "code": "PK_RULEPACK_UNKNOWN_PAIR_RULE",
+      "component": "K4",
+      "message": "pair_with names a rule that is not in the pack."
+    },
+    {
+      "code": "PK_RULEPACK_REGEX_INVALID",
+      "component": "K4",
+      "message": "The regular expression does not compile."
+    },
+    {
+      "code": "PK_RULEPACK_REGEX_DIALECT",
+      "component": "K4",
+      "message": "The regular expression uses a feature outside the portable dialect."
+    },
+    {
+      "code": "PK_RULEPACK_REGEX_UNSAFE",
+      "component": "K4",
+      "message": "The regular expression has nested quantifiers (risk of catastrophic backtracking)."
+    },
+    {
+      "code": "PK_RULEPACK_TESTS_MISSING",
+      "component": "K4",
+      "message": "Every rule needs at least one match test and one no_match test."
+    },
+    {
+      "code": "PK_RULEPACK_TEST_FAILED",
+      "component": "K4",
+      "message": "A rule test did not give the expected result."
+    },
+    {
+      "code": "PK_RULEPACK_FILE_HASH_MISMATCH",
+      "component": "K4",
+      "message": "A rule-pack file does not match the digest in its manifest."
+    },
+    {
+      "code": "PK_RULEPACK_TZ_UNSUPPORTED",
+      "component": "K4",
+      "message": "Only the Asia/Kolkata and UTC time zones are supported."
+    },
+    {
+      "code": "PK_DETECT_INPUT_TOO_LARGE",
+      "component": "K5",
+      "message": "The text is longer than 1,000,000 characters."
+    },
+    {
+      "code": "PK_DETECT_SECRET_REQUIRED",
+      "component": "K5",
+      "message": "Redaction needs an installation secret of at least 32 bytes."
+    },
+    {
+      "code": "PK_DETECT_UNKNOWN_VALIDATOR",
+      "component": "K5",
+      "message": "The rule names a validator this version does not have."
+    }
+  ]
+}

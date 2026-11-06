@@ -1,0 +1,14 @@
+{
+  "name": "TEST-ONLY p256-test-1",
+  "test_only": true,
+  "alg": "ES256",
+  "private_hex": "c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721",
+  "public_jwk": {
+    "kty": "EC",
+    "crv": "P-256",
+    "x": "YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y",
+    "y": "eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk"
+  },
+  "kid": "sha256:0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+  "source": "RFC 6979 appendix A.2.5 P-256 private key"
+}

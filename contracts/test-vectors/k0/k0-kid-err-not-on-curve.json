@@ -1,0 +1,17 @@
+{
+  "suite": "pk-kid/1.0",
+  "id": "k0-kid-err-not-on-curve",
+  "op": "kidOf",
+  "description": "P-256 point not on the curve",
+  "input": {
+    "jwk": {
+      "kty": "EC",
+      "crv": "P-256",
+      "x": "AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE",
+      "y": "AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI"
+    }
+  },
+  "expect": {
+    "error": "PK_KEY_INVALID"
+  }
+}

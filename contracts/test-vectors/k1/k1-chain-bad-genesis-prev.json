@@ -1,0 +1,51 @@
+{
+  "suite": "pk-audit/1.0",
+  "id": "k1-chain-bad-genesis-prev",
+  "op": "verifyChain",
+  "description": "seq 0 must point at the all-zero genesis digest",
+  "input": {
+    "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+    "lines": [
+      {
+        "event": {
+          "spec": "pk-audit/1.0",
+          "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+          "seq": 0,
+          "prev": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "ts": "2026-11-02T09:00:00.000Z",
+          "actor": {
+            "kind": "agent",
+            "id": "claude-code:client:01",
+            "display": "Claude Code"
+          },
+          "action": "passdown.handoff.created",
+          "target": {
+            "kind": "handoff",
+            "id": "0192f5e1-0000-7000-8000-000000000001"
+          },
+          "data": {
+            "redactions": 1,
+            "body_digest": "sha256:eb8ed3ccb5023093b56f490a46501e88d09736687e609fdbc1c71b3df8b9ccd3"
+          }
+        },
+        "hash": "sha256:fb28368006bf4a862c92a449af359cf0a16d9f528c24370715222d897fe0adcd"
+      }
+    ],
+    "checkpoints": [],
+    "trusted_keys": [
+      {
+        "kid": "sha256:16d22ef956c6adf7bf281e821fb18dc0e0c1ef630dc63fe6975d5d12f3beee49",
+        "jwk": {
+          "kty": "OKP",
+          "crv": "Ed25519",
+          "x": "PUAXw-hDiVqStwqnTRt-vJyYLM8uxJaMwM1V8Sr0Zgw"
+        }
+      }
+    ]
+  },
+  "expect": {
+    "valid": false,
+    "error": "PK_AUDIT_PREV_MISMATCH",
+    "at_seq": 0
+  }
+}

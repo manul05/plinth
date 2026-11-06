@@ -1,0 +1,12 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-err-lone-low-surrogate-key",
+  "op": "parseAndCanonicalize",
+  "description": "Lone low surrogate in a key rejected",
+  "input": {
+    "json_text": "{\"\\udc00\":1}"
+  },
+  "expect": {
+    "error": "PK_JCS_LONE_SURROGATE"
+  }
+}

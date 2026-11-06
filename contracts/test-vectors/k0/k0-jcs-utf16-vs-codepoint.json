@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-utf16-vs-codepoint",
+  "op": "parseAndCanonicalize",
+  "description": "U+10000 (D800 DC00) sorts before U+E000 because D800 < E000; code point order would put U+E000 first",
+  "input": {
+    "json_text": "{\"\\ue000\":\"bmp-private-use\",\"\\ud800\\udc00\":\"astral\"}"
+  },
+  "expect": {
+    "canonical": "{\"\ud800\udc00\":\"astral\",\"\ue000\":\"bmp-private-use\"}",
+    "digest": "sha256:0069427df710e7c01dede41ac4ab4b29a933ac7d5ca0fa7047c2bdd17e5f5e43"
+  }
+}

@@ -1,0 +1,38 @@
+# TEMPLATE -- copy to .github/dependabot.yml and DELETE the ecosystems this repo does not use.
+# Template: repo-conventions v1 (2026-10-28).
+# Monthly, grouped, and pointed at development (never main), so it stays quiet and cheap.
+# Dependabot security alerts are separate: turn them on in Settings > Code security.
+# UNVERIFIED: whether Dependabot update jobs count against the Actions minutes quota.
+version: 2
+updates:
+  - package-ecosystem: npm                # Web (Next.js / Workers)
+    directory: /
+    target-branch: development
+    schedule: { interval: monthly }
+    open-pull-requests-limit: 3
+    groups:
+      all-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: nuget              # Windows (.NET)
+    directory: /
+    target-branch: development
+    schedule: { interval: monthly }
+    open-pull-requests-limit: 3
+    groups:
+      all-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: gradle             # Android
+    directory: /
+    target-branch: development
+    schedule: { interval: monthly }
+    open-pull-requests-limit: 3
+    groups:
+      all-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions     # every repo: keeps workflow actions current
+    directory: /
+    target-branch: development
+    schedule: { interval: monthly }

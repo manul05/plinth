@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-rulepack.tests.schema.json",
+  "title": "tests.yaml / tests.json (K4)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "const": "pk-rulepack/1.0"
+    },
+    "pack_id": {
+      "$ref": "common.schema.json#/$defs/dottedName"
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": {
+            "$ref": "common.schema.json#/$defs/dottedName"
+          },
+          "input_parts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "expect": {
+            "type": "string",
+            "enum": [
+              "match",
+              "no_match"
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "rule_id",
+          "input_parts",
+          "expect"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 2
+    }
+  },
+  "required": [
+    "spec",
+    "pack_id",
+    "tests"
+  ],
+  "additionalProperties": false
+}

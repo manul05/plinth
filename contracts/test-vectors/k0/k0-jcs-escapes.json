@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-escapes",
+  "op": "parseAndCanonicalize",
+  "description": "Control characters use short escapes or lower-case \\u00XX; \"/\" and non-ASCII are not escaped",
+  "input": {
+    "json_text": "{\"s\":\"tab\\tnl\\nq\\\"bs\\\\ctl\\u001fslash\\/euro\\u20acdel\\u007f\"}"
+  },
+  "expect": {
+    "canonical": "{\"s\":\"tab\\tnl\\nq\\\"bs\\\\ctl\\u001fslash/euro\u20acdel\u007f\"}",
+    "digest": "sha256:aec17f6e421213c868bf28097a8e28d8143c8a1bd15d638c3c81dbae656ccecf"
+  }
+}

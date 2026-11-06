@@ -1,0 +1,34 @@
+# Template: repo-conventions v1 (2026-10-28)
+# Normalise line endings in the repo; let each tool see what it expects on checkout.
+* text=auto
+
+# Shell scripts and git hooks MUST stay LF, even on Windows with core.autocrlf=true.
+# A CRLF hook fails with "set: -\r: invalid option" or silently does nothing.
+*.sh          text eol=lf
+.githooks/*   text eol=lf
+gradlew       text eol=lf
+
+# Windows-only scripts stay CRLF.
+*.bat         text eol=crlf
+*.cmd         text eol=crlf
+*.ps1         text eol=crlf
+
+# Binary files: never diff or convert.
+*.png  binary
+*.jpg  binary
+*.ico  binary
+*.jar  binary
+*.pdf  binary
+*.mp4  binary
+
+# Plinth text files: always LF.
+*.yaml        text eol=lf
+*.json        text eol=lf
+*.ts          text eol=lf
+*.md          text eol=lf
+
+# Plinth byte-exact files (docs/do-not-break.md DNB-001): hashes are taken over exact bytes.
+# These lines come LAST so they win over the *.json rule above.
+contracts/test-vectors/** -text
+packs/** -text
+SHA256SUMS -text

@@ -1,0 +1,35 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-asof-on-change-day",
+  "op": "selectAsOf",
+  "description": "effective_until is exclusive, effective_from inclusive: the change day picks rev 2",
+  "input": {
+    "rules": [
+      {
+        "id": "pk.test.dir3kyc",
+        "rev": 1,
+        "status": "stable",
+        "effective_from": "2019-01-01",
+        "effective_until": "2026-03-31"
+      },
+      {
+        "id": "pk.test.dir3kyc",
+        "rev": 2,
+        "status": "stable",
+        "effective_from": "2026-03-31"
+      },
+      {
+        "id": "pk.test.withdrawn",
+        "rev": 1,
+        "status": "withdrawn",
+        "effective_from": "2020-01-01"
+      }
+    ],
+    "rule_id": "pk.test.dir3kyc",
+    "date": "2026-03-31"
+  },
+  "expect": {
+    "rev": 2,
+    "found": true
+  }
+}

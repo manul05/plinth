@@ -1,0 +1,13 @@
+{
+  "name": "TEST-ONLY ed25519-test-2",
+  "test_only": true,
+  "alg": "Ed25519",
+  "private_hex": "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+  "public_jwk": {
+    "kty": "OKP",
+    "crv": "Ed25519",
+    "x": "PUAXw-hDiVqStwqnTRt-vJyYLM8uxJaMwM1V8Sr0Zgw"
+  },
+  "kid": "sha256:16d22ef956c6adf7bf281e821fb18dc0e0c1ef630dc63fe6975d5d12f3beee49",
+  "source": "RFC 8032 section 7.1 TEST 2 secret key"
+}

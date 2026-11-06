@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-regex-err-shorthand-s",
+  "op": "lintRegex",
+  "description": "\\s differs across engines",
+  "input": {
+    "regex": "a\\sb",
+    "flags": ""
+  },
+  "expect": {
+    "error": "PK_RULEPACK_REGEX_DIALECT"
+  }
+}

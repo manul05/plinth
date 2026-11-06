@@ -1,0 +1,54 @@
+# main-alarm -- DETECT changes to main that did not come from a merged pull request.
+# Template: repo-conventions v1 (2026-10-28). Works as-is; no placeholders.
+#
+# GitHub Free cannot BLOCK pushes to main on private repos (no branch protection),
+# so this workflow is the GitHub layer: it raises an alarm issue (GitHub notifies the
+# owner by email / mobile app) and fails the run. It never reverts anything itself.
+# Cost: about 1 Actions minute per change to main (rare by design).
+# When the repo goes public, ALSO turn on a ruleset for main (free on public repos).
+name: main-alarm
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Did main move through a merged pull request?
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          BEFORE: ${{ github.event.before }}
+          FORCED: ${{ github.event.forced }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          set -eu
+          merged=$(gh api "repos/$REPO/commits/$SHA/pulls" \
+            --jq '[.[] | select(.merged_at != null and .base.ref == "main")] | length')
+          if [ "$FORCED" != "true" ] && [ "$merged" != "0" ]; then
+            echo "OK: main moved to $SHA through a merged pull request."
+            exit 0
+          fi
+          body=$(printf '%s\n' \
+            "main changed WITHOUT a merged pull request." \
+            "" \
+            "- New main: \`$SHA\`" \
+            "- Previous main: \`$BEFORE\`" \
+            "- Force push: $FORCED" \
+            "- Pushed by account: $ACTOR (agents push with the owner's account, so this does not tell you which agent)" \
+            "" \
+            "What to do: ask an agent to open a pull request that reverts main to \`$BEFORE\`," \
+            "review it, and merge it yourself. Then find out which session pushed and why" \
+            "(was the pre-push hook installed? was --no-verify used?).")
+          gh issue create --repo "$REPO" --title "ALARM: main changed without a merged PR ($SHA)" --body "$body"
+          echo "::error::main changed without a merged pull request"
+          exit 1

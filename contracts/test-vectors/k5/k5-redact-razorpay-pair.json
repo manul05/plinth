@@ -1,0 +1,63 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-redact-razorpay-pair",
+  "op": "redact",
+  "description": "Razorpay key id (public id, still redacted) and key secret within 200 characters",
+  "input": {
+    "text_parts": [
+      "RAZORPAY_KEY_ID=rzp_",
+      "live_",
+      "HawP8Aas0cl2iW",
+      "\nRAZORPAY_KEY_SECRET=",
+      "Lg2vlb8ZzqisN3lXzOwJiRgN",
+      "\n"
+    ],
+    "packs": [
+      "pk.secrets.global",
+      "pk.secrets.india",
+      "pk.pii.india",
+      "pk.untrusted-text"
+    ],
+    "date": "2026-11-01",
+    "installation_secret_hex": "8a4c1e3b2240d19907e9e9e5c7d16f087b65ed8d9942b917137bcb05ee8b1bbe"
+  },
+  "expect": {
+    "output": "RAZORPAY_KEY_ID=[REDACTED:razorpay_key_id:\u20262cdc]\nRAZORPAY_KEY_SECRET=[REDACTED:razorpay_key_secret:\u2026a36c]\n",
+    "findings": [
+      {
+        "rule_id": "pk.secret.razorpay.key_id_live",
+        "rev": 1,
+        "kind": "secret",
+        "start": 16,
+        "end": 39,
+        "severity": "medium",
+        "provider": "razorpay",
+        "secret_kind": "public_id",
+        "environment": "live",
+        "short": "razorpay_key_id",
+        "masked_preview": "rzp_\u2026iW",
+        "fingerprint": "2cdc6750e1abf15eda20e4adbc9ffe70f7f6ddafa2cc53ce43a5a9c3728c3b11",
+        "placeholder": "[REDACTED:razorpay_key_id:\u20262cdc]"
+      },
+      {
+        "rule_id": "pk.secret.razorpay.key_secret",
+        "rev": 1,
+        "kind": "secret",
+        "start": 60,
+        "end": 84,
+        "severity": "critical",
+        "provider": "razorpay",
+        "secret_kind": "secret",
+        "environment": "unknown",
+        "short": "razorpay_key_secret",
+        "masked_preview": "Lg2v\u2026gN",
+        "fingerprint": "a36c18d58f75b4812a9c185111199829d36dce6d7f3052ae5dc63096be444b74",
+        "placeholder": "[REDACTED:razorpay_key_secret:\u2026a36c]"
+      }
+    ],
+    "counts": {
+      "secret": 2,
+      "pii": 0
+    }
+  }
+}

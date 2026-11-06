@@ -1,0 +1,12 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-err-exponent",
+  "op": "parseAndCanonicalize",
+  "description": "Exponent rejected",
+  "input": {
+    "json_text": "{\"n\":1e3}"
+  },
+  "expect": {
+    "error": "PK_JCS_NON_INTEGER"
+  }
+}

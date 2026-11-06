@@ -1,0 +1,53 @@
+{
+  "suite": "pk-sig/1.0",
+  "id": "k0-env-err-unknown-kid",
+  "op": "verifyEnvelope",
+  "description": "Signer not in the trusted keys",
+  "input": {
+    "envelope": {
+      "spec": "pk-sig/1.0",
+      "type": "pk.example.document",
+      "payload": {
+        "spec": "pk-example/1.0",
+        "note": "Plinth envelope vector",
+        "items": [
+          1,
+          2,
+          3
+        ],
+        "unicode": "caf\u00e9 \u20b9"
+      },
+      "signatures": [
+        {
+          "alg": "Ed25519",
+          "kid": "sha256:90facafea9b1556698540f70c0117a22ea37bd5cf3ed3c47093c1707282b4b89",
+          "role": "producer",
+          "sig": "ufUPOsKf-ip_vlj76m43QOy7uEUUuqQT5RmYdo15FsVtF_d5Agdgr5ksZoKqL8Ts1h8qC6WbYNHpVSO0602rDg"
+        }
+      ]
+    },
+    "trusted_keys": [
+      {
+        "kid": "sha256:16d22ef956c6adf7bf281e821fb18dc0e0c1ef630dc63fe6975d5d12f3beee49",
+        "jwk": {
+          "kty": "OKP",
+          "crv": "Ed25519",
+          "x": "PUAXw-hDiVqStwqnTRt-vJyYLM8uxJaMwM1V8Sr0Zgw"
+        }
+      }
+    ],
+    "policy": {
+      "pk.example.document": {
+        "algs": [
+          "Ed25519",
+          "ES256"
+        ],
+        "min_signatures": 1
+      }
+    }
+  },
+  "expect": {
+    "valid": false,
+    "error": "PK_SIG_UNKNOWN_KID"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "suite": "pk-approval/1.0",
+  "id": "k2-registry-update-unauthorised",
+  "op": "verifyRegistryChain",
+  "description": "v2 signed only by the key it adds",
+  "input": {
+    "envelopes": [
+      {
+        "spec": "pk-sig/1.0",
+        "type": "pk.approval.registry",
+        "payload": {
+          "spec": "pk-approval/1.0",
+          "realm": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+          "version": 1,
+          "approvers": [
+            {
+              "id": "owner",
+              "display": "Owner (TEST)",
+              "kid": "sha256:0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+              "jwk": {
+                "kty": "EC",
+                "crv": "P-256",
+                "x": "YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y",
+                "y": "eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk"
+              },
+              "profile": "webauthn",
+              "roles": [
+                "approver"
+              ],
+              "added_at": "2026-11-01T08:00:00.000Z",
+              "webauthn": {
+                "rp_id": "approvals.example",
+                "origins": [
+                  "https://approvals.example"
+                ],
+                "credential_id": "HZnz0G6avl4oxre5av0HNMsi3Sak0lLlUcFyHO4MW3c",
+                "backup_eligible": false,
+                "backup_state": false
+              }
+            },
+            {
+              "id": "reviewer",
+              "display": "Second reviewer (TEST)",
+              "kid": "sha256:6b417f1e6a7b2841e17d717e072b24ad4fa85e301efde77a2f98b33a8ec5964e",
+              "jwk": {
+                "kty": "EC",
+                "crv": "P-256",
+                "x": "eK2H-sM2TvryULrVOcmVGhdip5TA8kY21YDty-DBhS0",
+                "y": "PpFxvmSRroE521uULVeIOjV32hnUZKJseBULEl7Y2co"
+              },
+              "profile": "android-keystore",
+              "roles": [
+                "approver"
+              ],
+              "added_at": "2026-11-01T08:00:00.000Z",
+              "hardware": true
+            }
+          ],
+          "break_glass": [
+            {
+              "code_digest": "sha256:444361933609d23e64cb267c3a740a4e908cbfe7e17ff6af23ec9c38999e698e"
+            }
+          ],
+          "max_ttl_seconds": 600,
+          "allow_synced_passkeys": true
+        },
+        "signatures": [
+          {
+            "alg": "webauthn-ES256",
+            "kid": "sha256:0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+            "role": "approver",
+            "sig": "MEQCIGA-9isSHhRj90-GGcLOMCfGD47QgtLXEsWEWvqz35YhAiBzWHrG26wTHB0Mzfmd4OTUwn-i3tV03wg1gBNq_HSDyg",
+            "authenticator_data": "isa3hwuRDLq5XLX1pv8q6crLzD9ymayLjlqZsqdOsIMFAAAAAA",
+            "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoidEw5Y3ZHa3JybEUtLS1GaWh4bDk4YnF5b0VJdTlfQzR3cGZnVUVfaDFvZyIsIm9yaWdpbiI6Imh0dHBzOi8vYXBwcm92YWxzLmV4YW1wbGUiLCJjcm9zc09yaWdpbiI6ZmFsc2V9"
+          }
+        ]
+      },
+      {
+        "spec": "pk-sig/1.0",
+        "type": "pk.approval.registry",
+        "payload": {
+          "spec": "pk-approval/1.0",
+          "realm": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+          "version": 2,
+          "approvers": [
+            {
+              "id": "owner",
+              "display": "Owner (TEST)",
+              "kid": "sha256:0cebf1bc9880748a95588905b79843b42ba75cb174055e3e246bf87fe00b4a6d",
+              "jwk": {
+                "kty": "EC",
+                "crv": "P-256",
+                "x": "YP7UuiVanTHJYet0xjVtaMBJuJI7Yfps5mliLmDyn7Y",
+                "y": "eQP-EAi4vJmkGunpVii8ZPLxsgwtfp9Rd6PClNRGIpk"
+              },
+              "profile": "webauthn",
+              "roles": [
+                "approver"
+              ],
+              "added_at": "2026-11-01T08:00:00.000Z",
+              "webauthn": {
+                "rp_id": "approvals.example",
+                "origins": [
+                  "https://approvals.example"
+                ],
+                "credential_id": "HZnz0G6avl4oxre5av0HNMsi3Sak0lLlUcFyHO4MW3c",
+                "backup_eligible": false,
+                "backup_state": false
+              }
+            },
+            {
+              "id": "reviewer",
+              "display": "Second reviewer (TEST)",
+              "kid": "sha256:6b417f1e6a7b2841e17d717e072b24ad4fa85e301efde77a2f98b33a8ec5964e",
+              "jwk": {
+                "kty": "EC",
+                "crv": "P-256",
+                "x": "eK2H-sM2TvryULrVOcmVGhdip5TA8kY21YDty-DBhS0",
+                "y": "PpFxvmSRroE521uULVeIOjV32hnUZKJseBULEl7Y2co"
+              },
+              "profile": "android-keystore",
+              "roles": [
+                "approver"
+              ],
+              "added_at": "2026-11-01T08:00:00.000Z",
+              "hardware": true
+            },
+            {
+              "id": "third",
+              "display": "Third approver (TEST)",
+              "kid": "sha256:3ac89067e535ba409c9073ef96f35548806a960e63fde900d70cc2d2fb82018c",
+              "jwk": {
+                "kty": "EC",
+                "crv": "P-256",
+                "x": "VCMKUWFWDP0vO5O0bLNVjbWGXet-EkzLrsHClAlFG_o",
+                "y": "5SuU8pOREYMzs9mG-i-pFImpqoaVPVtqnpg2dxNp6xQ"
+              },
+              "profile": "webauthn",
+              "roles": [
+                "approver"
+              ],
+              "added_at": "2026-11-01T09:00:00.000Z",
+              "webauthn": {
+                "rp_id": "approvals.example",
+                "origins": [
+                  "https://approvals.example"
+                ],
+                "credential_id": "uh9olF9CsdGIsdC5IU_eNlJCnkEPc-M4uUHtncFZg5o",
+                "backup_eligible": true,
+                "backup_state": true
+              }
+            }
+          ],
+          "break_glass": [
+            {
+              "code_digest": "sha256:444361933609d23e64cb267c3a740a4e908cbfe7e17ff6af23ec9c38999e698e"
+            }
+          ],
+          "max_ttl_seconds": 600,
+          "allow_synced_passkeys": true
+        },
+        "signatures": [
+          {
+            "alg": "webauthn-ES256",
+            "kid": "sha256:3ac89067e535ba409c9073ef96f35548806a960e63fde900d70cc2d2fb82018c",
+            "role": "approver",
+            "sig": "MEQCIEXHOCUg_fxfpm3htY_85CevHa5TDmwgEGTjhoe89OYtAiBIcxLDsxk9edFl5rZCPgxHeQnBtDzNnKszswWsDqmhPA",
+            "authenticator_data": "isa3hwuRDLq5XLX1pv8q6crLzD9ymayLjlqZsqdOsIMFAAAAAA",
+            "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiU3RwTG9mZ0FOdlczU00xc2ZEQlF1RlJfSWE5bVV2Q1VfQzVfME9wLTJCVSIsIm9yaWdpbiI6Imh0dHBzOi8vYXBwcm92YWxzLmV4YW1wbGUiLCJjcm9zc09yaWdpbiI6ZmFsc2V9"
+          }
+        ]
+      }
+    ],
+    "genesis_digest": "sha256:6134469a566010c884311d9bfc4213931988b583aff85b159cfb4e15ba9b6a01",
+    "highest_seen_version": 1
+  },
+  "expect": {
+    "valid": false,
+    "error": "PK_APPROVAL_REGISTRY_UNAUTHORISED",
+    "at_version": 2
+  }
+}

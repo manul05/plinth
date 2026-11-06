@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-approval.request.schema.json",
+  "title": "ApprovalRequest pk-approval/1.0 (K2)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "const": "pk-approval/1.0"
+    },
+    "id": {
+      "$ref": "common.schema.json#/$defs/uuidv7"
+    },
+    "realm": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "action": {
+      "$ref": "common.schema.json#/$defs/dottedName"
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "digest": {
+          "$ref": "common.schema.json#/$defs/digest"
+        },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "maxLength": 500
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "digest"
+      ],
+      "additionalProperties": false
+    },
+    "display": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "risk": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "maxItems": 16
+        }
+      },
+      "required": [
+        "title",
+        "risk"
+      ],
+      "additionalProperties": false
+    },
+    "requester": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "human",
+            "agent",
+            "service",
+            "device"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "human_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "kind",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "created_at": {
+      "$ref": "common.schema.json#/$defs/timestamp"
+    },
+    "expires_at": {
+      "$ref": "common.schema.json#/$defs/timestamp"
+    },
+    "nonce": {
+      "$ref": "common.schema.json#/$defs/nonce"
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "registry_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "min_approvals": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "distinct_from_requester": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "registry_version",
+        "min_approvals",
+        "distinct_from_requester"
+      ],
+      "additionalProperties": false
+    },
+    "window": {
+      "type": "object",
+      "properties": {
+        "opens_at": {
+          "$ref": "common.schema.json#/$defs/timestamp"
+        },
+        "closes_at": {
+          "$ref": "common.schema.json#/$defs/timestamp"
+        }
+      },
+      "required": [
+        "opens_at",
+        "closes_at"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "spec",
+    "id",
+    "realm",
+    "action",
+    "subject",
+    "display",
+    "requester",
+    "created_at",
+    "expires_at",
+    "nonce",
+    "policy"
+  ],
+  "additionalProperties": false
+}

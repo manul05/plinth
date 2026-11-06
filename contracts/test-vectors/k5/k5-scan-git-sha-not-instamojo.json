@@ -1,0 +1,23 @@
+{
+  "suite": "pk-detect/1.0",
+  "id": "k5-scan-git-sha-not-instamojo",
+  "op": "scan",
+  "description": "A 40-hex git SHA near the word instamojo is allow-listed",
+  "input": {
+    "text_parts": [
+      "instamojo fix in commit ",
+      "2e7d2c03a9507ae265ecf5b5356885a53393a202"
+    ],
+    "packs": [
+      "pk.secrets.global",
+      "pk.secrets.india",
+      "pk.pii.india",
+      "pk.untrusted-text"
+    ],
+    "date": "2026-11-01",
+    "installation_secret_hex": "8a4c1e3b2240d19907e9e9e5c7d16f087b65ed8d9942b917137bcb05ee8b1bbe"
+  },
+  "expect": {
+    "findings": []
+  }
+}

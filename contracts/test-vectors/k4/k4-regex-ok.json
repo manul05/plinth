@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-regex-ok",
+  "op": "lintRegex",
+  "description": "Allowed dialect",
+  "input": {
+    "regex": "\\b(AIza[0-9A-Za-z_-]{35})\\b",
+    "flags": ""
+  },
+  "expect": {
+    "ok": true
+  }
+}

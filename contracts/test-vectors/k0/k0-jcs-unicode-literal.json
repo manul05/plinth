@@ -1,0 +1,13 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-unicode-literal",
+  "op": "parseAndCanonicalize",
+  "description": "Non-ASCII text is emitted as UTF-8, not escaped; no normalisation (NFD stays NFD)",
+  "input": {
+    "json_text": "{\"name\":\"Priya \\u0938\\u093e\",\"nfd\":\"e\\u0301\"}"
+  },
+  "expect": {
+    "canonical": "{\"name\":\"Priya \u0938\u093e\",\"nfd\":\"e\u0301\"}",
+    "digest": "sha256:e06110c57871f3fb8e33defe8cb6c1263c0197f8ef2e9f347c8cfd86313d66b8"
+  }
+}

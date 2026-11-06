@@ -1,0 +1,16 @@
+{
+  "suite": "pk-kid/1.0",
+  "id": "k0-kid-err-short-x",
+  "op": "kidOf",
+  "description": "Ed25519 x of 31 bytes",
+  "input": {
+    "jwk": {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "x": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    }
+  },
+  "expect": {
+    "error": "PK_KEY_INVALID"
+  }
+}

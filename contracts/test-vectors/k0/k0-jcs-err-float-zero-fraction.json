@@ -1,0 +1,12 @@
+{
+  "suite": "pk-json/1.0",
+  "id": "k0-jcs-err-float-zero-fraction",
+  "op": "parseAndCanonicalize",
+  "description": "1.0 is rejected even though it equals 1",
+  "input": {
+    "json_text": "{\"n\":1.0}"
+  },
+  "expect": {
+    "error": "PK_JCS_NON_INTEGER"
+  }
+}

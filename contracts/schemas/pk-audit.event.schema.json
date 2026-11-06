@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/pk-audit.event.schema.json",
+  "title": "Audit event pk-audit/1.0 (K1)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "const": "pk-audit/1.0"
+    },
+    "chain": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^[a-z0-9][a-z0-9:._-]*$"
+    },
+    "seq": {
+      "$ref": "common.schema.json#/$defs/nonNegInt"
+    },
+    "prev": {
+      "$ref": "common.schema.json#/$defs/digest"
+    },
+    "ts": {
+      "$ref": "common.schema.json#/$defs/timestamp"
+    },
+    "actor": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "human",
+            "agent",
+            "service",
+            "device"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "display": {
+          "type": "string",
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "kind",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "action": {
+      "$ref": "common.schema.json#/$defs/dottedName"
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "required": [
+        "kind",
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "data": {
+      "type": "object"
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "common.schema.json#/$defs/dottedName"
+          },
+          "digest": {
+            "$ref": "common.schema.json#/$defs/digest"
+          }
+        },
+        "required": [
+          "kind",
+          "digest"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 64
+    }
+  },
+  "required": [
+    "spec",
+    "chain",
+    "seq",
+    "prev",
+    "ts",
+    "actor",
+    "action"
+  ],
+  "additionalProperties": false
+}

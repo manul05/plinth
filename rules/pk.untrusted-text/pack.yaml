@@ -1,0 +1,24 @@
+# Plinth rule pack source (K4 pk-rulepack/1.0). Authored in Stage 3 (2026-10-31).
+# Compiled to packs/pk.untrusted-text/ by the rule compiler. Edit only through a rule revision (rev + 1, changes entry).
+spec: 'pk-rulepack/1.0'
+id: 'pk.untrusted-text'
+kind: 'untrusted-text'
+version: '1.0.0'
+released_at: '2026-10-31T00:00:00.000Z'
+tz: 'Asia/Kolkata'
+licence: 'MIT'
+attribution: []
+sources:
+  - id: 'unicode-standard-17'
+    title: 'The Unicode Standard, code charts'
+    publisher: 'Unicode Consortium'
+    url: 'https://www.unicode.org/charts/'
+    retrieved_at: '2026-10-31'
+    doc_version: 'Unicode 17.0'
+  - id: 'plinth-heuristics'
+    title: 'Prompt-injection phrase heuristics (Plinth, informed by OWASP LLM01)'
+    publisher: 'Plinth / OWASP GenAI Security Project'
+    url: 'https://genai.owasp.org/llmrisk/llm01-prompt-injection/'
+    retrieved_at: '2026-10-31'
+    doc_version: '0.1'
+min_engine: 'pk-rulepack/1.0'

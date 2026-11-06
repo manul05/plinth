@@ -1,0 +1,25 @@
+{
+  "suite": "pk-audit/1.0",
+  "id": "k1-chain-empty",
+  "op": "verifyChain",
+  "description": "No events",
+  "input": {
+    "chain": "passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b",
+    "lines": [],
+    "checkpoints": [],
+    "trusted_keys": [
+      {
+        "kid": "sha256:16d22ef956c6adf7bf281e821fb18dc0e0c1ef630dc63fe6975d5d12f3beee49",
+        "jwk": {
+          "kty": "OKP",
+          "crv": "Ed25519",
+          "x": "PUAXw-hDiVqStwqnTRt-vJyYLM8uxJaMwM1V8Sr0Zgw"
+        }
+      }
+    ]
+  },
+  "expect": {
+    "valid": false,
+    "error": "PK_AUDIT_EMPTY"
+  }
+}

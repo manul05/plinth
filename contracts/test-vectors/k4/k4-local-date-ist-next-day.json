@@ -1,0 +1,13 @@
+{
+  "suite": "pk-rulepack/1.0",
+  "id": "k4-local-date-ist-next-day",
+  "op": "localDate",
+  "description": "Calendar date in Asia/Kolkata (UTC+05:30, no DST)",
+  "input": {
+    "ts": "2026-11-02T18:30:00.000Z",
+    "tz": "Asia/Kolkata"
+  },
+  "expect": {
+    "date": "2026-11-03"
+  }
+}

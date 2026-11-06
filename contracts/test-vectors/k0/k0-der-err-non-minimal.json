@@ -1,0 +1,12 @@
+{
+  "suite": "pk-der/1.0",
+  "id": "k0-der-err-non-minimal",
+  "op": "derToP1363",
+  "description": "Non-minimal INTEGER (extra 0x00) rejected",
+  "input": {
+    "der_hex": "30260221000100000000000000000000000000000000000000000000000000000000000000020101"
+  },
+  "expect": {
+    "error": "PK_ENCODING_INVALID"
+  }
+}

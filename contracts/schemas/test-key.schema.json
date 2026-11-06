@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plinth.invalid/schemas/test-key.schema.json",
+  "title": "TEST-ONLY key used by golden vectors",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^TEST-ONLY "
+    },
+    "test_only": {
+      "const": true
+    },
+    "alg": {
+      "type": "string",
+      "enum": [
+        "Ed25519",
+        "ES256"
+      ]
+    },
+    "private_hex": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "public_jwk": {
+      "$ref": "jwk.schema.json"
+    },
+    "kid": {
+      "$ref": "common.schema.json#/$defs/digest"
+    },
+    "source": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "test_only",
+    "alg",
+    "private_hex",
+    "public_jwk",
+    "kid",
+    "source"
+  ],
+  "additionalProperties": false
+}

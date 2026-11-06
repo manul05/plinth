@@ -1,0 +1,12 @@
+{
+  "suite": "pk-der/1.0",
+  "id": "k0-der-small-r",
+  "op": "p1363ToDer",
+  "description": "r = 1 encodes as a one-byte INTEGER",
+  "input": {
+    "p1363_hex": "0000000000000000000000000000000000000000000000000000000000000001f7cb1c942d657c41d436c7a1b6e29f65f3e900dbb9aff4064dc4ab2f843acda8"
+  },
+  "expect": {
+    "der_hex": "3026020101022100f7cb1c942d657c41d436c7a1b6e29f65f3e900dbb9aff4064dc4ab2f843acda8"
+  }
+}
