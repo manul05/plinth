@@ -19,6 +19,11 @@ Entry shape:
 
 ---
 
+## 2026-11-07 · Claude Code (Sonnet 5.5, then Opus 5.5) · K2 subject-digest wording
+- Did: `contracts/spec/k2-approval.md` says each product defines its own subject digest (examples: the vectors' form and Passdown's); Plinth compares the two as strings (section 4, step 6). ADR-0015 and its index line. No vectors, schemas or code changed.
+- Verified: not run (wording only).
+- Owner, 2026-11-07: "Yes, reword it"; "Yes, fix and push".
+
 ## 2026-10-31 · Claude (claude-opus-5-5) · Stage 3 plan for Plinth 0.1
 - Did: wrote START-HERE, docs 01-06, plan/M0-MR (65 tasks), testing, consuming, patterns, ADR 0001-0014, contracts (spec, API, 17 schemas, errors, 177 vectors), rules (4 packs)
 - Verified: vectors schema-valid; cross-check 48/48 (OpenSSL via node:crypto, RFC 8785 reference); 70/70 rule tests; verify-snapshot.sh on Git Bash. No repo yet, so no SHA

@@ -21,3 +21,4 @@ one's status becomes `Superseded by ADR-MMMM`. Decisions made in Stage 2 stay in
 | 0012 | [Refinements of the platform-kit draft made in Stage 3](0012-stage3-refinements.md) | Accepted | 2026-10-31 |
 | 0013 | [Synced-passkey policy per realm via the BE flag](0013-synced-passkey-policy.md) | Accepted | 2026-10-31 |
 | 0014 | [Public once tested, MIT, package name `plinth-kit`](0014-public-mit-package-name.md) | Accepted | 2026-10-31 |
+| 0015 | [The subject digest is defined by each product, not by Plinth](0015-subject-digest-is-product-defined.md) | Accepted | 2026-11-07 |
