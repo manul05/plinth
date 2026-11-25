@@ -10,7 +10,7 @@ Never put absolute local paths (`F:\...`, `C:\Users\...`) in any doc: the repo m
 | 02 | `02-brainstorm.md` | Purpose, components, consumers, decisions (short form) | done |
 | 03 | `03-spec.md` | Personas, user stories, acceptance criteria with exact values, NFRs, India rules | done (Stage 3) |
 | 04 | `04-architecture.md` | Pinned stack, repo tree, data model, interfaces, flows, conventions | done (Stage 3) |
-| 05 | `05-threat-model.md` | Assets, STRIDE table TM-01…TM-35 with tests and tasks, data inventory | done (Stage 3) |
+| 05 | `05-threat-model.md` | Assets, STRIDE table TM-01…TM-36 with tests and tasks, data inventory | done (Stage 3) |
 | 06 | `06-plan.md` | Milestones, gates, 65-task table, coverage matrix, owner questions, §10 checklist | done (Stage 3) |
 | – | `plan/M0-setup.md` … `plan/MR-release.md` | Full task cards per milestone | done (Stage 3) |
 | – | `testing.md` | Test strategy, commands, mutation checks, CI, release checklist, demo script | done (Stage 3) |

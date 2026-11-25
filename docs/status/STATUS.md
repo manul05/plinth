@@ -4,23 +4,23 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-25 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), **M3 R1 fixes** (`T-M3-10` done -> moving to `T-M3-11`)
-- **Branch / HEAD:** `development` at `353d0fc` (committing T-M3-10 next; `origin/main` at `650cc02`)
-- **Uncommitted or unapplied work:** none after T-M3-10 commit; local `core.hooksPath=.githooks` active.
+- **Stage / phase:** Phase 1 (release 0.1.0), **M3 R1 fixes** (`T-M3-11` done -> moving to `T-M3-12`)
+- **Branch / HEAD:** `development` at `3c8d0bd` (committing T-M3-11 next; `origin/main` at `650cc02`)
+- **Uncommitted or unapplied work:** none after T-M3-11 commit; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
 | Check | Result | At commit |
 |---|---|---|
-| `npm.cmd run lint` | `Checked 67 files in 197ms. No fixes applied.` (exit 0) | `353d0fc` + T-M3-10 |
-| `npm.cmd run typecheck` | exit 0 | `353d0fc` + T-M3-10 |
-| `npm.cmd test` | `29 passed (29)` files / `213 passed (213)` tests (`k2` 49/49, `verify` 4/4, `store` 4/4) | `353d0fc` + T-M3-10 |
-| `npm.cmd run build` | exit 0 | `353d0fc` + T-M3-10 |
+| `npm.cmd run lint` | `Checked 67 files in 633ms. No fixes applied.` (exit 0) | `3c8d0bd` + T-M3-11 |
+| `npm.cmd run typecheck` | exit 0 | `3c8d0bd` + T-M3-11 |
+| `npm.cmd test` | `29 passed (29)` files / `216 passed (216)` tests (`k2` 51/51, `registry` 5/5) | `3c8d0bd` + T-M3-11 |
+| `npm.cmd run build` | exit 0 | `3c8d0bd` + T-M3-11 |
 
 ## Done recently
-- T-M3-10 (`R1-01` High fix, ADR-0019): added `ActionPolicy`, enforcement-side `actionPolicies` and `requesterHumanId` to `verifyApproval` and `verifyAndConsume`, plus 2 new downgrade vectors (`k2-approval-policy-downgrade`, `k2-approval-distinct-downgrade`).
+- T-M3-11 (`R1-02` High fix, ADR-0020): added `update_threshold` (1–5, default 1) and distinct-approver-ID enforcement to `verifyRegistryChain` step 4, schema, API, and 2 new `k2-registry-update-threshold-*` vectors (`index.json` 189 entries).
 
 ## Next step
-1. **T-M3-11** (`docs/plan/M3-approvals.md`): fix High finding `R1-02` (`update_threshold` with distinct approver IDs in `registry.ts` + ADR-0020).
+1. **T-M3-12** (`docs/plan/M3-approvals.md`): Medium R1 fixes (`R1-03`, `R1-04`, `R1-05`, `R1-07`) with ADR-0021.
 
 ## Blocked on / questions for the owner
 - Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).

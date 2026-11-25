@@ -7,7 +7,7 @@
 ## 1. Objects
 - **ApprovalRequest** (plain pk-JCS object; its digest is what gets approved). Fields and limits: `pk-approval.request.schema.json`. `subject.digest` is computed by the system that observed the action, never copied from the requesting agent. Each product defines how it computes the digest; Plinth never computes it and only compares it as a string (section 4, step 6). Examples: the vectors use `digest({kind:"git-commit", repo, ref, sha})`; Passdown uses `"sha256:" + hex(SHA-256(UTF8(repo + "\n" + ref + "\n" + sha)))`. `display` is computed by that same system.
 - **Decision**: envelope type `pk.approval.decision`, payload `{spec, request_digest, decision:"approve"|"deny", decided_at, approver_id, reason?}`. Allowed algs: `webauthn-ES256`, `ES256` (`DECISION_POLICY`, min 1). **Ed25519 is never allowed** (software keys cannot approve).
-- **Registry**: envelope type `pk.approval.registry`, payload `{spec, realm, version, approvers[], break_glass[{code_digest}], max_ttl_seconds, allow_synced_passkeys}` (`REGISTRY_POLICY` = same algs, min 1). Approver profiles: `webauthn` (alg webauthn-ES256), `android-keystore` and `windows-tpm` (alg ES256). Every approver's `kid` MUST equal `kidOf(jwk)`.
+- **Registry**: envelope type `pk.approval.registry`, payload `{spec, realm, version, approvers[], break_glass[{code_digest}], max_ttl_seconds, allow_synced_passkeys, update_threshold?}` (`REGISTRY_POLICY` = same algs, min 1). Approver profiles: `webauthn` (alg webauthn-ES256), `android-keystore` and `windows-tpm` (alg ES256). Every approver's `kid` MUST equal `kidOf(jwk)`. `update_threshold` (1–5, default 1) is the minimum number of distinct approver `id`s from version `n` required to sign version `n + 1`; multi-person realms MUST set `update_threshold` ≥ their highest `min_approvals`.
 - `allow_synced_passkeys`: programme decision 2026-10-31 — `true` for solo tools (Passdown), `false` for business and regulated products (GPO Ledger, AuthSunset, Hearth, Pagerline).
 
 ## 2. Helpers
@@ -18,10 +18,10 @@
 
 ## 3. `verifyRegistryChain({envelopes, genesisDigest, highestSeenVersion})` — never throws
 For each envelope e (index i) with p = e.payload:
-1. p is an object, `p.spec === "pk-approval/1.0"`, safe-integer version, array approvers, `e.type === "pk.approval.registry"` → else `PK_APPROVAL_REGISTRY_MALFORMED` (`at_version` = p.version or −1).
+1. p is an object, `p.spec === "pk-approval/1.0"`, safe-integer version, array approvers, valid `update_threshold` (if present: safe integer 1–5), `e.type === "pk.approval.registry"` → else `PK_APPROVAL_REGISTRY_MALFORMED` (`at_version` = p.version or −1).
 2. every approver: `kidOf(jwk) === kid` → else `PK_KEY_KID_MISMATCH` (a key error gives its own code).
 3. i = 0: `p.version === 1` and `digest(p) === genesisDigest` → else `PK_APPROVAL_REGISTRY_GENESIS_MISMATCH`; then `verifyEnvelope(e, {trustedKeys: trustedKeysFromRegistry(p), policy: REGISTRY_POLICY})` (self-signed genesis; trust comes from the pinned digest) → else that error.
-4. i > 0: `p.realm === previous.realm` → else `PK_APPROVAL_REALM_MISMATCH`; `p.version === previous.version + 1` → else `PK_APPROVAL_REGISTRY_VERSION_GAP`; `verifyEnvelope` with the **previous** registry's keys → `PK_SIG_UNKNOWN_KID` becomes `PK_APPROVAL_REGISTRY_UNAUTHORISED`, other errors pass through.
+4. i > 0: `p.realm === previous.realm` → else `PK_APPROVAL_REALM_MISMATCH`; `p.version === previous.version + 1` → else `PK_APPROVAL_REGISTRY_VERSION_GAP`; `verifyEnvelope` with the **previous** registry's keys → `PK_SIG_UNKNOWN_KID` becomes `PK_APPROVAL_REGISTRY_UNAUTHORISED`, other errors pass through; count distinct `approver.id`s in `previous.approvers` matching `res.signers` → fewer than `previous.update_threshold ?? 1` → `PK_APPROVAL_REGISTRY_UNAUTHORISED`.
 5. After the loop: last version < `highestSeenVersion` → `PK_APPROVAL_REGISTRY_ROLLBACK`. Else `{valid:true, version, registry_digest: digest(last payload), registry: last payload}`. The caller stores the new highest version.
 Empty `envelopes` → `PK_APPROVAL_REGISTRY_MALFORMED` with `at_version: -1`.
 

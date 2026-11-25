@@ -64,8 +64,9 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M3-08 | SPIKE real authenticator | M3 | T-M3-07 | M | AC-5.3, TM-06 | done |
 | T-M3-09 | M3 close, MC-3/4/8–11, R1 | M3 | T-M3-06, T-M3-08 | S | NFR-11 | done |
 | T-M3-10 | R1-01 fix: enforcement actionPolicies & requester human_id | M3 | T-M3-09 | M | R1-01, TM-12 | done |
-| T-M3-11 | R1-02 fix: registry update_threshold (distinct approvers) | M3 | T-M3-10 | M | R1-02, TM-10 | todo |
-| T-M4-01 | Red skeleton k4 | M4 | T-M3-11 | S | AC-13.x, AC-14.1 harness | todo |
+| T-M3-11 | R1-02 fix: registry update_threshold (distinct approvers) | M3 | T-M3-10 | M | R1-02, TM-10, TM-36 | done |
+| T-M3-12 | R1-03..05/07 Medium fixes: fail-closed K2 & K1 anchor note | M3 | T-M3-11 | M | R1-03, R1-04, R1-05, R1-07 | todo |
+| T-M4-01 | Red skeleton k4 | M4 | T-M3-12 | S | AC-13.x, AC-14.1 harness | todo |
 | T-M4-02 | selectAsOf, localDate | M4 | T-M4-01 | S | AC-14.1 | todo |
 | T-M4-03 | YAML safe subset | M4 | T-M4-01 | M | AC-13.1, TM-26 | todo |
 | T-M4-04 | Regex dialect lint | M4 | T-M4-01 | S | AC-13.2, TM-23 | todo |
@@ -96,10 +97,10 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-MR-06 | README, CHANGELOG, write-up | MR | T-MR-05 | M | testing §11 | todo |
 | T-MR-07 | Merge, tag, snapshot, pin | MR | T-MR-06 | S | US-20 | todo |
 | T-MR-08 | Going public | MR | T-MR-07 | S | ADR-0014, TM-30 | todo |
-**67 tasks** (40 S, 27 M; none larger). One spike (T-M3-08); one owner verification gate with pre-decided outcomes (T-M5-09).
+**68 tasks** (40 S, 28 M; none larger). One spike (T-M3-08); one owner verification gate with pre-decided outcomes (T-M5-09).
 
 ## 3. Dependency order (the order to do them in)
-M0: 01 → 02 → 03 → (04, 06) → 05 → 07 → 08. M1: 01 → 02 → (03 → 04 → 05), 06, 10 → 07 → 08 → 09 → 11. M2: 01 → 02 → (03, 04) → 05 → 06. M3: 01 → 02 → 03 → (04 → 05 → 06), 07 → 08 → 09 → 10 → 11. M4: 01 → (02, 03, 04, 05) → 06 → 07 → 08. M5: 01 → 02 → 03 → 04 → 05 → (06, 07, 08 → 09), 10 → 11. M6: 01 → 02 → 03 → 04. MR: 01 → … → 08. Pick the first `todo` row in §2 whose dependencies are all `done`.
+M0: 01 → 02 → 03 → (04, 06) → 05 → 07 → 08. M1: 01 → 02 → (03 → 04 → 05), 06, 10 → 07 → 08 → 09 → 11. M2: 01 → 02 → (03, 04) → 05 → 06. M3: 01 → 02 → 03 → (04 → 05 → 06), 07 → 08 → 09 → 10 → 11 → 12. M4: 01 → (02, 03, 04, 05) → 06 → 07 → 08. M5: 01 → 02 → 03 → 04 → 05 → (06, 07, 08 → 09), 10 → 11. M6: 01 → 02 → 03 → 04. MR: 01 → … → 08. Pick the first `todo` row in §2 whose dependencies are all `done`.
 
 ## 4. Rules for the executor (copied from START-HERE.md)
 1. Rule 0 in `AGENTS.md` overrides everything.

@@ -30,6 +30,7 @@ export interface RegistryPayload {
   break_glass: { code_digest: Digest }[];
   max_ttl_seconds: number;
   allow_synced_passkeys: boolean;
+  update_threshold?: number;
 }
 
 export type RegistryResult =
@@ -84,7 +85,12 @@ export function verifyRegistryChain(input: {
         typeof payloadRaw.realm !== 'string' ||
         typeof payloadRaw.version !== 'number' ||
         !Number.isSafeInteger(payloadRaw.version) ||
-        !Array.isArray(payloadRaw.approvers)
+        !Array.isArray(payloadRaw.approvers) ||
+        (payloadRaw.update_threshold !== undefined &&
+          (typeof payloadRaw.update_threshold !== 'number' ||
+            !Number.isSafeInteger(payloadRaw.update_threshold) ||
+            payloadRaw.update_threshold < 1 ||
+            payloadRaw.update_threshold > 5))
       ) {
         return { valid: false, error: 'PK_APPROVAL_REGISTRY_MALFORMED', at_version: atVersion };
       }
@@ -140,6 +146,17 @@ export function verifyRegistryChain(input: {
         if (!res.valid) {
           const error = res.error === 'PK_SIG_UNKNOWN_KID' ? 'PK_APPROVAL_REGISTRY_UNAUTHORISED' : res.error;
           return { valid: false, error, at_version: atVersion };
+        }
+        const threshold = prev.update_threshold ?? 1;
+        const distinctApproverIds = new Set<string>();
+        for (const signer of res.signers) {
+          const approver = prev.approvers.find((a) => a.kid === signer.kid);
+          if (approver !== undefined) {
+            distinctApproverIds.add(approver.id);
+          }
+        }
+        if (distinctApproverIds.size < threshold) {
+          return { valid: false, error: 'PK_APPROVAL_REGISTRY_UNAUTHORISED', at_version: atVersion };
         }
       }
 

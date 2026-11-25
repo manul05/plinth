@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Registry update_threshold by distinct approver IDs (T-M3-11)
+
+- **Did:** Added `ADR-0020`, updated `pk-approval.registry-payload.schema.json`, `plinth-api.d.ts`, `k2-approval.md`, `05-threat-model.md` (`TM-36`), implemented `update_threshold` distinct-approver check in `registry.ts`, added `k2-registry-update-threshold-{insufficient,valid}` (`index.json` 189 entries) + unit test, and marked `T-M3-11` `done`.
+- **Verified:** `npm.cmd run check` (`lint` `Checked 67 files` 0, `typecheck` 0, `vitest` `29 files / 216 tests` incl. `k2` `51/51`, `build` 0) @ `3c8d0bd` + T-M3-11.
+- **Decisions:** `ADR-0020`.
+- **Owner:** `"Option 1 (Recommended)"` (2026-11-25).
+- **Next:** `T-M3-12` (`R1-03..05/07` Medium fixes).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Enforcement actionPolicies & requester identity (T-M3-10)
 
 - **Did:** Added `ADR-0019`, updated `k2-approval.md`, `plinth-api.d.ts`, `05-threat-model.md` (TM-12), implemented `actionPolicies` + `requesterHumanId` in `verify.ts` and `store.ts`, added `k2-approval-policy-downgrade` and `k2-approval-distinct-downgrade` (`index.json` 187 entries), and marked `T-M3-10` `done`.

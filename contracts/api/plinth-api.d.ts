@@ -136,6 +136,7 @@ export interface Approver {
 export interface RegistryPayload {
   spec: 'pk-approval/1.0'; realm: string; version: number; approvers: Approver[];
   break_glass: { code_digest: Digest }[]; max_ttl_seconds: number; allow_synced_passkeys: boolean;
+  update_threshold?: number;
 }
 export type RegistryResult = { valid: true; version: number; registry_digest: Digest; registry: RegistryPayload } | { valid: false; error: ErrorCode; at_version: number };
 export interface ActionPolicy {

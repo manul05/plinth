@@ -495,6 +495,14 @@
       "sha256": "sha256:6c9e45c1d45c84437f8b521063e08a75c61eed40356439ecbbd5e601493cd246"
     },
     {
+      "path": "k2/k2-registry-update-threshold-insufficient.json",
+      "sha256": "sha256:7d0f00d6f40524cfa0da77fbebc9ddaf9db817ef6ddf374f7591c6a386f3fbfb"
+    },
+    {
+      "path": "k2/k2-registry-update-threshold-valid.json",
+      "sha256": "sha256:21d39234327e45efefe5adb9db9431abaacbf93d58d4eadb37c644dd77f17243"
+    },
+    {
       "path": "k2/k2-registry-update-unauthorised.json",
       "sha256": "sha256:f2ea5c5833cdc3a6acd272218c0a510403266fff779b52f664477223ec633c2d"
     },

@@ -1,8 +1,19 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { p256 } from '@noble/curves/nist.js';
 import { describe, expect, it } from 'vitest';
-import { type Digest, type RegistryPayload, trustedKeysFromRegistry, verifyRegistryChain } from '../../src/index.js';
-import { loadVectors, VECTORS_DIR } from '../vectors.js';
+import {
+  b64urlEncode,
+  createEnvelope,
+  type Digest,
+  digest,
+  hexDecode,
+  type RegistryPayload,
+  signingInput,
+  trustedKeysFromRegistry,
+  verifyRegistryChain,
+} from '../../src/index.js';
+import { loadKey, loadVectors, VECTORS_DIR } from '../vectors.js';
 
 function loadRegistryGenesis(): {
   envelopes: Array<{ spec: string; type: string; payload: RegistryPayload; signatures: unknown[] }>;
@@ -20,9 +31,9 @@ function loadRegistryGenesis(): {
 }
 
 describe('registry helpers and chain verification', () => {
-  it('passes all 6 verifyRegistryChain golden vectors', () => {
+  it('passes all 8 verifyRegistryChain golden vectors', () => {
     const vectors = loadVectors('k2', 'verifyRegistryChain');
-    expect(vectors).toHaveLength(6);
+    expect(vectors).toHaveLength(8);
     for (const vec of vectors) {
       const result = verifyRegistryChain({
         envelopes: vec.input.envelopes as readonly unknown[],
@@ -33,6 +44,48 @@ describe('registry helpers and chain verification', () => {
         expect((result as Record<string, unknown>)[key], vec.id).toEqual(value);
       }
     }
+  });
+
+  it('requires distinct approver IDs (not merely distinct kids) for update_threshold', () => {
+    const validVec = JSON.parse(
+      readFileSync(join(VECTORS_DIR, 'k2', 'k2-registry-update-threshold-valid.json'), 'utf8'),
+    ) as {
+      input: {
+        envelopes: Array<{ spec: string; type: string; payload: RegistryPayload; signatures: unknown[] }>;
+        genesis_digest: Digest;
+        highest_seen_version: number;
+      };
+    };
+    const key1 = loadKey('keys/p256-test-1.json');
+    const key2 = loadKey('keys/p256-test-2.json');
+    const v1Payload = structuredClone(validVec.input.envelopes[0]?.payload as RegistryPayload);
+    if (!v1Payload.approvers[1]) throw new Error('missing second approver');
+    v1Payload.approvers[1].id = 'owner'; // Both keys belong to 'owner'
+    const v2Payload = structuredClone(validVec.input.envelopes[1]?.payload as RegistryPayload);
+
+    const signEs = (p: RegistryPayload, k: typeof key1) => ({
+      alg: 'ES256' as const,
+      kid: k.kid as Digest,
+      role: 'approver',
+      sig: b64urlEncode(
+        p256.sign(signingInput('pk.approval.registry', p), hexDecode(k.private_hex), { prehash: true }),
+      ),
+    });
+
+    const v1Env = createEnvelope('pk.approval.registry', v1Payload, [signEs(v1Payload, key1)]);
+    const v2Env = createEnvelope('pk.approval.registry', v2Payload, [signEs(v2Payload, key1), signEs(v2Payload, key2)]);
+
+    expect(
+      verifyRegistryChain({
+        envelopes: [v1Env, v2Env],
+        genesisDigest: digest(v1Payload),
+        highestSeenVersion: 1,
+      }),
+    ).toEqual({
+      valid: false,
+      error: 'PK_APPROVAL_REGISTRY_UNAUTHORISED',
+      at_version: 2,
+    });
   });
 
   it('maps approvers in trustedKeysFromRegistry with optional webauthn config', () => {

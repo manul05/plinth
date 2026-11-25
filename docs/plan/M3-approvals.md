@@ -150,3 +150,12 @@ Files: `packages/ts/src/approval/`, tests `packages/ts/test/approval/`.
 - **Steps:** add `update_threshold` to the registry payload contract and require that many distinct approver `id`s from the previous registry version to sign version `n + 1`; add negative vectors and unit tests for below-threshold updates and two keys belonging to the same approver `id`.
 - **Run:** `npm run check`
 - **Commit:** `fix(approval): enforce distinct-approver threshold on registry updates (T-M3-11)`
+
+### T-M3-12 · R1-03..05/07 Medium fixes: fail-closed K2 validation, break-glass never-throws, K1 anchor note
+- **Size:** M
+- **Depends on:** T-M3-11 (approved via Option 1)
+- **Covers:** R1-03, R1-04, R1-05, R1-07
+- **Modify:** `docs/decisions/0021-*.md`, `docs/decisions/README.md`, `contracts/spec/k2-approval.md`, `contracts/spec/k1-audit.md`, `docs/05-threat-model.md`, `packages/ts/src/approval/{verify,registry,breakglass}.ts`, `packages/ts/test/approval/{verify,registry,breakglass}.test.ts`
+- **Steps:** (1) `R1-03`: validate `subject.digest` and `actualSubjectDigest` match `^sha256:[0-9a-f]{64}$`; (2) `R1-04`: validate full `RegistryPayload` schema fields in `verifyRegistryChain` step 1 and `max_ttl_seconds` safe integer 60–86400 in `verifyApproval` step 7; (3) `R1-05`: make `verifyBreakGlass` fail-closed and never-throws on malformed input; (4) `R1-07`: document external checkpoint anchor requirement in `k1-audit.md` and `05-threat-model.md`.
+- **Run:** `npm run check`
+- **Commit:** `fix(approval): harden K2 validation and break-glass fail-closed guards (T-M3-12)`

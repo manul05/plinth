@@ -77,6 +77,7 @@ flowchart LR
 | TM-33 | 3 enforcement | E: attacker controls the enforcement point (local admin) and skips verification | L | H | Out of scope for the kit; stated in K2 §6 | none (documented limit) | — | **Accepted** |
 | TM-34 | 1 parseJson | D: deeply nested JSON exhausts the stack | L | M | Depth limit 64 | `k0-vectors.test.ts::k0-jcs-err-depth` | T-M1-03 | Low |
 | TM-35 | 2-5 | D/I: verifier throws on malformed input and the caller treats the exception as "pass" | M | H | "Never throws" verifiers return `valid:false` | `test/core/envelope.test.ts::verifyEnvelope never throws`, `test/audit/verify.test.ts::verifyChain never throws`, `test/approval/verify.test.ts::verifyApproval never throws` | T-M1-08, T-M2-05, T-M3-05 | Low |
+| TM-36 | 3 registry | E: single rogue approver in a multi-person realm adds a sockpuppet key or weakens registry policy | M | H | `update_threshold` requires M distinct approver `id`s from version n to sign version n+1 | `k2-vectors.test.ts::k2-registry-update-threshold-insufficient`, `registry.test.ts::requires distinct approver IDs` | T-M3-11 | Low (multi-person realms must set `update_threshold`) |
 
 ## 4. Abuse and misuse cases, "two hands" gates
 - **Self-approval by a prompt-injected agent:** agents hold no approver key; decisions require webauthn-ES256/ES256 from registry keys; registry changes need an existing approver. Ed25519 (the only key type a server could hold) can never sign a decision (TM-03).
