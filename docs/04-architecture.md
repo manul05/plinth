@@ -238,3 +238,4 @@ Consumers vendor a tagged snapshot, pinned by hash (ADR-0010); full procedure fo
 | 0014 | Public once tested, MIT, package name `plinth-kit` |
 | 0015 | The subject digest is defined by each product, not by Plinth |
 | 0016 | Re-pin Node.js to 26.13.1 and npm to 11.20.0 |
+| 0017 | Declare property "d" inside "not" in jwk.schema.json for Ajv strict mode |

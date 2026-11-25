@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Contract self-checks, pins, and ADR-0017 (T-M0-04)
+- Did: created `packages/ts/test/contracts.test.ts`, `packages/ts/test/deps.test.ts`, and `docs/decisions/0017-jwk-schema-strict-required.md`; updated `contracts/schemas/jwk.schema.json` (`"properties": { "d": {} }` in both `"not"` blocks), `docs/decisions/README.md`, `docs/04-architecture.md`, `docs/06-plan.md` (T-M0-04 `done`), `STATUS.md`, `LOG.md`
+- Verified: initial run failed `2/13` on `jwk.schema.json` `strictRequired`; after ADR-0017 fix, `npm.cmd test` `13/13` passed (`4` files), `typecheck` 0, `lint` 0 (`Checked 15 files`) @ `57e3b33` + T-M0-04
+- Decisions: ADR-0017 (fix `jwk.schema.json` for Ajv `strict: true`)
+- Owner: "cotinue" (2026-11-25); "continue with your recommendation" (2026-11-25)
+- AI: caught Ajv 8.20 `strictRequired` failure on `jwk.schema.json` `not.required: ["d"]`; owner approved schema fix + ADR-0017
+- Next: T-M0-05 (CI, security-scan, Dependabot) or T-M0-06 / T-M0-07
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Version test and golden-vector loader (T-M0-03)
 - Did: created `packages/ts/test/version.test.ts`, `packages/ts/test/vectors.ts`, `packages/ts/test/vectors.test.ts`; marked T-M0-03 `done` in `docs/06-plan.md`
 - Verified: red test failed on missing `./vectors.js`; then `npm.cmd test` `4/4` passed (`2` files), `typecheck` 0, `lint` 0 (`Checked 13 files`) @ `37dda40` + T-M0-03

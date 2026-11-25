@@ -23,3 +23,4 @@ one's status becomes `Superseded by ADR-MMMM`. Decisions made in Stage 2 stay in
 | 0014 | [Public once tested, MIT, package name `plinth-kit`](0014-public-mit-package-name.md) | Accepted | 2026-10-31 |
 | 0015 | [The subject digest is defined by each product, not by Plinth](0015-subject-digest-is-product-defined.md) | Accepted | 2026-11-07 |
 | 0016 | [Re-pin Node.js to 26.13.1 and npm to 11.20.0](0016-repin-node-26-13-1-npm-11-20-0.md) | Accepted | 2026-11-25 |
+| 0017 | [Declare property "d" inside "not" in jwk.schema.json for Ajv strict mode](0017-jwk-schema-strict-required.md) | Accepted | 2026-11-25 |
