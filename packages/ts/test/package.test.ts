@@ -1,7 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, posix } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { REPO_ROOT } from './vectors.js';
 
@@ -9,6 +9,8 @@ interface PackDryRunEntry {
   unpackedSize: number;
   files: Array<{ path: string }>;
 }
+
+const RELATIVE_IMPORT_RE = /(?:from|import)\s*\(?\s*['"](\.[^'"]+\.js)['"]/g;
 
 describe('plinth-kit package', () => {
   let cacheDir = '';
@@ -51,6 +53,8 @@ describe('plinth-kit package', () => {
     const paths = new Set(pack.files.map((f) => f.path));
     for (const required of [
       'dist/index.js',
+      'dist/version.js',
+      'dist/version.d.ts',
       'dist/core/index.js',
       'dist/packs/builtin.js',
       'dist/tools/conformance.js',
@@ -60,6 +64,22 @@ describe('plinth-kit package', () => {
       'package.json',
     ]) {
       expect(paths.has(required), `missing ${required}`).toBe(true);
+    }
+  });
+
+  it('every relative import inside packed dist/*.js resolves to a packed file', () => {
+    const paths = new Set(pack.files.map((f) => f.path));
+    const jsFiles = pack.files.filter((f) => f.path.startsWith('dist/') && f.path.endsWith('.js'));
+    expect(jsFiles.length).toBeGreaterThan(0);
+
+    for (const file of jsFiles) {
+      const source = readFileSync(join(REPO_ROOT, 'packages', 'ts', file.path), 'utf8');
+      for (const match of source.matchAll(RELATIVE_IMPORT_RE)) {
+        const spec = match[1];
+        if (spec === undefined) continue;
+        const resolved = posix.normalize(posix.join(posix.dirname(file.path), spec));
+        expect(paths.has(resolved), `${file.path} imports missing ${resolved}`).toBe(true);
+      }
     }
   });
 

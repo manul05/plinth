@@ -44,6 +44,8 @@
   "files": [
     "dist/index.js",
     "dist/index.d.ts",
+    "dist/version.js",
+    "dist/version.d.ts",
     "dist/errors.js",
     "dist/errors.d.ts",
     "dist/core",
