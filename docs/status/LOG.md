@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Strict I-JSON parser (T-M1-03)
+- Did: implemented `parseJson` and `MAX_DEPTH` in `packages/ts/src/core/json.ts`; created `packages/ts/test/core/json.test.ts`; marked T-M1-03 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
+- Verified: red `json.test.ts` failed `3/3`; then `json` `3/3`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 31 files`), `build` 0 @ `bcdea05` + T-M1-03
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: smooth TDD; replaced `parsed.__proto__` in test with `Object.getOwnPropertyDescriptor` to satisfy Biome `noProto`
+- Next: T-M1-04 (`jcs.ts`: pk-JCS canonicalize and digest)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Strict base64url, hex, UTF-8, SHA-256 (T-M1-02)
 - Did: implemented `packages/ts/src/core/bytes.ts` and created `packages/ts/test/core/bytes.test.ts`; marked T-M1-02 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
 - Verified: red `bytes.test.ts` failed `3/3`; then `bytes` `3/3`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 30 files`), `build` 0 @ `5fe5c8a` + T-M1-02
