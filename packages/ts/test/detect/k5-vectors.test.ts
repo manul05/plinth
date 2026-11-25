@@ -8,6 +8,7 @@ import {
   PlinthError,
   redact,
   scan,
+  shannonEntropy,
   upiHandleValid,
   verhoeffValid,
 } from '../../src/index.js';
@@ -106,4 +107,22 @@ describe('k5 maskSecret', () => {
       expect({ masked: values.map(maskSecret) }).toEqual(vec.expect);
     });
   }
+
+  it('masks values shorter than 16 characters as ellipsis only', () => {
+    expect(maskSecret('short-secret-15')).toBe('\u2026');
+    expect(maskSecret('')).toBe('\u2026');
+  });
+});
+
+describe('k5 detect helpers', () => {
+  it('computes shannonEntropy over UTF-16 code units', () => {
+    expect(shannonEntropy('')).toBe(0);
+    expect(shannonEntropy('aaaa')).toBe(0);
+    expect(shannonEntropy('ab')).toBe(1);
+  });
+
+  it('rejects empty and non-digit Verhoeff inputs', () => {
+    expect(verhoeffValid('')).toBe(false);
+    expect(verhoeffValid('12a4')).toBe(false);
+  });
 });

@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Validators, entropy & masks (T-M5-02)
+
+- **Did:** Implemented `verhoeffValid`, `gstinValid`, `upiHandleValid` in `validators.ts`, `shannonEntropy` in `entropy.ts`, and `maskSecret` in `mask.ts`, added unit tests in `k5-vectors.test.ts`, and marked `T-M5-02` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run lint` (87 files), `npm.cmd run typecheck`, `npm.cmd test -- k5` (`11 passed | 12 failed`: 7/7 validator, 2/2 maskSecret, 2/2 helpers; 12 scan/redact still unimplemented) @ `c4f4fc6` + T-M5-02.
+- **Decisions:** None.
+- **Owner:** `"Start M5 (docs/plan/M5-detection.md) from docs/status/STATUS.md and execute T-M5-01 to T-M5-08 one by one on development"` (2026-11-25).
+- **Next:** `T-M5-03` (`scan.ts`: regex rules, pairing, sort).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Red skeleton k5 & pack tests (T-M5-01)
 
 - **Did:** Added `packages/ts/src/detect/` stubs (`index`, `validators`, `entropy`, `mask`, `scan`, `redact`), exported `./detect/index.js` from `packages/ts/src/index.ts`, created `k5-vectors.test.ts` (20) and `pack-tests.test.ts` (70), and marked `T-M5-01` `done` in `docs/06-plan.md`.

@@ -4,22 +4,22 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-25 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), **M5 K5 Detection in progress** (`T-M5-01` done)
-- **Branch / HEAD:** `development` at `7b76af6` + T-M5-01 (`origin/main` at `650cc02`)
-- **Uncommitted or unapplied work:** none after T-M5-01 commit; local `core.hooksPath=.githooks` active.
+- **Stage / phase:** Phase 1 (release 0.1.0), **M5 K5 Detection in progress** (`T-M5-01`..`T-M5-02` done)
+- **Branch / HEAD:** `development` at `c4f4fc6` + T-M5-02 (`origin/main` at `650cc02`)
+- **Uncommitted or unapplied work:** none after T-M5-02 commit; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
 | Check | Result | At commit |
 |---|---|---|
-| `npm.cmd run lint` | `87` files checked, 0 errors | `7b76af6` + T-M5-01 |
-| `npm.cmd run typecheck` | passed (0 errors) | `7b76af6` + T-M5-01 |
-| `npm.cmd test -- k5 pack-tests` | `2 failed (2)` files / `90 failed (90)` tests (20 k5 + 70 pack tests, expected red) | `7b76af6` + T-M5-01 |
+| `npm.cmd run lint` | `87` files checked, 0 errors | `c4f4fc6` + T-M5-02 |
+| `npm.cmd run typecheck` | passed (0 errors) | `c4f4fc6` + T-M5-02 |
+| `npm.cmd test -- k5` | `11 passed \| 12 failed` (`7/7` validator, `2/2` maskSecret, `2/2` helpers) | `c4f4fc6` + T-M5-02 |
 
 ## Done recently
-- **T-M5-01** (`docs/plan/M5-detection.md`): created `packages/ts/src/detect/` stubs, re-exported from `packages/ts/src/index.ts`, and added `k5-vectors.test.ts` (20) + `pack-tests.test.ts` (70).
+- **T-M5-02** (`docs/plan/M5-detection.md`): implemented `verhoeffValid`, `gstinValid`, `upiHandleValid`, `shannonEntropy`, and `maskSecret`.
 
 ## Next step
-1. **T-M5-02** (`docs/plan/M5-detection.md`): implement `validators.ts`, `entropy.ts`, and `mask.ts`.
+1. **T-M5-03** (`docs/plan/M5-detection.md`): implement regex scanning, pairing, and stable sort in `scan.ts`.
 
 ## Blocked on / questions for the owner
 - Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).
