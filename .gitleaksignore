@@ -1,0 +1,13 @@
+# Intentional synthetic test-vector fixtures from initial import commit 650cc02.
+# All 11 values are synthetic (TEST-ONLY / SHA-256 of test labels / synthetic ghp_ mask test).
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k0/k0-sig-signing-input.json:generic-api-key:22
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-redact-aadhaar-no-fingerprint.json:generic-api-key:17
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-mask-secret.json:github-pat:8
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-redact-github-pat.json:generic-api-key:19
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-redact-overlap-upi-email.json:generic-api-key:17
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-redact-mixed.json:generic-api-key:19
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-redact-nothing.json:generic-api-key:17
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-redact-private-key.json:generic-api-key:20
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-scan-git-sha-not-instamojo.json:generic-api-key:18
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-redact-razorpay-pair.json:generic-api-key:22
+650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-scan-hidden-and-phrases.json:generic-api-key:17
