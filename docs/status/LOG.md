@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Requests, matching codes and decision payloads (T-M3-02)
+
+- **Did:** Implemented `createApprovalRequest`, `matchingCode`, and `decisionPayload` in `packages/ts/src/approval/request.ts`; created `packages/ts/test/approval/request.test.ts` (failing `4/4` red first); marked `T-M3-02` `done` in `docs/06-plan.md`.
+- **Verified:** `request` `4/4`, `k2` (`41 failed | 4 passed (45)`, `matchingCode` `2/2`), `portability` `5/5`, `lint` `Checked 58 files` (0), `typecheck` 0, `build` 0 @ `f4b9743` + T-M3-02.
+- **Decisions:** None.
+- **Owner:** `"execute T-M3-02 to T-M3-09 one by one"` (2026-11-25).
+- **AI:** Clean TDD pass on first try.
+- **Next:** `T-M3-03` (`packages/ts/src/approval/registry.ts`: `verifyRegistryChain` and `trustedKeysFromRegistry`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Red skeleton k2 vector runner (T-M3-01)
 
 - **Did:** Created `packages/ts/src/approval/{index,policies,request,registry,verify,store,breakglass}.ts` (final `policies.ts`, `CHECKPOINT_POLICY` re-export, remaining K2 API stubs), wired `packages/ts/src/index.ts`, added `packages/ts/test/approval/k2-vectors.test.ts` (45 vectors), and marked `T-M3-01` `done` in `docs/06-plan.md`.
