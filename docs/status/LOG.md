@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Gate R2 fixes (T-M6-05..08) & M6 close (T-M6-04)
+
+- **Did:** Resolved all Gate R2 findings across `04dcfc0` (`T-M6-05`, R2-01 packed `dist/version.*`), `62392eb` (`T-M6-06`, R2-02 registry `BE`/`profile` checks + `ADR-0024` + `k2-approval.md`), `5fd9845` (`T-M6-07`, R2-04..08 `verifyChain`/`verifyRegistryChain`/`verifyApproval` hardening + R2-07/08 tests), and `2de253e` (`T-M6-08`, R2-09..13 `crv`, `scan()` secret >=32B + `ADR-0025` + `k5-detection.md`, error-detail scrub, `spec`/JSONL bounds, synced docs); closed `T-M6-04` and Milestone M6.
+- **Verified:** `npm.cmd run check` (`lint` 0 `101` files, `build` 0, `typecheck` 0, `vitest` `402/402` across `43` files, `packs:check` `packs: up to date`, `conformance` `PASS 156/156`) and `npm.cmd run test:perf` (`6/6`, ReDoS max `3.553 ms`) @ `2de253e` + `06-plan.md`.
+- **Decisions:** `ADR-0024` (registry `profile`/`alg` & synced-passkey checks), `ADR-0025` (optional `scan` `installationSecret` >= 32B).
+- **Owner:** `"option 1"` (2026-11-26) approving all R2 fixes + contract ADRs before closing M6.
+- **Next:** `T-MR-01` (Snapshot tool in `docs/plan/MR-release.md`).
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · CI build order (R2-03), library E2E & Gate R2
 
 - **Did:** Created `packages/ts/test/e2e/library.test.ts` (`E2E-1`..`E2E-4` incl. `prune -> verify`), moved `npm run build` before `typecheck` & `test` in `package.json`, `.github/workflows/ci.yml`, and `docs/testing.md` (`R2-03` fixed), and recorded Gate **R2** (holding `T-M6-04` open pending `R2-01` & `R2-02`).

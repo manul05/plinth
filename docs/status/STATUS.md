@@ -4,27 +4,29 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-26 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), **M6 Conformance & Packaging held at Gate R2** (`T-M6-01`..`T-M6-03` done; `R2-03` fixed; `R2-01` Critical and `R2-02` High pending)
-- **Branch / HEAD:** `development` at `71d83a1` + `R2-03`/`E2E` (`origin/main` at `650cc02`)
+- **Stage / phase:** Phase 1 (release 0.1.0), **M6 Conformance & Packaging CLOSED** (`T-M6-01`..`T-M6-08` all `done`; all Gate R2 findings resolved)
+- **Branch / HEAD:** `development` at `2de253e` + M6 close (`origin/main` at `650cc02`)
 - **Uncommitted or unapplied work:** none after commit and push; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
 | Check | Result | At commit |
 |---|---|---|
-| `npm.cmd run check` | `lint` 0 (`100` files), `build` 0, `typecheck` 0, `vitest` `387/387` (`43` files), `packs:check`, `conformance` `PASS 156/156` | `71d83a1` + `R2-03`/`E2E` |
+| `npm.cmd run check` | `lint` 0 (`101` files), `build` 0, `typecheck` 0, `vitest` `402/402` (`43` files; `156` runtime + `27` skipped tool vectors), `packs:check` (`packs: up to date`), `conformance` (`PASS 156/156`) | `2de253e` + `06-plan.md` |
+| `npm.cmd run test:perf` | `6/6` passed (`ReDoS` max `3.553 ms`) | `2de253e` + `06-plan.md` |
 
 ## Done recently
-- **R2-03 & T-M6-04 E2E prep:** added `packages/ts/test/e2e/library.test.ts` (`E2E-1`..`E2E-4` incl. `prune -> verify`), moved `npm run build` before `typecheck`/`test` in `package.json`, `.github/workflows/ci.yml`, and `docs/testing.md`.
-- **Gate R2 reviewed:** `1` Critical (`R2-01`), `2` High (`R2-02`, `R2-03` fixed), `5` Medium (`R2-04`..`R2-08`), `5` Low (`R2-09`..`R2-13`, `E2E-3` fixed).
+- **R2-01 (`T-M6-05`, `04dcfc0`):** Added `dist/version.{js,d.ts}` to `packages/ts/package.json` `files` and verified all packed `dist/` relative imports resolve.
+- **R2-02 (`T-M6-06`, `62392eb`):** Enforced shared `profile`/`alg` and `BE`/`allow_synced_passkeys` checks in `verifyRegistryChain` (`ADR-0024`, `contracts/spec/k2-approval.md` §3).
+- **R2-04..R2-08 (`T-M6-07`, `5fd9845`):** Hardened `verifyChain`, `verifyRegistryChain`, `verifyApproval` input/policy bounds, strengthened `R2-07` substring non-echo tests, added `R2-08` negative tests.
+- **R2-09..R2-13 (`T-M6-08`, `2de253e`):** Added `crv` check, optional `scan()` secret length check (`ADR-0025`, `contracts/spec/k5-detection.md` §2), scrubbed raw input from `PlinthError.detail`, protected `spec`/extra-key audit bounds, synced doc/test counts (`156/156`, `38` rules / `73` tests, `TM-36`), closed `T-M6-04`.
 
 ## Next step
-1. **R2 fixes (pending owner OK):** fix `R2-01` (Critical: `dist/version.{js,d.ts}` in `packages/ts/package.json` + tarball import check), `R2-02` (High: `verifyRegistryChain` `BE`/profile-alg checks + `contracts/spec/k2-approval.md` + `ADR-0024`), and selected Medium/Low items before closing `T-M6-04`.
+1. **`T-MR-01` (Snapshot tool):** Implement release snapshot builder and `SHA256SUMS` generation per `docs/plan/MR-release.md`.
 
 ## Blocked on / questions for the owner
-- Awaiting owner OK on R2 fix scope (especially `contracts/spec/k2-approval.md` for `R2-02` and `contracts/spec/k5-detection.md` for `R2-10`).
 - Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).
 - Dependabot PR #2 (`Bump actions/checkout from 4 to 7` into `development`) is open on GitHub.
 
 ## Open windows and approvals
 - Production: CLOSED. (Windows never carry over between sessions.)
-- Owner, 2026-11-26: `"1. go with recommendation"` + submitted R2 report.
+- Owner, 2026-11-26: `"1. go with recommendation"` + `"option 1"` (fix all Gate R2 findings including `contracts/` updates via ADRs before closing M6).
