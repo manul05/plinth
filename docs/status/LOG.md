@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · WebAuthn-ES256 signature entries (T-M1-09)
+- Did: implemented `verifyWebauthnSignature` and `signatureFromAssertion` in `packages/ts/src/core/webauthn.ts`; created `packages/ts/test/core/webauthn.test.ts`; marked T-M1-09 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
+- Verified: red `webauthn.test.ts` failed `11/11`; then `webauthn` `11/11`, `k0` `56/56`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 38 files`), `build` 0 @ `fbfe196` + T-M1-09
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: smooth TDD; all k2 WebAuthn decision envelopes (device-bound, synced passkey, and 8 negative checks) passed first try
+- Next: T-M1-10 (`ids.ts`: UUIDv7, nonces, timestamps)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Fail-closed envelope verification (T-M1-08)
 - Did: implemented `verifyEnvelope` (Ed25519 + ES256, `lowS: false`, normative 8-step order) in `packages/ts/src/core/envelope.ts`; stubbed internal `verifyWebauthnSignature` in `webauthn.ts` (scoped public export in `core/index.ts`); created `packages/ts/test/core/envelope.test.ts`; marked T-M1-08 `done`; updated `STATUS.md` and `LOG.md`
 - Verified: red `envelope.test.ts` failed `3/3`; then `npm.cmd run check` passed (`lint` 0 `37` files, `typecheck` 0, `vitest` `100/100` across `15` files incl. `k0-vectors` `56/56`, `build` 0) @ `2af0a1f` + T-M1-08
