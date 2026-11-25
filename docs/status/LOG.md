@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Red skeleton k1 vector runner (T-M2-01)
+
+- **Done:** Created M2 audit stubs (`packages/ts/src/audit/{index,event,jsonl,checkpoint,verify}.ts`), wired `packages/ts/src/index.ts`, added `packages/ts/test/audit/k1-vectors.test.ts` (19 vectors, skipping `lintPersonalData`), and marked `T-M2-01` `done` in `docs/06-plan.md`.
+- **Checks:** `npm.cmd test -- k1` (`18 failed | 1 passed (19)`, `k1-genesis-prev` passing), `portability` `5/5`, `typecheck` `0`, `lint` `45 files / 0 errors`, `build` `0`.
+- **Next:** `T-M2-02` (`packages/ts/src/audit/event.ts`: `eventHash`, `appendEvent`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · M1 close & mutation checks (T-M1-11)
 
 - **Done:** Closed M1 K0 Core. Added `DNB-002` to `docs/do-not-break.md` and marked `T-M1-11` `done` in `docs/06-plan.md`.
