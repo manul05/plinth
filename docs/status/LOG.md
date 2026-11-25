@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · CI drift check & close M4 (T-M4-08)
+
+- **Did:** Added `packages/ts/test/repo-tools/packs-check.test.ts`, wired `npm run packs:check` into `.github/workflows/ci.yml` and `package.json` (`check`), and marked `T-M4-08` `done` in `docs/06-plan.md` (closing Milestone M4).
+- **Verified:** `npm.cmd test -- packs-check` (`2/2`), `npm.cmd run check` (`lint` 0 `79` files, `typecheck` 0, `vitest` `268/268` across `33` files incl. `39/39` `k4` and `5/5` `portability`, `build` 0, `packs:check` `packs: up to date`) @ `f5eaf88` + T-M4-08.
+- **Decisions:** None.
+- **Owner:** `"execute T-M4-01 to T-M4-08 one by one"` (2026-11-25).
+- **Next:** `T-M5-01` (Red skeleton `k5` + pack tests).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Digest-checked pack loading (T-M4-07)
 
 - **Did:** Implemented `loadPack` in `packages/ts/src/rulepack/load.ts` and `activeRules` in `packages/ts/src/rulepack/asof.ts`, created `packages/ts/test/rulepack/load.test.ts` (6 tests), and marked `T-M4-07` `done` in `docs/06-plan.md`.

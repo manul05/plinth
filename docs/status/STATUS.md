@@ -4,21 +4,21 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-25 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), **M4 K4 Rule Packs** in progress (`T-M4-07` done)
-- **Branch / HEAD:** `development` at `09d227b` (committing T-M4-07 next; `origin/main` at `650cc02`)
-- **Uncommitted or unapplied work:** none after T-M4-07 commit; local `core.hooksPath=.githooks` active.
+- **Stage / phase:** Phase 1 (release 0.1.0), **M4 K4 Rule Packs complete** (`T-M4-01`..`T-M4-08` done); ready for **M5 K5 Detection**
+- **Branch / HEAD:** `development` at `f5eaf88` (committing and pushing T-M4-08 next; `origin/main` at `650cc02`)
+- **Uncommitted or unapplied work:** none after T-M4-08 commit and push; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
 | Check | Result | At commit |
 |---|---|---|
-| `npm.cmd test -- packages/ts/test/rulepack/load.test.ts` | `6 passed (6)` | `09d227b` + T-M4-07 |
-| `npm.cmd run check` | `lint` 0 (`78` files), `typecheck` 0, `vitest` `266/266` (`32` files), `build` 0 | `09d227b` + T-M4-07 |
+| `npm.cmd test -- packs-check` | `1 passed (1)` file / `2 passed (2)` tests | `f5eaf88` + T-M4-08 |
+| `npm.cmd run check` | `lint` 0 (`79` files), `typecheck` 0, `vitest` `268/268` (`33` files), `build` 0, `packs:check` (`packs: up to date`) | `f5eaf88` + T-M4-08 |
 
 ## Done recently
-- T-M4-07: implemented `loadPack` (`packages/ts/src/rulepack/load.ts`), `activeRules` (`packages/ts/src/rulepack/asof.ts`), and added `packages/ts/test/rulepack/load.test.ts` (`6` tests covering digest verification, spec/kind rejection, and effective-date/status filtering).
+- Completed **M4 K4 Rule Packs (`T-M4-01`..`T-M4-08`)**: all 35 `k4` golden vectors passing, 4 rule packs (`35` rules, `70` tests) compiled cleanly into `packs/` and `packages/ts/src/packs/builtin.ts`, `loadPack` and `activeRules` tested, `packs-check.test.ts` added, and `npm run packs:check` wired into `.github/workflows/ci.yml` and `package.json` `check`.
 
 ## Next step
-1. **T-M4-08** (`docs/plan/M4-rulepack.md`): add `packs-check.test.ts`, enable `packs:check` in `.github/workflows/ci.yml` and `package.json` `check`, and close Milestone M4.
+1. **T-M5-01** (`docs/plan/M5-detection.md`): red skeleton for `k5` golden vectors and compiled rule-pack test suite.
 
 ## Blocked on / questions for the owner
 - Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).
