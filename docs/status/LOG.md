@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Errors module (T-M0-07, local)
+- Did: created `packages/ts/src/errors.ts` (`ERROR_MESSAGES` 97 entries, `PlinthError`) and `packages/ts/test/errors.test.ts`; exported in `packages/ts/src/index.ts`; marked T-M0-07 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md` (committed locally on `development`)
+- Verified: red test failed (`ERROR_MESSAGES` undefined, `PlinthError` not a constructor); then `npm.cmd test` `22/22` (`7` files), `typecheck` 0, `lint` 0 (`Checked 19 files`), `build` 0 @ `7257de7` + T-M0-07
+- Decisions: none
+- Owner: "Continue locally" (2026-11-25)
+- AI: smooth TDD; `portability.test.ts` also passed with `errors.ts` added; M0 code/tests are complete locally, awaiting `workflow` scope push for T-M0-05/T-M0-08
+- Next: push `development` with `workflow` scope, verify Actions runs green (T-M0-05), close M0 (T-M0-08)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Portability guard (T-M0-06, local)
 - Did: created `packages/ts/test/portability.test.ts`; marked T-M0-06 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md` (committed locally on `development`; T-M0-05 push pending `workflow` scope)
 - Verified: `npm.cmd test` `20/20` (`6` files), `typecheck` 0, `lint` 0 (`Checked 17 files`) @ `1d40052` + T-M0-06

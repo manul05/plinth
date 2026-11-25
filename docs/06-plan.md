@@ -35,7 +35,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M0-04 | Contract self-checks and pins | M0 | T-M0-03 | M | TM-32, TM-28, NFR-4 | done |
 | T-M0-05 | CI, security-scan, Dependabot | M0 | T-M0-04 | M | TM-28, TM-30, NFR-8 | todo |
 | T-M0-06 | Portability guard | M0 | T-M0-03 | S | NFR-1, NFR-12 | done |
-| T-M0-07 | Errors module | M0 | T-M0-04 | S | NFR-6 | todo |
+| T-M0-07 | Errors module | M0 | T-M0-04 | S | NFR-6 | done |
 | T-M0-08 | M0 close | M0 | T-M0-05, T-M0-06, T-M0-07 | S | gate | todo |
 | T-M1-01 | Red skeleton k0 | M1 | T-M0-08 | S | AC-1.x–4.x harness | todo |
 | T-M1-02 | bytes.ts | M1 | T-M1-01 | S | TM-04 | todo |
