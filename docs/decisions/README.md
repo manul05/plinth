@@ -30,3 +30,4 @@ one's status becomes `Superseded by ADR-MMMM`. Decisions made in Stage 2 stay in
 | 0021 | [Harden K2 validation guards and document K1 anchor limit](0021-harden-k2-validation-and-k1-anchor-limit.md) | Accepted | 2026-11-25 |
 | 0022 | [Verified Indian key formats (gate G-K5)](0022-verified-indian-key-formats.md) | Accepted | 2026-11-25 |
 | 0023 | [Adjust NFR-2 pure-JS crypto verification budgets](0023-adjust-crypto-nfr2-perf-budgets.md) | Accepted | 2026-11-25 |
+| 0024 | [Enforce approver profile and synced-passkey checks on registry chain](0024-enforce-registry-profile-and-synced-passkey-checks.md) | Accepted | 2026-11-26 |

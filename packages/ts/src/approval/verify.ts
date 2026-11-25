@@ -3,6 +3,7 @@ import type { ErrorCode } from '../errors.js';
 import { DECISION_POLICY, SKEW_SECONDS } from './policies.js';
 import { type RegistryPayload, trustedKeysFromRegistry } from './registry.js';
 import { type ApprovalRequest, matchingCode } from './request.js';
+import { checkApproverSignerPolicy } from './signer-policy.js';
 
 export interface ActionPolicy {
   min_approvals: number;
@@ -65,11 +66,9 @@ function verifyDecision(
     if (approver === undefined || approver.id !== p.approver_id) {
       return { ok: false, error: 'PK_APPROVAL_APPROVER_MISMATCH' };
     }
-    if ((approver.profile === 'webauthn') !== (signer.alg === 'webauthn-ES256')) {
-      return { ok: false, error: 'PK_APPROVAL_PROFILE_ALG_MISMATCH' };
-    }
-    if (signer.flags?.be === true && ctx.registry.allow_synced_passkeys !== true) {
-      return { ok: false, error: 'PK_APPROVAL_SYNCED_KEY_NOT_ALLOWED' };
+    const policyErr = checkApproverSignerPolicy(approver, signer, ctx.registry.allow_synced_passkeys);
+    if (policyErr !== undefined) {
+      return { ok: false, error: policyErr };
     }
   }
 

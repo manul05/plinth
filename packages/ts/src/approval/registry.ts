@@ -9,6 +9,7 @@ import {
 } from '../core/index.js';
 import { type ErrorCode, PlinthError } from '../errors.js';
 import { REGISTRY_POLICY } from './policies.js';
+import { checkApproverSignerPolicy } from './signer-policy.js';
 
 export type ApproverProfile = 'webauthn' | 'android-keystore' | 'windows-tpm';
 
@@ -126,6 +127,23 @@ export function trustedKeysFromRegistry(registry: RegistryPayload): TrustedKey[]
   });
 }
 
+function checkRegistrySigners(
+  governing: RegistryPayload,
+  signers: readonly { kid: Digest; alg: string; flags?: { be: boolean } }[],
+): ErrorCode | undefined {
+  for (const signer of signers) {
+    const approver = governing.approvers.find((a) => a.kid === signer.kid);
+    if (approver === undefined) {
+      return 'PK_APPROVAL_REGISTRY_UNAUTHORISED';
+    }
+    const policyErr = checkApproverSignerPolicy(approver, signer, governing.allow_synced_passkeys);
+    if (policyErr !== undefined) {
+      return policyErr;
+    }
+  }
+  return undefined;
+}
+
 /**
  * Verifies a signed registry evolution chain from genesis up to the latest version. Never throws.
  */
@@ -191,6 +209,10 @@ export function verifyRegistryChain(input: {
         if (!res.valid) {
           return { valid: false, error: res.error, at_version: atVersion };
         }
+        const policyErr = checkRegistrySigners(reg, res.signers);
+        if (policyErr !== undefined) {
+          return { valid: false, error: policyErr, at_version: atVersion };
+        }
       } else {
         const prev = previous as RegistryPayload;
         if (reg.realm !== prev.realm) {
@@ -206,6 +228,10 @@ export function verifyRegistryChain(input: {
         if (!res.valid) {
           const error = res.error === 'PK_SIG_UNKNOWN_KID' ? 'PK_APPROVAL_REGISTRY_UNAUTHORISED' : res.error;
           return { valid: false, error, at_version: atVersion };
+        }
+        const policyErr = checkRegistrySigners(prev, res.signers);
+        if (policyErr !== undefined) {
+          return { valid: false, error: policyErr, at_version: atVersion };
         }
         const threshold = prev.update_threshold ?? 1;
         const distinctApproverIds = new Set<string>();
