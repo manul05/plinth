@@ -20,6 +20,7 @@
     "packs:build": "npm run build && node packages/ts/dist/repo-tools/compile-packs.js",
     "packs:check": "npm run build && node packages/ts/dist/repo-tools/compile-packs.js --check",
     "conformance": "node packages/ts/dist/tools/conformance.js contracts/test-vectors",
+    "snapshot": "npm run build && node packages/ts/dist/repo-tools/snapshot.js",
     "check": "npm run lint && npm run build && npm run typecheck && npm test && npm run packs:check && npm run conformance"
   },
   "devDependencies": {

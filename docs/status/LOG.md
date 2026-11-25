@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Snapshot builder (T-MR-01)
+
+- **Did:** Implemented `buildSnapshot` and CLI in `packages/ts/src/repo-tools/snapshot.ts`, added `"snapshot"` script to `package.json`, added `packages/ts/test/repo-tools/snapshot.test.ts` (3 tests), and marked `T-MR-01` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run check` (`lint` 0 `103` files, `build` 0, `typecheck` 0, `vitest` `405/405` across `44` files, `packs:check` `packs: up to date`, `conformance` `PASS 156/156`) and `npm.cmd run snapshot -- --tag v0.1.0 --allow-dirty` @ `0a41451` + `T-MR-01`.
+- **Decisions:** none (until `T-MR-02` creates `scripts/verify-snapshot.sh`, `buildSnapshot` skips copying it only when `allowDirty` is true and throws if missing when `allowDirty` is false).
+- **Owner:** none.
+- **AI:** TDD red-then-green; `npm pack` needed a temp `--cache` directory inside the sandbox to avoid `EPERM` on the default npm cache.
+- **Next:** `T-MR-02` (`scripts/verify-snapshot.sh` in `docs/plan/MR-release.md`).
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Gate R2 fixes (T-M6-05..08) & M6 close (T-M6-04)
 
 - **Did:** Resolved all Gate R2 findings across `04dcfc0` (`T-M6-05`, R2-01 packed `dist/version.*`), `62392eb` (`T-M6-06`, R2-02 registry `BE`/`profile` checks + `ADR-0024` + `k2-approval.md`), `5fd9845` (`T-M6-07`, R2-04..08 `verifyChain`/`verifyRegistryChain`/`verifyApproval` hardening + R2-07/08 tests), and `2de253e` (`T-M6-08`, R2-09..13 `crv`, `scan()` secret >=32B + `ADR-0025` + `k5-detection.md`, error-detail scrub, `spec`/JSONL bounds, synced docs); closed `T-M6-04` and Milestone M6.

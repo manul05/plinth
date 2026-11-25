@@ -93,7 +93,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M6-06 | Fix R2-02 registry BE/profile checks | M6 | T-M6-05 | S | R2-02, TM-03, TM-13 | done |
 | T-M6-07 | Fix R2-04..08 medium hardening & tests | M6 | T-M6-06 | M | R2-04…08 | done |
 | T-M6-08 | Fix R2-09..13 low hardening & docs | M6 | T-M6-07 | S | R2-09…13 | done |
-| T-MR-01 | Snapshot tool | MR | T-M6-08 | M | AC-20.1, TM-27 | todo |
+| T-MR-01 | Snapshot tool | MR | T-M6-08 | M | AC-20.1, TM-27 | done |
 | T-MR-02 | verify-snapshot.sh | MR | T-MR-01 | S | AC-20.2, TM-27 | todo |
 | T-MR-03 | Vendor tool | MR | T-MR-02 | M | US-20 | todo |
 | T-MR-04 | E2E consumer | MR | T-MR-03 | M | AC-19.1, AC-20.x | todo |
