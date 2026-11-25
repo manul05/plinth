@@ -23,7 +23,7 @@ describe('compilePacks with runTests', () => {
     }
   });
 
-  it('passes all 70 rule tests when compiling rules/ in check mode', () => {
+  it('passes all 73 rule tests when compiling rules/ in check mode', () => {
     const result = compilePacks({
       rulesDir: join(REPO_ROOT, 'rules'),
       packsDir: join(REPO_ROOT, 'packs'),

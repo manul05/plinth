@@ -28,4 +28,9 @@ describe('audit JSON Lines export and parse', () => {
     expectPlinthError(() => parseExport('{"event":{},"hash":1}\n'), 'PK_AUDIT_EVENT_MALFORMED', 'line 1');
     expectPlinthError(() => parseExport('x\n'), 'PK_JSON_SYNTAX', 'line 1');
   });
+
+  it('rejects export lines with unexpected extra top-level keys (R2-12)', () => {
+    const validLine = JSON.stringify({ event: { a: 1 }, hash: `sha256:${'0'.repeat(64)}`, extra: true });
+    expectPlinthError(() => parseExport(`${validLine}\n`), 'PK_AUDIT_EVENT_MALFORMED', 'line 1');
+  });
 });

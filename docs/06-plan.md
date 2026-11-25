@@ -13,8 +13,8 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | M2 K1 Audit | `plan/M2-audit.md` | 19 k1 vectors (2 lint vectors in M5) | MC-6/7 |
 | M3 K2 Approvals | `plan/M3-approvals.md` | 45 k2 vectors + real-authenticator spike | MC-3/4/8/9/10/11 + **review gate R1** |
 | M4 K4 Rule packs | `plan/M4-rulepack.md` | 35 k4 vectors, reproducible packs | `packs:check` in CI |
-| M5 K5 Detection | `plan/M5-detection.md` | 20 k5 + 2 lint vectors, 70 pack tests, budgets, **owner gate G-K5** | MC-12/13/14 |
-| M6 Conformance + package | `plan/M6-package.md` | API lock, `plinth-conformance` PASS 150/150, package | **review gate R2** |
+| M5 K5 Detection | `plan/M5-detection.md` | 20 k5 + 2 lint vectors, 73 pack tests, budgets, **owner gate G-K5** | MC-12/13/14 |
+| M6 Conformance + package | `plan/M6-package.md` | API lock, `plinth-conformance` PASS 156/156, package | **review gate R2** |
 | MR Release | `plan/MR-release.md` | Snapshot, vendoring tools, security review, README, tag, public | **G-merge, G-tag, G-final, G-public** |
 
 **Owner gates (plain English, what Manul does):**
@@ -92,7 +92,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M6-05 | Fix R2-01 packed version files | M6 | T-M6-04 | S | R2-01 | done |
 | T-M6-06 | Fix R2-02 registry BE/profile checks | M6 | T-M6-05 | S | R2-02, TM-03, TM-13 | done |
 | T-M6-07 | Fix R2-04..08 medium hardening & tests | M6 | T-M6-06 | M | R2-04…08 | done |
-| T-M6-08 | Fix R2-09..13 low hardening & docs | M6 | T-M6-07 | S | R2-09…13 | todo |
+| T-M6-08 | Fix R2-09..13 low hardening & docs | M6 | T-M6-07 | S | R2-09…13 | done |
 | T-MR-01 | Snapshot tool | MR | T-M6-08 | M | AC-20.1, TM-27 | todo |
 | T-MR-02 | verify-snapshot.sh | MR | T-MR-01 | S | AC-20.2, TM-27 | todo |
 | T-MR-03 | Vendor tool | MR | T-MR-02 | M | US-20 | todo |
@@ -177,7 +177,7 @@ M0: 01 → 02 → 03 → (04, 06) → 05 → 07 → 08. M1: 01 → 02 → (03 �
 | AC-20.2 | T-MR-02 | `test/repo-tools/verify-snapshot.test.ts` |
 | AC-21.1 | T-M5-08, T-M5-09 | `test/repo-tools/detect-file.test.ts`; gate G-K5 record in LOG |
 
-**Threat mitigations → task → test:** every row TM-01 … TM-35 in `docs/05-threat-model.md` §3 lists its verifying test and task; all 35 map to tasks in §2 above except TM-33 (accepted, documented limit) and TM-09 (accepted residual, tested by the TTL vector in T-M3-04).
+**Threat mitigations → task → test:** every row TM-01 … TM-36 in `docs/05-threat-model.md` §3 lists its verifying test and task; all 36 map to tasks in §2 above except TM-33 (accepted, documented limit) and TM-09 (accepted residual, tested by the TTL vector in T-M3-04).
 
 **NFRs → task → check**
 | NFR | Task | Check |

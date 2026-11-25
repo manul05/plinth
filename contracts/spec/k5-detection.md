@@ -12,7 +12,7 @@
 Redaction applies `experimental` and `stable` rules alike (a false positive only over-redacts). Products show `verified.state` where they display findings.
 
 ## 2. `scan(text, packs, {date, installationSecret?})` — normative
-1. `text.length > 1 000 000` (UTF-16 code units, `MAX_SCAN_INPUT`) → throw `PK_DETECT_INPUT_TOO_LARGE`.
+1. `text.length > 1 000 000` (UTF-16 code units, `MAX_SCAN_INPUT`) → throw `PK_DETECT_INPUT_TOO_LARGE`. If `installationSecret` is supplied, length shorter than 32 bytes → throw `PK_DETECT_SECRET_REQUIRED`.
 2. Rules = for each pack in the given order, `activeRules(pack, date)` (K4 §4), tagged with the pack kind.
 3. For each rule in that order:
    - **Hidden characters** (`class: "hidden_char"`): walk the text by code point (`codePointAt`, astral = 2 code units). A maximal run of consecutive code points that all fall in any `[start, end]` range of the rule is **one** finding: `start`/`end` = UTF-16 offsets of the run (end exclusive), `masked_preview` = the distinct code points in first-seen order written `U+XXXX` (upper-case hex, at least 4 digits) joined by `,`.

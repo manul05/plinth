@@ -116,4 +116,15 @@ describe('redact security properties', () => {
       expect((err as PlinthError).code).toBe('PK_DETECT_UNKNOWN_VALIDATOR');
     }
   });
+
+  it('scan rejects an installationSecret shorter than 32 bytes when supplied (R2-10)', () => {
+    const packs = [loadPack(BUILTIN_PACKS['pk.secrets.global'])];
+    try {
+      scan('hello', packs, { date: '2026-11-01', installationSecret: new Uint8Array(31) });
+      expect.unreachable('Expected PlinthError(PK_DETECT_SECRET_REQUIRED)');
+    } catch (err) {
+      expect(err).toBeInstanceOf(PlinthError);
+      expect((err as PlinthError).code).toBe('PK_DETECT_SECRET_REQUIRED');
+    }
+  });
 });

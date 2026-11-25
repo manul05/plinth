@@ -24,7 +24,7 @@ Never put absolute local paths (`F:\...`, `C:\Users\...`) in any doc: the repo m
 | – | `decisions/` | ADRs 0001–0014; index in `decisions/README.md` | live |
 | – | `status/STATUS.md`, `status/LOG.md`, `status/archive/` | Handoff and history | live |
 | – | `../contracts/` | Specs, API, schemas, errors, golden vectors (source of truth) | done (Stage 3) |
-| – | `../rules/` | Rule-pack YAML sources (4 packs, 35 rules, 70 tests) | done (Stage 3) |
+| – | `../rules/` | Rule-pack YAML sources (4 packs, 38 rules, 73 tests) | done (Stage 3) |
 
 Programme-wide context (portfolio rules, shared packs) lives in the portfolio index repo `portfolio`.
 Everything Plinth needs from there has been copied into this repo.

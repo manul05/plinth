@@ -31,6 +31,7 @@ export function parseExport(text: string): ExportLine[] {
     }
     const obj = parsed as Record<string, unknown>;
     if (
+      Object.keys(obj).length !== 2 ||
       typeof obj.event !== 'object' ||
       obj.event === null ||
       Array.isArray(obj.event) ||

@@ -54,4 +54,10 @@ describe('audit event and appendEvent', () => {
     expectPlinthError(() => appendEvent(null, { ...DRAFT, action: 'Passdown.X' }), 'PK_AUDIT_EVENT_MALFORMED');
     expectPlinthError(() => appendEvent(null, { ...DRAFT, data: { x: 1.5 } }), 'PK_JCS_NON_INTEGER');
   });
+
+  it('prevents draft from overriding spec with an arbitrary string (R2-12)', () => {
+    const spoofed = { ...DRAFT, spec: 'pk-audit/9.9' } as unknown as EventDraft;
+    const first = appendEvent(null, spoofed);
+    expect(first.event.spec).toBe('pk-audit/1.0');
+  });
 });

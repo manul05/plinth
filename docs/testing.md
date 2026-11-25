@@ -25,8 +25,8 @@
 | `npm test` | `vitest run` (main config) | `Test Files  N passed`, exit 0 |
 | `npm run test:perf` | `vitest run --config vitest.perf.config.ts` | all perf tests pass |
 | `npm run build` | `tsc -p packages/ts/tsconfig.json` → `packages/ts/dist/` | exit 0 |
-| `npm run packs:build` / `npm run packs:check` | compile packs / check no drift | `packs: 4 compiled, 35 rules, 70 tests passed` / `packs: up to date` |
-| `npm run conformance` | `node packages/ts/dist/tools/conformance.js contracts/test-vectors` (after build) | `PASS 150/150` |
+| `npm run packs:build` / `npm run packs:check` | compile packs / check no drift | `packs: 4 compiled, 38 rules, 73 tests passed` / `packs: up to date` |
+| `npm run conformance` | `node packages/ts/dist/tools/conformance.js contracts/test-vectors` (after build) | `PASS 156/156` |
 | `npm run check` | typecheck + lint + test + build + packs:check + conformance (full local check before a PR) | every step exit 0 |
 
 ## 3. Fixtures and the real-data plan
@@ -44,7 +44,7 @@
 | E2E-2 Passkey approval round trip | build request → challenge → (synthetic) assertion → decision → `verifyAndConsume` valid → again → replayed | AC-5.1, AC-9.1, AC-11.1, AC-11.3 |
 | E2E-3 Audit lifecycle | append 5 → checkpoint → export/parse → verify → prune → verify | AC-6.1, AC-7.1, AC-8.1, AC-8.2 |
 | E2E-4 Redact a handoff | load 4 builtin packs → redact mixed text → placeholders, counts | AC-15.1, AC-17.1–17.3 |
-| E2E-5 Consumer vendoring | snapshot → vendor into temp consumer → `npm install` tarball → `import { digest } from 'plinth-kit/core'` works → `verify-snapshot.sh` OK → conformance PASS 150/150 | AC-19.1, AC-20.1, AC-20.2 |
+| E2E-5 Consumer vendoring | snapshot → vendor into temp consumer → `npm install` tarball → `import { digest } from 'plinth-kit/core'` works → `verify-snapshot.sh` OK → conformance PASS 156/156 | AC-19.1, AC-20.1, AC-20.2 |
 E2E-1…4 live in `test/e2e/library.test.ts` (T-M6-04); E2E-5 in `test/repo-tools/e2e-consumer.test.ts` (T-MR-04).
 
 ## 5. Security tests → threats
@@ -92,7 +92,7 @@ Record the result (date, model, findings count by severity, decision) in `docs/s
 
 ## 10. Demo video script (≤ 3 minutes, owner records; real commands, synthetic data)
 1. (0:00–0:20) "Plinth is the shared trust layer under my portfolio: one set of rules for hashing, signing, audit logs, approvals and redaction, proven by 177 golden test files." Show `contracts/test-vectors/` tree.
-2. (0:20–0:50) Terminal: `npm run conformance` → `PASS 150/150`. Edit a copy of one vector's expected digest → `FAIL k0-jcs-sort-basic …`.
+2. (0:20–0:50) Terminal: `npm run conformance` → `PASS 156/156`. Edit a copy of one vector's expected digest → `FAIL k0-jcs-sort-basic …`.
 3. (0:50–1:30) Redaction: run `node packages/ts/dist/repo-tools/detect-file.js demo/handoff.txt` on a synthetic handoff containing a split-joined GitHub token, an Aadhaar-like number and a zero-width character → show masked lines; then show `redact` output with `[REDACTED:github_pat:…6591]` and `[REDACTED:aadhaar]` (no fingerprint).
 4. (1:30–2:20) Approvals: open the spike page, approve with Windows Hello (fingerprint), show `valid: true`; replay → `PK_APPROVAL_REPLAYED`; change the commit SHA → `PK_APPROVAL_SUBJECT_MISMATCH`.
 5. (2:20–2:50) Audit: edit one event in an export → `PK_AUDIT_HASH_MISMATCH at 2`.

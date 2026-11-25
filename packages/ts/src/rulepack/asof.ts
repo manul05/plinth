@@ -37,7 +37,7 @@ export function selectAsOf<R extends RuleWindow>(rules: readonly R[], ruleId: st
  */
 export function localDate(ts: string, tz: string): string {
   if (tz !== 'Asia/Kolkata' && tz !== 'UTC') {
-    throw new PlinthError('PK_RULEPACK_TZ_UNSUPPORTED', tz);
+    throw new PlinthError('PK_RULEPACK_TZ_UNSUPPORTED', 'tz');
   }
   if (!isTimestamp(ts)) {
     throw new PlinthError('PK_ENCODING_INVALID', 'ts');

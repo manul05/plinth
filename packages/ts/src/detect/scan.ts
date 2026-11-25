@@ -106,7 +106,7 @@ function validatePii(value: string, body: PiiBody): boolean {
   if (body.validator === 'upi_handle') {
     return upiHandleValid(value, body.handles ?? []);
   }
-  throw new PlinthError('PK_DETECT_UNKNOWN_VALIDATOR', String(body.validator));
+  throw new PlinthError('PK_DETECT_UNKNOWN_VALIDATOR', 'validator');
 }
 
 function scanPiiRule(text: string, rule: Rule, body: PiiBody): Finding[] {
@@ -236,6 +236,12 @@ export function scan(
 ): Finding[] {
   if (text.length > MAX_SCAN_INPUT) {
     throw new PlinthError('PK_DETECT_INPUT_TOO_LARGE');
+  }
+  if (
+    opts.installationSecret !== undefined &&
+    (!(opts.installationSecret instanceof Uint8Array) || opts.installationSecret.length < 32)
+  ) {
+    throw new PlinthError('PK_DETECT_SECRET_REQUIRED');
   }
 
   const taggedRules = packs.flatMap((pack) =>

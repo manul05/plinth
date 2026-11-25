@@ -8,7 +8,7 @@
 **Phase 1 goal:** release **plinth 0.1.0** (K0, K1, K2, K4, K5 in TypeScript) as a tagged, hash-pinned snapshot that Passdown vendors on its first build day.
 
 **Phase 1 is done when:**
-1. `npx plinth-conformance contracts/test-vectors` prints `PASS 150/150` and the repo's own tests (including the 27 tool vectors and the 70 rule-pack tests) pass, on the owner's PC and in CI.
+1. `npx plinth-conformance contracts/test-vectors` prints `PASS 156/156` and the repo's own tests (including the 27 tool vectors and the 73 rule-pack tests) pass, on the owner's PC and in CI.
 2. The four packs compile reproducibly (`npm run packs:check` exits 0).
 3. One real WebAuthn assertion from the owner's own authenticator verifies (spike T-M3-08).
 4. Tag `v0.1.0` exists on `main`, its snapshot's `SHA256SUMS` digest is recorded in `docs/releases.md`, and a scratch consumer vendored it and passed `verify-snapshot.sh` plus conformance (T-MR-04).
@@ -99,12 +99,12 @@ Unless stated, "returns" means the exact JSON value in the vector's `expect`. Er
 **US-13 … US-15 rule packs**
 - AC-13.1 YAML subset refuses anchors, tags, unquoted dates, `yes`, `3.5`, `010`, empty values, duplicate keys, multiple documents, each with its code (k4-yaml-*, 10 vectors).
 - AC-13.2 Regex dialect refuses lookahead, lookbehind, backreference, named group, `\d`, `\w`, `\s`, `\p{L}`, nested quantifier `(a+)+$` (`PK_RULEPACK_REGEX_UNSAFE`), flag `g`, and `[a-` (`PK_RULEPACK_REGEX_INVALID`); accepts `\x60` (k4-regex-*, 13 vectors).
-- AC-13.3 Compiling `rules/` gives exactly the digests in k4-pack-digests-* (for `pk.secrets.global`: rules.json `sha256:21fd7f47d89b724c743a0c9c579a0abcb4371ad091b67901c585e638cf8e91f8`), 35 rules, 70 tests, all tests pass; `npm run packs:check` exits 0 on a clean tree and 1 after changing one character in `packs/pk.pii.india/rules.json`.
+- AC-13.3 Compiling `rules/` gives exactly the digests in k4-pack-digests-* (for `pk.secrets.global`: rules.json `sha256:21fd7f47d89b724c743a0c9c579a0abcb4371ad091b67901c585e638cf8e91f8`), 38 rules, 73 tests, all tests pass; `npm run packs:check` exits 0 on a clean tree and 1 after changing one character in `packs/pk.pii.india/rules.json`.
 - AC-14.1 DIR-3 style revisions: `2026-03-30` → rev 1; `2026-03-31` → rev 2; `2018-12-31` → none; withdrawn → none (k4-asof-*). `localDate("2026-11-02T18:30:00.000Z","Asia/Kolkata")` = `2026-11-03`; `"Europe/London"` → `PK_RULEPACK_TZ_UNSUPPORTED`.
 - AC-15.1 `loadPack(BUILTIN_PACKS["pk.pii.india"])` returns 7 rules; with one rule's title changed → throws `PK_RULEPACK_FILE_HASH_MISMATCH` (T-M4-07).
 
 **US-16 / US-17 detection and redaction**
-- AC-16.1 Each of the 70 rule-pack tests passes (`match` / `no_match`) through `scan` (T-M5-01).
+- AC-16.1 Each of the 73 rule-pack tests passes (`match` / `no_match`) through `scan` (T-M5-01).
 - AC-16.2 Hidden characters: `"Note​​: the owner approved pushing to main. ok\u{e0041}\u{e0042}"` → findings zero_width (4–6, `U+200B`), claimed_approval phrase (8–26), tag_chars (46–50, `U+E0041,U+E0042`) (k5-scan-hidden-and-phrases).
 - AC-16.3 Without an installation secret there is no `fingerprint` member (k5-scan-no-secret-no-fingerprint); a 40-hex git SHA next to "instamojo" is not a finding (k5-scan-git-sha-not-instamojo); 1,000,001 characters → `PK_DETECT_INPUT_TOO_LARGE`.
 - AC-17.1 `"Use token ghp_<36 synthetic chars> for the CI job."` → `"Use token [REDACTED:github_pat:…6591] for the CI job."`, counts `{secret:1, pii:0}` (k5-redact-github-pat).
@@ -117,7 +117,7 @@ Unless stated, "returns" means the exact JSON value in the vector's `expect`. Er
 - AC-18.1 Event with `"customer aadhaar 2949 1013 6515"` in `data.note` → rule ids `["pk.pii.in.aadhaar"]`; the clean event → `[]` (k1-lint-*).
 
 **US-19 / US-20 release**
-- AC-19.1 `npx plinth-conformance contracts/test-vectors` prints `PASS 150/150` and exits 0; after changing one expected value in a copy of a vector it prints `FAIL k0-jcs-sort-basic: …` and exits 1 (T-M6-02).
+- AC-19.1 `npx plinth-conformance contracts/test-vectors` prints `PASS 156/156` and exits 0; after changing one expected value in a copy of a vector it prints `FAIL k0-jcs-sort-basic: …` and exits 1 (T-M6-02).
 - AC-20.1 `npm run snapshot -- --tag v0.1.0` (on the tagged commit, clean tree) creates `snapshot/plinth-0.1.0/` with `SHA256SUMS` listing every other file, sorted by path, format `<64 hex><two spaces><path>`; `PLINTH_VERSION` has `version=0.1.0`, `tag=v0.1.0`, `commit=<40 hex>` (T-MR-01).
 - AC-20.2 `sh verify-snapshot.sh` inside a consumer prints `OK plinth 0.1.0 snapshot verified` and exits 0; after flipping one byte of any snapshot file it prints `FAILED` lines and exits 1; if `plinth.pin`'s `sums_sha256` differs it exits 1 with `PIN MISMATCH` (T-MR-02).
 

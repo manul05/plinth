@@ -192,9 +192,11 @@ export function verifyEnvelope(
         return { valid: false, error: 'PK_SIG_UNKNOWN_KID' };
       }
 
-      // 6(f): key type matches alg
+      // 6(f): key type and curve match alg
       const kty = trustedKey.jwk?.kty;
-      if (alg === 'Ed25519' ? kty !== 'OKP' : kty !== 'EC') {
+      const crv = trustedKey.jwk?.crv;
+      const matchesAlg = alg === 'Ed25519' ? kty === 'OKP' && crv === 'Ed25519' : kty === 'EC' && crv === 'P-256';
+      if (!matchesAlg) {
         return { valid: false, error: 'PK_SIG_KEY_ALG_MISMATCH' };
       }
 

@@ -35,7 +35,7 @@ Paths below are relative. `<plinth>` = the local Plinth clone, `<passdown>` = th
    - run: sh vendor/plinth/verify-snapshot.sh
    - run: npx plinth-conformance vendor/plinth/contracts/test-vectors
    ```
-   Expected: `OK plinth 0.1.0 …` and `PASS 150/150`.
+   Expected: `OK plinth 0.1.0 …` and `PASS 156/156`.
 8. Add a Passdown test that fails if any kid in its approver registry or trust list is a test kid: `import { isTestKid } from 'plinth-kit/core'`.
 9. Add one line to Passdown's `AGENTS.md` project notes: `Never edit vendor/plinth/ or plinth.pin by hand; Plinth changes are made in the Plinth repo first and arrive by re-vendoring a new tag.`
 10. Passdown ADR: "Use Plinth 0.1.0", quoting `commit`, `sums_sha256` and `tarball_sha256` from `plinth.pin`.

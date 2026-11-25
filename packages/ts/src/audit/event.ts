@@ -85,7 +85,7 @@ export function appendEvent(
     prev = previous.hash;
   }
 
-  const event: AuditEvent = { spec: 'pk-audit/1.0', ...draft, seq, prev };
+  const event: AuditEvent = { ...draft, spec: 'pk-audit/1.0', seq, prev };
   assertEventShape(event);
 
   if (event.action.startsWith('pk.') && !opts.allowReserved) {

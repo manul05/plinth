@@ -31,3 +31,4 @@ one's status becomes `Superseded by ADR-MMMM`. Decisions made in Stage 2 stay in
 | 0022 | [Verified Indian key formats (gate G-K5)](0022-verified-indian-key-formats.md) | Accepted | 2026-11-25 |
 | 0023 | [Adjust NFR-2 pure-JS crypto verification budgets](0023-adjust-crypto-nfr2-perf-budgets.md) | Accepted | 2026-11-25 |
 | 0024 | [Enforce approver profile and synced-passkey checks on registry chain](0024-enforce-registry-profile-and-synced-passkey-checks.md) | Accepted | 2026-11-26 |
+| 0025 | [Reject short optional installationSecret in scan()](0025-validate-optional-scan-secret-length.md) | Accepted | 2026-11-26 |

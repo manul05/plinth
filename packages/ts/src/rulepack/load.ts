@@ -107,10 +107,10 @@ export function loadPack(pack: CompiledPack): LoadedPack {
     rules.spec !== SUPPORTED_SPEC ||
     tests.spec !== SUPPORTED_SPEC
   ) {
-    throw new PlinthError('PK_SPEC_UNSUPPORTED', manifest.spec);
+    throw new PlinthError('PK_SPEC_UNSUPPORTED', 'spec');
   }
   if (!SUPPORTED_KINDS.has(manifest.kind)) {
-    throw new PlinthError('PK_RULEPACK_KIND_UNSUPPORTED', manifest.kind);
+    throw new PlinthError('PK_RULEPACK_KIND_UNSUPPORTED', 'manifest.kind');
   }
   const rulesEntry = manifest.files.find((file) => file.path === 'rules.json');
   if (rulesEntry === undefined || digest(rules) !== rulesEntry.sha256) {
