@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { MAX_DEPTH, PlinthError, parseJson } from '../../src/index.js';
+import { MAX_DEPTH } from '../../src/core/json.js';
+import { PlinthError, parseJson } from '../../src/index.js';
 
 function expectJsonError(text: string, expectedCode: string): void {
   try {

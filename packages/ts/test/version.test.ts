@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { PLINTH_VERSION } from '../src/index.js';
+import { PLINTH_VERSION } from '../src/version.js';
 
 describe('version', () => {
   it('PLINTH_VERSION matches package.json', () => {

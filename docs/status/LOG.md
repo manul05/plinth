@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Lock public API to contract (T-M6-01)
+
+- **Did:** Moved `PLINTH_VERSION` into `packages/ts/src/version.ts`, re-exported `errors.js`, `version.js`, and explicit `json.js` members (removing internal `MAX_DEPTH` from `core/index.ts`), added `packs/index.js` to `src/index.ts`, created `packages/ts/test/api-conformance.test.ts`, and marked `T-M6-01` `done`.
+- **Verified:** `npm.cmd run lint` (96 files), `npm.cmd run typecheck` (0), `npm.cmd test -- api-conformance version json` (`7/7` across `4` files) @ `5635015` + T-M6-01.
+- **Decisions:** None.
+- **Owner:** `"continue"` (2026-11-25).
+- **Next:** `T-M6-02` (`packages/ts/src/tools/conformance.ts`: `plinth-conformance` CLI).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Close M5 with mutation checks (T-M5-11)
 
 - **Did:** Ran mutation checks MC-12 (`redact.ts` PII fingerprint → `k5-redact-aadhaar-no-fingerprint` failed), MC-13 (`scan.ts` drop pairing → exposed gap in existing tests because `tests.yaml` lacked `rzp_`, added `enforces pair_with proximity` unit test in `k5-vectors.test.ts` which failed on mutation and passed restored), MC-14 (`load.ts` skip rules digest → `load.test.ts` failed); added `DNB-004` to `docs/do-not-break.md`; marked `T-M5-11` `done` (closing M5).
