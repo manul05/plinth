@@ -19,6 +19,15 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · UUIDv7, nonces and timestamp helpers (T-M1-10)
+
+- **Done:** Implemented `newUuidV7`, `newNonce`, `isTimestamp`, and `timestampFromMs` in `packages/ts/src/core/ids.ts`, with unit tests in `packages/ts/test/core/ids.test.ts` failing `3/3` before implementation. Marked `T-M1-10` `done` in `docs/06-plan.md`.
+- **Checks:** `ids` `3/3`, `portability` `5/5`, `typecheck` `0`, `lint` `0`, `build` `0` (verified cleanly after final code edit).
+- **Decisions:** None.
+- **Next:** `T-M1-11` (M1 close: mutation checks MC-1, MC-2, MC-5, `DNB-002` in `docs/do-not-break.md`, full `npm.cmd run check`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · WebAuthn-ES256 signature entries (T-M1-09)
 - Did: implemented `verifyWebauthnSignature` and `signatureFromAssertion` in `packages/ts/src/core/webauthn.ts`; created `packages/ts/test/core/webauthn.test.ts`; marked T-M1-09 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
 - Verified: red `webauthn.test.ts` failed `11/11`; then `webauthn` `11/11`, `k0` `56/56`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 38 files`), `build` 0 @ `fbfe196` + T-M1-09
