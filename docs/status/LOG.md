@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Single-use approvals with atomic store (T-M3-06)
+
+- **Did:** Implemented `MemoryConsumedIdStore` and `verifyAndConsume` in `packages/ts/src/approval/store.ts`; created `packages/ts/test/approval/store.test.ts` (failing `3/3` red first); marked `T-M3-06` `done` in `docs/06-plan.md`.
+- **Verified:** `store` `3/3`, `portability` `5/5`, `lint` `Checked 61 files` (0), `typecheck` 0, `build` 0 @ `c129d23` + T-M3-06.
+- **Decisions:** None.
+- **Owner:** `"execute T-M3-02 to T-M3-09 one by one"` (2026-11-25).
+- **AI:** Clean TDD pass including concurrent `Promise.all` single-admission check.
+- **Next:** `T-M3-07` (`packages/ts/src/approval/breakglass.ts`: `newBreakGlassCode`, `breakGlassDigest`, `verifyBreakGlass`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Verify signed decisions and distinct approvers (T-M3-05)
 
 - **Did:** Implemented `verifyApproval` steps 12–15 (`verifyDecision`) in `packages/ts/src/approval/verify.ts`; created `packages/ts/test/approval/verify.test.ts` (red `verifyApproval` vector test first); marked `T-M3-05` `done` in `docs/06-plan.md`.
