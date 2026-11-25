@@ -2,8 +2,17 @@ import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { canonicalize, digest } from '../core/index.js';
+import { scan } from '../detect/index.js';
 import { PlinthError } from '../errors.js';
-import type { CompiledPack, PackKind, PackManifest, Rule, RulesFile, TestsFile } from '../rulepack/index.js';
+import {
+  type CompiledPack,
+  loadPack,
+  type PackKind,
+  type PackManifest,
+  type Rule,
+  type RulesFile,
+  type TestsFile,
+} from '../rulepack/index.js';
 import { lintRegex } from './regex-lint.js';
 import { validateAgainst } from './schema.js';
 import { yamlToValue } from './yaml-subset.js';
@@ -111,7 +120,25 @@ function checkRuleBodiesAndTests(rules: readonly Rule[], tests: TestsFile['tests
   }
 }
 
-function compileOnePack(rulesDir: string, packDirName: string): CompiledOutput {
+function runPackTests(compiled: CompiledPack): void {
+  const loaded = loadPack(compiled);
+  for (const [index, testCase] of compiled.tests.tests.entries()) {
+    const rule =
+      compiled.rules.rules.find((r) => r.id === testCase.rule_id && r.status !== 'withdrawn') ??
+      compiled.rules.rules.find((r) => r.id === testCase.rule_id);
+    if (rule === undefined) {
+      throw new PlinthError('PK_RULEPACK_TEST_FAILED', `${testCase.rule_id} #${index}`);
+    }
+    const text = testCase.input_parts.join('');
+    const findings = scan(text, [loaded], { date: rule.effective_from });
+    const matched = findings.some((f) => f.rule_id === testCase.rule_id);
+    if (matched !== (testCase.expect === 'match')) {
+      throw new PlinthError('PK_RULEPACK_TEST_FAILED', `${testCase.rule_id} #${index}`);
+    }
+  }
+}
+
+function compileOnePack(rulesDir: string, packDirName: string, runTests: boolean): CompiledOutput {
   const dir = join(rulesDir, packDirName);
   const packRel = `${packDirName}/pack.yaml`;
   const rulesRel = `${packDirName}/rules.yaml`;
@@ -173,6 +200,10 @@ function compileOnePack(rulesDir: string, packDirName: string): CompiledOutput {
     tests: testsFile,
   };
 
+  if (runTests) {
+    runPackTests(compiled);
+  }
+
   return {
     id: packSrc.id,
     compiled,
@@ -211,16 +242,12 @@ export function compilePacks(opts: {
   check: boolean;
   runTests: boolean;
 }): { packs: number; rules: number; tests: number; differing: string[] } {
-  if (opts.runTests) {
-    throw new Error('not implemented');
-  }
-
   const packDirs = readdirSync(opts.rulesDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
     .sort(compareAscii);
 
-  const outputs = packDirs.map((dir) => compileOnePack(opts.rulesDir, dir));
+  const outputs = packDirs.map((dir) => compileOnePack(opts.rulesDir, dir, opts.runTests));
   const builtinContent = buildBuiltinTs(outputs);
   const differing: string[] = [];
 
@@ -273,7 +300,7 @@ function runCli(): void {
     packsDir: join(repoRoot, 'packs'),
     builtinPath: join(repoRoot, 'packages', 'ts', 'src', 'packs', 'builtin.ts'),
     check,
-    runTests: false,
+    runTests: true,
   });
 
   if (check) {

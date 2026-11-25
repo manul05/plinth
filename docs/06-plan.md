@@ -79,7 +79,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M5-03 | Regex scanning | M5 | T-M5-02 | M | AC-16.1, AC-16.3, TM-19, TM-22 | done |
 | T-M5-04 | Hidden-character runs | M5 | T-M5-03 | S | AC-16.2, TM-24 | done |
 | T-M5-05 | Redaction | M5 | T-M5-04 | M | AC-17.1–17.5, TM-19, TM-20, TM-21, NFR-6 | done |
-| T-M5-06 | Compiler runs pack tests | M5 | T-M5-05 | S | AC-13.3 | todo |
+| T-M5-06 | Compiler runs pack tests | M5 | T-M5-05 | S | AC-13.3 | done |
 | T-M5-07 | lintPersonalData | M5 | T-M5-05 | S | AC-18.1, TM-18 | todo |
 | T-M5-08 | detect-file tool | M5 | T-M5-05 | S | AC-21.1, NFR-6, TM-19 | todo |
 | T-M5-09 | Owner gate G-K5 | M5 | T-M5-08 | S | AC-21.1, TM-22 | todo |

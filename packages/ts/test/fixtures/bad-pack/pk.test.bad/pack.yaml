@@ -1,0 +1,16 @@
+spec: 'pk-rulepack/1.0'
+id: 'pk.test.bad'
+kind: 'pii-detection'
+version: '1.0.0'
+released_at: '2026-10-31T00:00:00.000Z'
+tz: 'Asia/Kolkata'
+licence: 'MIT'
+attribution: []
+sources:
+  - id: 'india-pii-structures'
+    title: 'Shared India compliance pack v0.1 and platform-kit design section 3.6'
+    publisher: 'Plinth portfolio programme (own research)'
+    url: 'https://uidai.gov.in/'
+    retrieved_at: '2026-10-28'
+    doc_version: 'india-compliance-pack.md v0.1'
+min_engine: 'pk-rulepack/1.0'
