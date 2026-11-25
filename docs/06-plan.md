@@ -50,7 +50,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M1-11 | M1 close, MC-1/2/5 | M1 | T-M1-09, T-M1-10 | S | NFR-11 | done |
 | T-M2-01 | Red skeleton k1 | M2 | T-M1-11 | S | AC-6.1, AC-7.x, AC-8.1 harness | done |
 | T-M2-02 | eventHash, appendEvent | M2 | T-M2-01 | M | AC-6.1, AC-6.2 | done |
-| T-M2-03 | JSON Lines export/parse | M2 | T-M2-02 | S | AC-8.2 | todo |
+| T-M2-03 | JSON Lines export/parse | M2 | T-M2-02 | S | AC-8.2 | done |
 | T-M2-04 | Checkpoints, prune marker | M2 | T-M2-02 | S | AC-7.1, AC-8.1, TM-17 | todo |
 | T-M2-05 | verifyChain | M2 | T-M2-04 | M | AC-7.1, AC-7.2, AC-8.1, TM-15, TM-16, TM-17, TM-35, NFR-5 | todo |
 | T-M2-06 | M2 close, MC-6/7 | M2 | T-M2-03, T-M2-05 | S | NFR-11 | todo |
