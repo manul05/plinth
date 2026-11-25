@@ -19,6 +19,15 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · M2 close & mutation checks (T-M2-06)
+
+- **Done:** Closed M2 K1 Audit Log. Marked `T-M2-06` `done` in `docs/06-plan.md`.
+- **Mutations (`npm.cmd test -- k1`):** MC-6 (`verify.ts` B.6 prev-link skipped) failed `k1-chain-tamper-edit-rehash` and `k1-chain-bad-genesis-prev` (`2 failed | 17 passed`); MC-7 (`verify.ts` C.4 checkpoint `head` check skipped) failed `k1-chain-tamper-full-rewrite` (`1 failed | 18 passed`). Both restored cleanly.
+- **Checks:** `npm.cmd run check` passed cleanly after restoration (`lint` 49 files, `typecheck` 0, `vitest` `22 files / 143 tests`, `build` 0).
+- **Next:** `T-M3-01` (M3 K2 Approvals: red skeleton k2).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Fail-closed chain verification (T-M2-05)
 
 - **Done:** Implemented `verifyChain` (normative steps A–E, never throws) in `packages/ts/src/audit/verify.ts` and added unit tests in `packages/ts/test/audit/verify.test.ts` (red `2/2` before implementation). Marked `T-M2-05` `done` in `docs/06-plan.md`.

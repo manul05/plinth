@@ -53,7 +53,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M2-03 | JSON Lines export/parse | M2 | T-M2-02 | S | AC-8.2 | done |
 | T-M2-04 | Checkpoints, prune marker | M2 | T-M2-02 | S | AC-7.1, AC-8.1, TM-17 | done |
 | T-M2-05 | verifyChain | M2 | T-M2-04 | M | AC-7.1, AC-7.2, AC-8.1, TM-15, TM-16, TM-17, TM-35, NFR-5 | done |
-| T-M2-06 | M2 close, MC-6/7 | M2 | T-M2-03, T-M2-05 | S | NFR-11 | todo |
+| T-M2-06 | M2 close, MC-6/7 | M2 | T-M2-03, T-M2-05 | S | NFR-11 | done |
 | T-M3-01 | Red skeleton k2 | M3 | T-M2-06 | S | AC-9.x–12.x harness | todo |
 | T-M3-02 | Requests, matching code, decision payload | M3 | T-M3-01 | S | AC-9.1, AC-9.2, TM-12 | todo |
 | T-M3-03 | Registry chain | M3 | T-M3-02 | M | AC-10.1, TM-10, TM-11, TM-35 | todo |
