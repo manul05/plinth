@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Performance and ReDoS budgets (T-M5-10)
+
+- **Did:** Created `packages/ts/test/perf/budgets.perf.ts` (6 tests), stopped on `verifyEnvelope` (`5.450 ms`) & `verifyApproval` (`38.510 ms` loaded), wrote `ADR-0023` raising NFR-2 crypto budgets to `<= 25 ms` / `<= 50 ms` in `docs/03-spec.md`, `docs/plan/M5-detection.md`, and `budgets.perf.ts`, and marked `T-M5-10` `done`.
+- **Verified:** `npm.cmd run lint` (94 files), `npm.cmd run typecheck`, `npm.cmd run test:perf` (`6/6`: 10KB `1.199 ms`, Ed25519 `8.143 ms`, WebAuthn `20.005 ms`, 10k chain `672.38 ms`, 100KB scan `44.496 ms`, ReDoS max `14.434 ms`) @ `0ebf3fa` + T-M5-10.
+- **Decisions:** `ADR-0023`.
+- **Owner:** `"option 1"` (2026-11-25).
+- **Next:** `T-M5-11` (mutation checks MC-12..14, `DNB-004`, close M5).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Gate G-K5 verified Indian key formats (T-M5-09)
 
 - **Did:** Recorded gate G-K5: Razorpay (`rzp_test_` 23c, secret 24c) matched; Cashfree missed `TEST`+36-hex (40c, entropy < 4.0) and `cfsk_ma_test_`+32+8 hex (54c). Per owner `"b1"`, added `rev: 2` (`stable`/`verified`) for those 3 rules + 3 synthetic tests in `rules/pk.secrets.india/`, rebuilt `packs/` + `builtin.ts`, updated `k4-pack-digests-pk-secrets-india.json` + `index.json`, wrote `ADR-0022`, and marked `T-M5-09` `done`.

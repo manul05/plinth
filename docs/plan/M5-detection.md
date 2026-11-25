@@ -118,8 +118,8 @@ Files: `packages/ts/src/detect/`, tests `packages/ts/test/detect/`.
 - **Create:** `packages/ts/test/perf/budgets.perf.ts`, `packages/ts/test/fixtures/perf-10kb.json` (generated in the test's `beforeAll` instead if you prefer: an object with 200 members `k000`…`k199`, each the string `'v'.repeat(40)` → about 10 KB; write it in the test, do not commit a file)
 - **Tests (write first):** measure with `performance.now()`; median of 50 runs unless stated:
   - canonicalize+digest of the 10 KB object ≤ 5 ms;
-  - `verifyEnvelope` of `k0-env-valid-ed25519` ≤ 5 ms;
-  - `verifyApproval` of `k2-approval-valid-webauthn` ≤ 20 ms;
+  - `verifyEnvelope` of `k0-env-valid-ed25519` ≤ 25 ms (ADR-0023);
+  - `verifyApproval` of `k2-approval-valid-webauthn` ≤ 50 ms (ADR-0023);
   - `verifyChain` of 10,000 events built with `appendEvent` + one checkpoint at the end (single run) ≤ 3,000 ms;
   - `scan` of 100 KB text (the `k5-redact-mixed` text repeated to ≥ 100,000 characters) with all 4 packs ≤ 200 ms;
   - › `no rule exceeds 100 ms on adversarial input`: for each active rule alone (a pack copy holding only that rule, same digests recomputed is not needed: call the internal `scanRules(text, [rule], kind, opts)` if you exported one, otherwise build a `LoadedPack` object directly `{manifest, rules:[rule]}`) on `'a'.repeat(50000)`, `'0'.repeat(50000)`, `'-----BEGIN '.repeat(4545)` → each ≤ 100 ms.

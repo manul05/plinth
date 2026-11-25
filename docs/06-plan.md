@@ -83,7 +83,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M5-07 | lintPersonalData | M5 | T-M5-05 | S | AC-18.1, TM-18 | done |
 | T-M5-08 | detect-file tool | M5 | T-M5-05 | S | AC-21.1, NFR-6, TM-19 | done |
 | T-M5-09 | Owner gate G-K5 | M5 | T-M5-08 | S | AC-21.1, TM-22 | done |
-| T-M5-10 | Performance and ReDoS budgets | M5 | T-M5-05, T-M3-07, T-M2-05 | S | NFR-2, NFR-3, TM-23 | todo |
+| T-M5-10 | Performance and ReDoS budgets | M5 | T-M5-05, T-M3-07, T-M2-05 | S | NFR-2, NFR-3, TM-23 | done |
 | T-M5-11 | M5 close, MC-12/13/14 | M5 | T-M5-06, T-M5-07, T-M5-09, T-M5-10 | S | NFR-11 | todo |
 | T-M6-01 | API conformance | M6 | T-M5-11 | S | API surface | todo |
 | T-M6-02 | plinth-conformance CLI | M6 | T-M6-01 | M | AC-19.1, NFR-10 | todo |
