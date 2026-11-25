@@ -4,22 +4,22 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-25 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), **M5 K5 Detection in progress** (`T-M5-01`..`T-M5-03` done)
-- **Branch / HEAD:** `development` at `a978c14` + T-M5-03 (`origin/main` at `650cc02`)
-- **Uncommitted or unapplied work:** none after T-M5-03 commit; local `core.hooksPath=.githooks` active.
+- **Stage / phase:** Phase 1 (release 0.1.0), **M5 K5 Detection in progress** (`T-M5-01`..`T-M5-04` done)
+- **Branch / HEAD:** `development` at `b0cde1b` + T-M5-04 (`origin/main` at `650cc02`)
+- **Uncommitted or unapplied work:** none after T-M5-04 commit; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
 | Check | Result | At commit |
 |---|---|---|
-| `npm.cmd run lint` | `87` files checked, 0 errors | `a978c14` + T-M5-03 |
-| `npm.cmd run typecheck` | passed (0 errors) | `a978c14` + T-M5-03 |
-| `npm.cmd test -- pack-tests k5` | `79 passed \| 14 failed` (65/70 pack tests, 3/4 `k5` scan, 11/11 helpers) | `a978c14` + T-M5-03 |
+| `npm.cmd run lint` | `87` files checked, 0 errors | `b0cde1b` + T-M5-04 |
+| `npm.cmd run typecheck` | passed (0 errors) | `b0cde1b` + T-M5-04 |
+| `npm.cmd test -- pack-tests k5` | `85 passed \| 8 failed` (`70/70` pack tests, `4/4` `k5` scan, `11/11` helpers) | `b0cde1b` + T-M5-04 |
 
 ## Done recently
-- **T-M5-03** (`docs/plan/M5-detection.md`): implemented regex scanning (secret, PII, phrase), pairing, and stable sort in `scan.ts`.
+- **T-M5-04** (`docs/plan/M5-detection.md`): implemented hidden-character run detection in `scan.ts` (`70/70` pack tests and `4/4` `k5` scan vectors passing).
 
 ## Next step
-1. **T-M5-04** (`docs/plan/M5-detection.md`): implement hidden-character runs in `scan.ts`.
+1. **T-M5-05** (`docs/plan/M5-detection.md`): implement `redact.ts` and HMAC-SHA256 secret fingerprints in `scan.ts`.
 
 ## Blocked on / questions for the owner
 - Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).

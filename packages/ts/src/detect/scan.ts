@@ -133,6 +133,57 @@ function scanPiiRule(text: string, rule: Rule, body: PiiBody): Finding[] {
   return out;
 }
 
+function inRanges(cp: number, ranges: readonly [number, number][]): boolean {
+  for (const [start, end] of ranges) {
+    if (cp >= start && cp <= end) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function scanHiddenCharRule(
+  text: string,
+  rule: Rule,
+  body: Extract<UntrustedBody, { class: 'hidden_char' }>,
+): Finding[] {
+  const out: Finding[] = [];
+  let i = 0;
+  while (i < text.length) {
+    const cp = text.codePointAt(i);
+    if (cp === undefined) {
+      break;
+    }
+    const width = cp > 0xffff ? 2 : 1;
+    if (!inRanges(cp, body.ranges)) {
+      i += width;
+      continue;
+    }
+    const runStart = i;
+    const seen = new Set<number>([cp]);
+    i += width;
+    while (i < text.length) {
+      const nextCp = text.codePointAt(i);
+      if (nextCp === undefined || !inRanges(nextCp, body.ranges)) {
+        break;
+      }
+      seen.add(nextCp);
+      i += nextCp > 0xffff ? 2 : 1;
+    }
+    const masked_preview = [...seen].map((code) => `U+${code.toString(16).toUpperCase().padStart(4, '0')}`).join(',');
+    out.push({
+      rule_id: rule.id,
+      rev: rule.rev,
+      kind: 'untrusted',
+      start: runStart,
+      end: i,
+      severity: body.severity,
+      masked_preview,
+    });
+  }
+  return out;
+}
+
 function scanPhraseRule(text: string, rule: Rule, body: Extract<UntrustedBody, { class: 'phrase' }>): Finding[] {
   const re = new RegExp(body.regex, `dgu${body.flags ?? ''}`);
   const out: Finding[] = [];
@@ -198,7 +249,9 @@ export function scan(
       rawFindings.push(...scanPiiRule(text, rule, rule.body as PiiBody));
     } else {
       const body = rule.body as UntrustedBody;
-      if (body.class === 'phrase') {
+      if (body.class === 'hidden_char') {
+        rawFindings.push(...scanHiddenCharRule(text, rule, body));
+      } else {
         rawFindings.push(...scanPhraseRule(text, rule, body));
       }
     }

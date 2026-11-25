@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Hidden-character runs (T-M5-04)
+
+- **Did:** Implemented `scanHiddenCharRule` in `packages/ts/src/detect/scan.ts` reporting maximal hidden-character runs with UTF-16 offsets and distinct first-seen `U+XXXX` previews; marked `T-M5-04` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run lint` (87 files), `npm.cmd run typecheck`, `npm.cmd test -- pack-tests k5` (`85 passed | 8 failed`: `70/70` pack tests, `4/4` `k5` scan, `11/11` helpers; 8 redact vectors pending) @ `b0cde1b` + T-M5-04.
+- **Decisions:** None.
+- **Owner:** `"Start M5 (docs/plan/M5-detection.md) from docs/status/STATUS.md and execute T-M5-01 to T-M5-08 one by one on development"` (2026-11-25).
+- **Next:** `T-M5-05` (`redact.ts`: placeholders, overlap, fingerprints).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Regex scanning, pairing & sort (T-M5-03)
 
 - **Did:** Implemented `scan` in `packages/ts/src/detect/scan.ts` for secret, PII, and phrase rules with keyword prefilter, entropy/allow/validator checks, `pair_with` distance filtering, and deterministic sorting; marked `T-M5-03` `done` in `docs/06-plan.md`.
