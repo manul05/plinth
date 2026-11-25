@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Signing input and Ed25519 signatures (T-M1-07)
+- Did: implemented `signingInput`, `webauthnChallenge`, `signEd25519`, `createEnvelope` in `packages/ts/src/core/envelope.ts` (moved `webauthnChallenge` from `webauthn.ts` to avoid circular import); created `packages/ts/test/core/envelope-sign.test.ts`; marked T-M1-07 `done`; updated `STATUS.md` and `LOG.md`
+- Verified: red `envelope-sign.test.ts` failed `2/2`; then `envelope-sign` `2/2`, `k0 sign` `2/2`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 36 files`), `build` 0 @ `ab14c55` + T-M1-07
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: placed `webauthnChallenge` in `envelope.ts` per T-M1-07 so `envelope.ts` -> `webauthn.ts` stays acyclic
+- Next: T-M1-08 (`verifyEnvelope` for Ed25519/ES256, 56/56 k0 vectors)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Strict DER and P1363 conversion (T-M1-06)
 - Did: implemented `p1363ToDer` and `derToP1363` in `packages/ts/src/core/der.ts`; created `packages/ts/test/core/der.test.ts`; marked T-M1-06 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
 - Verified: red `der.test.ts` failed `4/4`; then `der` `4/4`, `k0` DER vectors `6/6`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 35 files`), `build` 0 @ `38ada80` + T-M1-06

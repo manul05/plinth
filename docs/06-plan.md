@@ -43,7 +43,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M1-04 | pk-JCS canonicalize, digest | M1 | T-M1-03 | M | AC-1.1–1.4, AC-2.3, TM-01 | done |
 | T-M1-05 | Keys, kid, SPKI, test kids | M1 | T-M1-04 | M | AC-3.1–3.4, TM-29 | done |
 | T-M1-06 | Strict DER ↔ P1363 | M1 | T-M1-02 | S | AC-3.5, TM-04 | done |
-| T-M1-07 | Signing input, Ed25519 sign | M1 | T-M1-05 | S | AC-4.1, TM-02 | todo |
+| T-M1-07 | Signing input, Ed25519 sign | M1 | T-M1-05 | S | AC-4.1, TM-02 | done |
 | T-M1-08 | verifyEnvelope Ed25519/ES256 | M1 | T-M1-06, T-M1-07 | M | AC-4.2–4.4, TM-02, TM-03, TM-05, TM-35, NFR-5 | todo |
 | T-M1-09 | WebAuthn signature entries | M1 | T-M1-08 | M | AC-5.1, AC-5.2, TM-06 | todo |
 | T-M1-10 | UUIDv7, nonce, timestamps | M1 | T-M1-02 | S | AC-9.2 (ids) | todo |

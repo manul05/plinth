@@ -1,10 +1,6 @@
 import type { SignatureWebauthn } from './envelope.js';
 import type { Digest } from './jcs.js';
 
-export function webauthnChallenge(_type: string, _payload: object): Uint8Array {
-  throw new Error('not implemented');
-}
-
 export function signatureFromAssertion(_input: {
   kid: Digest;
   role: string;
