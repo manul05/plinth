@@ -61,7 +61,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M3-05 | verifyApproval decisions | M3 | T-M3-04, T-M1-09 | M | AC-5.1, AC-5.2, AC-11.1, AC-11.2, TM-03, TM-06, TM-12, TM-13, TM-35 | done |
 | T-M3-06 | Single-use store, verifyAndConsume | M3 | T-M3-05 | S | AC-11.3, TM-08 | done |
 | T-M3-07 | Break-glass codes | M3 | T-M3-03 | S | AC-12.1 | done |
-| T-M3-08 | SPIKE real authenticator | M3 | T-M3-07 | M | AC-5.3, TM-06 | todo |
+| T-M3-08 | SPIKE real authenticator | M3 | T-M3-07 | M | AC-5.3, TM-06 | done |
 | T-M3-09 | M3 close, MC-3/4/8–11, R1 | M3 | T-M3-06, T-M3-08 | S | NFR-11 | todo |
 | T-M4-01 | Red skeleton k4 | M4 | T-M3-09 | S | AC-13.x, AC-14.1 harness | todo |
 | T-M4-02 | selectAsOf, localDate | M4 | T-M4-01 | S | AC-14.1 | todo |

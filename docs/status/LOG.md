@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Real authenticator WebAuthn spike (T-M3-08)
+
+- **Did:** Added `webauthn-capture-server.ts`, `webauthn-capture.html`, and `real-assertion.test.ts`; captured 2 real assertions in `spike-output/` (git-ignored) and marked `T-M3-08` `done` in `docs/06-plan.md`.
+- **Outcome A:** Both assertions verified! `assertion-1.json` (Windows Hello PIN): flags `0x5` (`UP+UV`, `BE=false`, `BS=false`), `clientDataJSON` has `type/challenge/origin/crossOrigin:false` (no `topOrigin`), low-S. `assertion-2.json` (Google Password Manager phone PIN): flags `0x1d` (`UP+UV+BE+BS`), same `clientDataJSON` keys (no `topOrigin`), **high-S (`s > n/2`)** — proving `{ lowS: false }` in `webauthn.ts` on real hardware/passkey output.
+- **Verified:** `npm.cmd run check` (`lint` `Checked 67 files` 0, `typecheck` 0, `vitest` `29 files / 207 tests` incl. `real-assertion` `2/2`, `build` 0) @ `3e6a841` + T-M3-08.
+- **Owner:** G-spike completed in Chrome (`assertion-1.json` & `assertion-2.json`, 2026-11-25).
+- **Next:** `T-M3-09` (mutation checks `MC-3/4/8/9/10/11`, `DNB-003`, review gate **R1**).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · One-time break-glass recovery codes (T-M3-07)
 
 - **Did:** Implemented `newBreakGlassCode`, `breakGlassDigest`, and `verifyBreakGlass` in `packages/ts/src/approval/breakglass.ts`; created `packages/ts/test/approval/breakglass.test.ts` (failing `3/3` red first); marked `T-M3-07` `done` in `docs/06-plan.md`.
