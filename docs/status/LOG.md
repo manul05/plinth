@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Green CI/security-scan (T-M0-05) & close M0 (T-M0-08)
+- Did: added `passWithNoTests: true` (`vitest.perf.config.ts`) and `.gitleaksignore` (`11` synthetic `650cc02` vector fingerprints) (`30609a8`); marked T-M0-05 and T-M0-08 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
+- Verified: `ci` green (`45593567766`), `security-scan` green (`45593572876`), `npm.cmd ci` + `npm.cmd run check` (`lint` 0, `typecheck` 0, `vitest` `22/22`, `build` 0) @ `30609a8`
+- Decisions: none
+- Owner: "done now you push it"; "continue with your recommendation" (2026-11-25)
+- AI: initial `ci` failed on empty `test:perf` suite and `gitleaks` flagged 11 synthetic `650cc02` test-vector fixtures; fixed cleanly with `passWithNoTests` and `.gitleaksignore`
+- Next: T-M1-01 (Red skeleton k0)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Errors module (T-M0-07, local)
 - Did: created `packages/ts/src/errors.ts` (`ERROR_MESSAGES` 97 entries, `PlinthError`) and `packages/ts/test/errors.test.ts`; exported in `packages/ts/src/index.ts`; marked T-M0-07 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md` (committed locally on `development`)
 - Verified: red test failed (`ERROR_MESSAGES` undefined, `PlinthError` not a constructor); then `npm.cmd test` `22/22` (`7` files), `typecheck` 0, `lint` 0 (`Checked 19 files`), `build` 0 @ `7257de7` + T-M0-07
