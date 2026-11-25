@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Red skeleton k5 & pack tests (T-M5-01)
+
+- **Did:** Added `packages/ts/src/detect/` stubs (`index`, `validators`, `entropy`, `mask`, `scan`, `redact`), exported `./detect/index.js` from `packages/ts/src/index.ts`, created `k5-vectors.test.ts` (20) and `pack-tests.test.ts` (70), and marked `T-M5-01` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run lint` (87 files), `npm.cmd run typecheck`, `npm.cmd test -- k5 pack-tests` (`90 failed (90)`: 20 k5 + 70 pack tests) @ `7b76af6` + T-M5-01.
+- **Decisions:** None.
+- **Owner:** `"Start M5 (docs/plan/M5-detection.md) from docs/status/STATUS.md and execute T-M5-01 to T-M5-08 one by one on development"` (2026-11-25).
+- **Next:** `T-M5-02` (`validators.ts`, `entropy.ts`, `mask.ts`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · CI drift check & close M4 (T-M4-08)
 
 - **Did:** Added `packages/ts/test/repo-tools/packs-check.test.ts`, wired `npm run packs:check` into `.github/workflows/ci.yml` and `package.json` (`check`), and marked `T-M4-08` `done` in `docs/06-plan.md` (closing Milestone M4).
