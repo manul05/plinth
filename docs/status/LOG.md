@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Key thumbprints, kids, SPKI import, test kids (T-M1-05)
+- Did: created `packages/ts/src/core/test-kids.ts` and `packages/ts/test/core/keys.test.ts`; implemented `packages/ts/src/core/keys.ts` and exported `test-kids.js` in `core/index.ts`; marked T-M1-05 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
+- Verified: red `keys.test.ts` failed `5/5`; then `keys` `5/5`, `k0 kidOf` `7/7`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 34 files`), `build` 0 @ `2747dd2` + T-M1-05
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: smooth TDD; `@noble/curves` `p256.Point.fromBytes` and `ed25519.getPublicKey` passed all 7 `kidOf` + 2 SPKI vectors on first run
+- Next: T-M1-06 (`der.ts`: strict DER ↔ P1363)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · pk-JCS canonicalisation and digests (T-M1-04)
 - Did: implemented `canonicalize`, `digest`, `digestBytes`, `GENESIS_DIGEST` in `packages/ts/src/core/jcs.ts`; created `packages/ts/test/core/jcs.test.ts`; marked T-M1-04 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
 - Verified: red `jcs.test.ts` failed `2/2`; then `jcs` `2/2`, `k0 parseAndCanonicalize` `22/22`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 32 files`), `build` 0 @ `2005404` + T-M1-04

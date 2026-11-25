@@ -5,4 +5,5 @@ export * from './ids.js';
 export * from './jcs.js';
 export * from './json.js';
 export * from './keys.js';
+export * from './test-kids.js';
 export * from './webauthn.js';
