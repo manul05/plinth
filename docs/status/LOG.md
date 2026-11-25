@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Version test and golden-vector loader (T-M0-03)
+- Did: created `packages/ts/test/version.test.ts`, `packages/ts/test/vectors.ts`, `packages/ts/test/vectors.test.ts`; marked T-M0-03 `done` in `docs/06-plan.md`
+- Verified: red test failed on missing `./vectors.js`; then `npm.cmd test` `4/4` passed (`2` files), `typecheck` 0, `lint` 0 (`Checked 13 files`) @ `37dda40` + T-M0-03
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: smooth TDD cycle; `loadVectors` and `loadKey` match all 177 vector counts and test key IDs
+- Next: T-M0-04 (contract self-checks and dependency pin tests)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Root npm workspace and pinned toolchain (T-M0-02)
 - Did: created `package.json`, `.nvmrc`, `tsconfig.base.json`, `biome.json`, `vitest*.config.ts`, `packages/ts/{package.json,tsconfig*.json,src/index.ts,README.md}`, `package-lock.json`; appended outputs to `.gitignore`; marked T-M0-02 `done` in `docs/06-plan.md`
 - Verified: `npm.cmd ls` exact pins (`@noble/*`/`@scure/base` 2.4.0, TS 7.0.2, Vitest 5.0.5, Vite 8.3.4, Biome 2.5.15, Ajv 8.20.0, yaml 2.9.1, safe-regex2 5.1.2, `@types/node` 24.19.2); `lint` 0 (`Checked 10 files`), `typecheck` 0, `build` 0 @ `8d3149f` + T-M0-02
