@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Strict DER and P1363 conversion (T-M1-06)
+- Did: implemented `p1363ToDer` and `derToP1363` in `packages/ts/src/core/der.ts`; created `packages/ts/test/core/der.test.ts`; marked T-M1-06 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
+- Verified: red `der.test.ts` failed `4/4`; then `der` `4/4`, `k0` DER vectors `6/6`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 35 files`), `build` 0 @ `38ada80` + T-M1-06
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: smooth TDD; single `readDerInt` helper enforces strict minimal non-negative DER integers with zero trailing bytes
+- Next: T-M1-07 (`envelope.ts` signing input, Ed25519 sign, `createEnvelope`, `webauthnChallenge`)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Key thumbprints, kids, SPKI import, test kids (T-M1-05)
 - Did: created `packages/ts/src/core/test-kids.ts` and `packages/ts/test/core/keys.test.ts`; implemented `packages/ts/src/core/keys.ts` and exported `test-kids.js` in `core/index.ts`; marked T-M1-05 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
 - Verified: red `keys.test.ts` failed `5/5`; then `keys` `5/5`, `k0 kidOf` `7/7`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 34 files`), `build` 0 @ `2747dd2` + T-M1-05
