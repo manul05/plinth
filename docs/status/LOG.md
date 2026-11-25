@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · E2E-5 scratch consumer (T-MR-04)
+
+- **Did:** Created `packages/ts/test/repo-tools/e2e-consumer.test.ts` (`E2E-5` end-to-end tarball install, `sha512-` lockfile check, `plinth-kit/core` import, `verify-snapshot.sh`, `plinth-conformance`) and marked `T-MR-04` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd test -- e2e-consumer` (`1/1`, `PASS 156/156`) and `npm.cmd run check` (`lint` 0 `107` files, `build` 0, `typecheck` 0, `vitest` `414/414` across `47` files, `packs:check` `packs: up to date`, `conformance` `PASS 156/156`) @ `641f8e2` + `T-MR-04`.
+- **Decisions:** none (`e2e-consumer.test.ts` asserts `PASS 156/156` matching `docs/03-spec.md` and `docs/consuming.md` after `T-M6-08`).
+- **Owner:** `"continue"` (2026-11-26) to proceed from `T-MR-03` to `T-MR-04`.
+- **AI:** First-pass green outside sandbox (network required for `npm install` of the 3 runtime deps + Git `sh.exe` for `verify-snapshot.sh`).
+- **Next:** `T-MR-05` (`docs/07-security-review.md` and owner gate `G-final`).
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Consumer vendor tool (T-MR-03)
 
 - **Did:** Implemented `vendorSnapshot` and CLI in `packages/ts/src/repo-tools/vendor.ts`, added `"vendor"` script to `package.json`, added `packages/ts/test/repo-tools/vendor.test.ts` (4 tests), and marked `T-MR-03` `done` in `docs/06-plan.md`.

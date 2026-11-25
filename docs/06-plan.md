@@ -96,7 +96,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-MR-01 | Snapshot tool | MR | T-M6-08 | M | AC-20.1, TM-27 | done |
 | T-MR-02 | verify-snapshot.sh | MR | T-MR-01 | S | AC-20.2, TM-27 | done |
 | T-MR-03 | Vendor tool | MR | T-MR-02 | M | US-20 | done |
-| T-MR-04 | E2E consumer | MR | T-MR-03 | M | AC-19.1, AC-20.x | todo |
+| T-MR-04 | E2E consumer | MR | T-MR-03 | M | AC-19.1, AC-20.x | done |
 | T-MR-05 | Security review | MR | T-MR-04 | M | all TM, G-final | todo |
 | T-MR-06 | README, CHANGELOG, write-up | MR | T-MR-05 | M | testing §11 | todo |
 | T-MR-07 | Merge, tag, snapshot, pin | MR | T-MR-06 | S | US-20 | todo |
