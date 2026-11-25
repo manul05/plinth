@@ -12,10 +12,10 @@
 
 ## 2. Setup on a freshly formatted Windows PC
 1. Install **Git for Windows** (includes Git Bash) from https://git-scm.com/download/win with default options.
-2. Install **Node.js 24.16.0** (Windows x64 `.msi`) from https://nodejs.org/en/download (choose version 24.16.0 under "previous releases" if a newer 24.x is offered). It includes npm 11.13.0. Do not install pnpm or yarn.
+2. Install **Node.js 26.13.1** (Windows x64 `.msi`) from https://nodejs.org/en/download (choose version 26.13.1 under "previous releases" if a newer 26.x is offered). It includes npm 11.20.0. Do not install pnpm or yarn.
 3. Open **Git Bash** and check:
-   - `node -v` → `v24.16.0`
-   - `npm -v` → `11.13.0`
+   - `node -v` → `v26.13.1`
+   - `npm -v` → `11.20.0`
    - `git --version` → any `git version 2.x`
 4. Clone and enter the repo: `git clone <repo URL>` then `cd plinth`. Confirm `git branch --show-current` → `development`.
 5. `sh scripts/install-hooks.sh` → `Installed: core.hooksPath=.githooks`; then `sh scripts/install-hooks.sh --check` → `OK: hooks active (core.hooksPath=.githooks).`

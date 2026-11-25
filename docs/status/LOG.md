@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Re-pin Node 26.13.1 / npm 11.20.0 (ADR-0016)
+- Did: created ADR-0016 (`docs/decisions/0016-repin-node-26-13-1-npm-11-20-0.md`); updated `decisions/README.md`, `README.md`, `START-HERE.md`, `03-spec.md`, `04-architecture.md`, `M0-setup.md` (T-M0-02), `STATUS.md`, `LOG.md`
+- Verified: `sh scripts/check-doc-sizes.sh` exited 0 (pre-commit hook); `node -v` `v26.13.1`, `npm.cmd -v` `11.20.0` @ `08b339f`
+- Decisions: ADR-0016 (re-pin Node `26.13.1` / npm `11.20.0`)
+- Owner: "Node/npm decision - re-pin Plinth to 26.13.1 / 11.20.0" (2026-11-25)
+- AI: left `AGENTS.md` line 8 untouched because only the owner edits `AGENTS.md`
+- Next: T-M0-02 (root npm workspace and pinned toolchain)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Complete T-M0-01 (G0, hooks, guard proof)
 - Did: updated G0 GitHub settings (`development` default, merge-commits only, Dependabot alerts & security updates ON); installed `.githooks`; marked T-M0-01 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
 - Verified: `sh scripts/install-hooks.sh --check` (`OK: hooks active`); G0 settings verified via `gh`; guard proof `git push origin development:main` & `OWNER_APPROVES_PUSH=deadbee` both `BLOCKED` and `origin/main` unchanged at `650cc02` @ `d674bf9`

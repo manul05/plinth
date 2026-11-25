@@ -29,7 +29,7 @@ Products vendor a tagged snapshot pinned by hash: [docs/consuming.md](docs/consu
 
 ## Run it locally
 
-Prerequisites: Git for Windows (Git Bash) and Node.js 24.16.0 (npm 11.13.0). Full steps: [START-HERE.md](START-HERE.md).
+Prerequisites: Git for Windows (Git Bash) and Node.js 26.13.1 (npm 11.20.0). Full steps: [START-HERE.md](START-HERE.md).
 
 ```sh
 git clone <repo URL>

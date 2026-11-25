@@ -160,14 +160,14 @@ All shapes: `contracts/schemas/`. Key rules (messages are exact, from `contracts
 ## 8. Non-functional requirements
 | ID | Requirement | Check |
 |---|---|---|
-| NFR-1 | **Portability:** library code (`packages/ts/src/**` except `tools/` and `repo-tools/`) imports nothing from `node:*`, has no `eval(`, `new Function`, `require(`, `fetch(`, `console.` and no import of `ajv`, `yaml`, `safe-regex2`. Runs on Node 24, ES2022 browsers and Cloudflare Workers | `test/portability.test.ts` (T-M0-06) |
+| NFR-1 | **Portability:** library code (`packages/ts/src/**` except `tools/` and `repo-tools/`) imports nothing from `node:*`, has no `eval(`, `new Function`, `require(`, `fetch(`, `console.` and no import of `ajv`, `yaml`, `safe-regex2`. Runs on Node 26, ES2022 browsers and Cloudflare Workers | `test/portability.test.ts` (T-M0-06) |
 | NFR-2 | **Performance on the old PC (i5-8300H):** median of 50 runs: canonicalize+digest of the 10 KB fixture ≤ 5 ms; `verifyEnvelope` Ed25519 ≤ 5 ms; `verifyApproval` (webauthn) ≤ 20 ms; `verifyChain` 10,000 events ≤ 3,000 ms (single run); `scan` 100 KB text with all four packs ≤ 200 ms | `test/perf.test.ts` (T-M5-10), skipped in CI fast job, run locally and in `full` |
 | NFR-3 | **ReDoS:** every regex rule on each of 3 adversarial 50,000-character inputs (`"a".repeat(50000)`, `"0".repeat(50000)`, `"-----BEGIN ".repeat(4545)`) finishes in ≤ 100 ms | `test/perf.test.ts` (T-M5-10) |
 | NFR-4 | **Dependencies:** exactly 3 runtime deps (`@noble/curves` 2.4.0, `@noble/hashes` 2.4.0, `@scure/base` 2.4.0), all MIT; every dep pinned exactly in `package.json` with `package-lock.json` committed; every version published ≥ 14 days before it was pinned | `test/deps.test.ts` (T-M0-04) + release checklist |
 | NFR-5 | **Fail closed:** `verifyEnvelope`, `verifyChain`, `verifyRegistryChain`, `verifyApproval`, `verifyBreakGlass` never throw; any malformed input returns `valid:false` | fuzz-style unit tests with `null`, numbers, strings, `{}`, arrays (T-M1-08, T-M2-05, T-M3-03/05) |
 | NFR-6 | **No secret leakage:** findings, errors and CLI output never contain a raw secret or Aadhaar digits; `PlinthError.detail` never includes input values | T-M5-05 test + T-M5-08 test |
 | NFR-7 | **Determinism:** Ed25519 signatures, canonical bytes, digests, compiled packs and `builtin.ts` are byte-identical across runs and machines | vectors + `packs:check` (T-M4-08) |
-| NFR-8 | **Supported platforms:** Windows 11 (owner PC) and `ubuntu-latest` CI, Node 24.16.0, npm 11.13.0 | CI + START-HERE setup check |
+| NFR-8 | **Supported platforms:** Windows 11 (owner PC) and `ubuntu-latest` CI, Node 26.13.1, npm 11.20.0 | CI + START-HERE setup check |
 | NFR-9 | **Package size:** `npm pack --dry-run --json` reports `unpackedSize` ≤ 600,000 bytes | T-M6-03 |
 | NFR-10 | **Accessibility:** no UI in Phase 1; CLI messages are plain ASCII sentences (no colour-only meaning) | review in T-M6-02 |
 | NFR-11 | **Security-critical mutation checks:** for each protection listed in `docs/testing.md` §6 the executor breaks the line, shows a failing test, restores it, and logs it in `docs/status/LOG.md` | T-M1-11, T-M2-06, T-M3-09, T-M5-11 |
