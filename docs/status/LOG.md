@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · pk-JCS canonicalisation and digests (T-M1-04)
+- Did: implemented `canonicalize`, `digest`, `digestBytes`, `GENESIS_DIGEST` in `packages/ts/src/core/jcs.ts`; created `packages/ts/test/core/jcs.test.ts`; marked T-M1-04 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
+- Verified: red `jcs.test.ts` failed `2/2`; then `jcs` `2/2`, `k0 parseAndCanonicalize` `22/22`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 32 files`), `build` 0 @ `2005404` + T-M1-04
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: smooth TDD; UTF-16 key sort and `Object.getOwnPropertyDescriptor` passed all 22 `k0-jcs-*` vectors on the first run
+- Next: T-M1-05 (`keys.ts`: thumbprint, kids, SPKI import, test-kid list)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Strict I-JSON parser (T-M1-03)
 - Did: implemented `parseJson` and `MAX_DEPTH` in `packages/ts/src/core/json.ts`; created `packages/ts/test/core/json.test.ts`; marked T-M1-03 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
 - Verified: red `json.test.ts` failed `3/3`; then `json` `3/3`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 31 files`), `build` 0 @ `bcdea05` + T-M1-03
