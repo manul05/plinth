@@ -159,5 +159,123 @@ describe('verifyApproval', () => {
         }),
       ).toEqual({ valid: false, error: 'PK_APPROVAL_TTL_TOO_LONG' });
     });
+
+    it('rejects empty req.id, invalid registry_version, invalid registry.version, and invalid actionPolicies entries (R2-06)', () => {
+      const valid = loadValidApprovalInput();
+
+      const emptyIdReq = structuredClone(valid.request);
+      emptyIdReq.id = '';
+      expect(
+        verifyApproval({
+          request: emptyIdReq,
+          decisions: valid.decisions,
+          registry: valid.registry,
+          actualSubjectDigest: valid.actual_subject_digest,
+          allowedActions: valid.allowed_actions,
+          now: valid.now,
+          isConsumed: () => false,
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' });
+
+      for (const badVer of [0, -1, 1.5, Number.NaN]) {
+        const badReqVer = structuredClone(valid.request);
+        (badReqVer.policy as Record<string, unknown>).registry_version = badVer;
+        expect(
+          verifyApproval({
+            request: badReqVer,
+            decisions: valid.decisions,
+            registry: valid.registry,
+            actualSubjectDigest: valid.actual_subject_digest,
+            allowedActions: valid.allowed_actions,
+            now: valid.now,
+            isConsumed: () => false,
+          }),
+        ).toEqual({ valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' });
+
+        const badRegVer = structuredClone(valid.registry);
+        (badRegVer as unknown as Record<string, unknown>).version = badVer;
+        expect(
+          verifyApproval({
+            request: valid.request,
+            decisions: valid.decisions,
+            registry: badRegVer,
+            actualSubjectDigest: valid.actual_subject_digest,
+            allowedActions: valid.allowed_actions,
+            now: valid.now,
+            isConsumed: () => false,
+          }),
+        ).toEqual({ valid: false, error: 'PK_APPROVAL_REGISTRY_MALFORMED' });
+      }
+
+      for (const badEntry of [
+        { min_approvals: Number.NaN, distinct_from_requester: false },
+        { min_approvals: 0, distinct_from_requester: true },
+        { min_approvals: 1, distinct_from_requester: 'true' as unknown as boolean },
+      ]) {
+        expect(
+          verifyApproval({
+            request: valid.request,
+            decisions: valid.decisions,
+            registry: valid.registry,
+            actualSubjectDigest: valid.actual_subject_digest,
+            allowedActions: valid.allowed_actions,
+            now: valid.now,
+            isConsumed: () => false,
+            actionPolicies: {
+              'passdown.git.push_protected_ref': badEntry,
+            },
+          }),
+        ).toEqual({ valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' });
+      }
+    });
+
+    it('rejects PK_APPROVAL_WINDOW_CLOSED, PK_APPROVAL_PROFILE_ALG_MISMATCH, and invalid input.now (R2-08)', () => {
+      const valid = loadValidApprovalInput();
+      const nowMs = Date.parse(valid.now);
+
+      const closedReq = structuredClone(valid.request);
+      closedReq.window = {
+        opens_at: new Date(nowMs - 20_000).toISOString(),
+        closes_at: new Date(nowMs - 1_000).toISOString(),
+      };
+      expect(
+        verifyApproval({
+          request: closedReq,
+          decisions: valid.decisions,
+          registry: valid.registry,
+          actualSubjectDigest: valid.actual_subject_digest,
+          allowedActions: valid.allowed_actions,
+          now: valid.now,
+          isConsumed: () => false,
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_WINDOW_CLOSED' });
+
+      const hwRegistry = structuredClone(valid.registry);
+      if (!hwRegistry.approvers[0]) throw new Error('missing approver');
+      hwRegistry.approvers[0].profile = 'android-keystore';
+      expect(
+        verifyApproval({
+          request: valid.request,
+          decisions: valid.decisions,
+          registry: hwRegistry,
+          actualSubjectDigest: valid.actual_subject_digest,
+          allowedActions: valid.allowed_actions,
+          now: valid.now,
+          isConsumed: () => false,
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_PROFILE_ALG_MISMATCH' });
+
+      expect(
+        verifyApproval({
+          request: valid.request,
+          decisions: valid.decisions,
+          registry: valid.registry,
+          actualSubjectDigest: valid.actual_subject_digest,
+          allowedActions: valid.allowed_actions,
+          now: 'not-a-timestamp',
+          isConsumed: () => false,
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' });
+    });
   });
 });

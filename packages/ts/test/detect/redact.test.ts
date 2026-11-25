@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { hexDecode, loadPack, MAX_SCAN_INPUT, PlinthError, redact, scan } from '../../src/index.js';
+import { digest, hexDecode, loadPack, MAX_SCAN_INPUT, PlinthError, redact, scan } from '../../src/index.js';
 import { BUILTIN_PACKS, type BuiltinPackId } from '../../src/packs/index.js';
 import { loadVectors } from '../vectors.js';
 
@@ -22,17 +22,50 @@ describe('redact security properties', () => {
           ? hexDecode(vec.input.installation_secret_hex)
           : undefined;
 
-      const serialized =
+      const findings =
         vec.op === 'scan'
-          ? JSON.stringify(scan(text, packs, secret === undefined ? { date } : { date, installationSecret: secret }))
-          : JSON.stringify(redact(text, packs, { date, installationSecret: secret ?? new Uint8Array(32) }).findings);
+          ? scan(text, packs, secret === undefined ? { date } : { date, installationSecret: secret })
+          : redact(text, packs, { date, installationSecret: secret ?? new Uint8Array(32) }).findings;
+      const serialized = JSON.stringify(findings);
 
+      for (const f of findings) {
+        if (f.kind === 'secret' || f.kind === 'pii') {
+          const matched = text.slice(f.start, f.end);
+          expect(matched.length).toBeGreaterThan(0);
+          expect(serialized, `${vec.id} echoed matched substring`).not.toContain(matched);
+        }
+      }
       for (const part of parts) {
         if (part.length >= 16) {
           expect(serialized, `${vec.id} echoed >=16-char part`).not.toContain(part);
         }
       }
       expect(serialized, `${vec.id} echoed Aadhaar`).not.toContain('2949 1013 6515');
+    }
+
+    // Also verify every secret/pii match test across all built-in packs never echoes its matched substring (R2-07)
+    for (const packId of Object.keys(BUILTIN_PACKS).sort() as BuiltinPackId[]) {
+      const compiled = BUILTIN_PACKS[packId];
+      const loaded = loadPack(compiled);
+      for (const tc of compiled.tests.tests) {
+        if (tc.expect !== 'match') continue;
+        const candidates = compiled.rules.rules.filter((r) => r.id === tc.rule_id && r.status !== 'withdrawn');
+        candidates.sort((a, b) => b.rev - a.rev);
+        const rule = candidates[0] ?? compiled.rules.rules.find((r) => r.id === tc.rule_id);
+        if (rule === undefined) continue;
+        const text = tc.input_parts.join('');
+        const findings = scan(text, [loaded], { date: rule.effective_from });
+        expect(
+          findings.some((f) => f.rule_id === tc.rule_id),
+          tc.rule_id,
+        ).toBe(true);
+        const serialized = JSON.stringify(findings);
+        for (const f of findings) {
+          if (f.kind === 'secret' || f.kind === 'pii') {
+            expect(serialized, `${tc.rule_id} echoed matched substring`).not.toContain(text.slice(f.start, f.end));
+          }
+        }
+      }
     }
   });
 
@@ -61,5 +94,26 @@ describe('redact security properties', () => {
     expect(res.output).toBe('Note\u200b: the owner approved');
     expect(res.findings).toEqual([]);
     expect(res.counts).toEqual({ secret: 0, pii: 0 });
+  });
+
+  it('throws PK_DETECT_UNKNOWN_VALIDATOR for unsupported PII validator (R2-08)', () => {
+    const customPack = structuredClone(BUILTIN_PACKS['pk.pii.india']);
+    const aadhaar = customPack.rules.rules.find((r) => r.id === 'pk.pii.in.aadhaar');
+    if (!aadhaar || !('validator' in aadhaar.body)) {
+      throw new Error('missing pk.pii.in.aadhaar rule');
+    }
+    (aadhaar.body as unknown as Record<string, unknown>).validator = 'nonexistent_validator';
+    const rulesEntry = customPack.manifest.files.find((f) => f.path === 'rules.json');
+    if (rulesEntry !== undefined) {
+      rulesEntry.sha256 = digest(customPack.rules);
+    }
+    const loaded = loadPack(customPack);
+    try {
+      scan('customer 2949 1013 6515', [loaded], { date: aadhaar.effective_from });
+      expect.unreachable('Expected PlinthError(PK_DETECT_UNKNOWN_VALIDATOR)');
+    } catch (err) {
+      expect(err).toBeInstanceOf(PlinthError);
+      expect((err as PlinthError).code).toBe('PK_DETECT_UNKNOWN_VALIDATOR');
+    }
   });
 });

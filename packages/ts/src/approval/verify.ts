@@ -108,6 +108,7 @@ export function verifyApproval(input: {
     if (
       !isRecord(req) ||
       typeof req.id !== 'string' ||
+      req.id.length < 1 ||
       !isRecord(req.subject) ||
       typeof req.subject.digest !== 'string' ||
       !DIGEST_RE.test(req.subject.digest) ||
@@ -116,6 +117,9 @@ export function verifyApproval(input: {
       !Number.isSafeInteger(req.policy.min_approvals) ||
       req.policy.min_approvals < 1 ||
       typeof req.policy.distinct_from_requester !== 'boolean' ||
+      typeof req.policy.registry_version !== 'number' ||
+      !Number.isSafeInteger(req.policy.registry_version) ||
+      req.policy.registry_version < 1 ||
       !isRecord(req.requester) ||
       typeof req.created_at !== 'string' ||
       !isTimestamp(req.created_at) ||
@@ -136,7 +140,13 @@ export function verifyApproval(input: {
     ) {
       return { valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' };
     }
-    if (!isRecord(input.registry) || !Array.isArray(input.registry.approvers)) {
+    if (
+      !isRecord(input.registry) ||
+      typeof input.registry.version !== 'number' ||
+      !Number.isSafeInteger(input.registry.version) ||
+      input.registry.version < 1 ||
+      !Array.isArray(input.registry.approvers)
+    ) {
       return { valid: false, error: 'PK_APPROVAL_REGISTRY_MALFORMED' };
     }
 
@@ -159,7 +169,17 @@ export function verifyApproval(input: {
       if (!isRecord(input.actionPolicies) || !Object.hasOwn(input.actionPolicies, req.action)) {
         return { valid: false, error: 'PK_APPROVAL_UNKNOWN_ACTION' };
       }
-      epPolicy = input.actionPolicies[req.action];
+      const candidate = input.actionPolicies[req.action];
+      if (
+        !isRecord(candidate) ||
+        typeof candidate.min_approvals !== 'number' ||
+        !Number.isSafeInteger(candidate.min_approvals) ||
+        candidate.min_approvals < 1 ||
+        typeof candidate.distinct_from_requester !== 'boolean'
+      ) {
+        return { valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' };
+      }
+      epPolicy = candidate;
     }
 
     // Step 5: registry staleness

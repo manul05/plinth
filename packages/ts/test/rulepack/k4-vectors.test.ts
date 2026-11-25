@@ -29,6 +29,14 @@ describe('k4 selectAsOf', () => {
       expect({ found: r !== null, rev: r ? r.rev : 0 }).toEqual(vec.expect);
     });
   }
+
+  it('throws PK_RULEPACK_OVERLAP on overlapping effective date windows (R2-08)', () => {
+    const overlapping: RuleWindow[] = [
+      { id: 'r.test', rev: 1, status: 'stable', effective_from: '2026-01-01', effective_until: '2026-06-01' },
+      { id: 'r.test', rev: 2, status: 'stable', effective_from: '2026-05-01' },
+    ];
+    expectPlinthError(() => selectAsOf(overlapping, 'r.test', '2026-05-15'), 'PK_RULEPACK_OVERLAP');
+  });
 });
 
 describe('k4 localDate', () => {

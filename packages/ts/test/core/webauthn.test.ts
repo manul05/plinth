@@ -3,10 +3,12 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   b64urlDecode,
+  b64urlEncode,
   type SignatureWebauthn,
   signatureFromAssertion,
   type TrustedKey,
   type TypePolicy,
+  utf8Encode,
   verifyEnvelope,
 } from '../../src/index.js';
 import { VECTORS_DIR } from '../vectors.js';
@@ -120,5 +122,25 @@ describe('webauthn', () => {
       signature: b64urlDecode(entry.sig),
     });
     expect(built).toEqual(entry);
+  });
+
+  it('rejects short authenticator_data and malformed client_data_json with PK_WEBAUTHN_MALFORMED (R2-08)', () => {
+    const { envelope, trustedKeys } = loadK2DecisionCase('k2-approval-valid-webauthn');
+
+    const shortAuthEnv = structuredClone(envelope);
+    if (!shortAuthEnv.signatures[0]) throw new Error('Missing signature');
+    shortAuthEnv.signatures[0].authenticator_data = b64urlEncode(new Uint8Array(36));
+    expect(verifyEnvelope(shortAuthEnv, { trustedKeys, policy: POLICY })).toEqual({
+      valid: false,
+      error: 'PK_WEBAUTHN_MALFORMED',
+    });
+
+    const badJsonEnv = structuredClone(envelope);
+    if (!badJsonEnv.signatures[0]) throw new Error('Missing signature');
+    badJsonEnv.signatures[0].client_data_json = b64urlEncode(utf8Encode('{not-json'));
+    expect(verifyEnvelope(badJsonEnv, { trustedKeys, policy: POLICY })).toEqual({
+      valid: false,
+      error: 'PK_WEBAUTHN_MALFORMED',
+    });
   });
 });

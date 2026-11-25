@@ -177,6 +177,23 @@ describe('registry helpers and chain verification', () => {
         at_version: 1,
       });
     });
+
+    it('rejects non-integer, negative, or non-number highestSeenVersion (R2-05)', () => {
+      const genesis = loadRegistryGenesis();
+      for (const badVersion of [-1, 1.5, Number.NaN, '1' as unknown as number]) {
+        expect(
+          verifyRegistryChain({
+            envelopes: genesis.envelopes,
+            genesisDigest: genesis.genesis_digest,
+            highestSeenVersion: badVersion,
+          }),
+        ).toEqual({
+          valid: false,
+          error: 'PK_APPROVAL_REGISTRY_MALFORMED',
+          at_version: -1,
+        });
+      }
+    });
   });
 
   describe('profile/alg match and synced-passkey policy on registry chain (R2-02)', () => {

@@ -153,7 +153,14 @@ export function verifyRegistryChain(input: {
   highestSeenVersion: number;
 }): RegistryResult {
   try {
-    if (!Array.isArray(input.envelopes) || input.envelopes.length === 0) {
+    if (
+      !isRecord(input) ||
+      !Array.isArray(input.envelopes) ||
+      input.envelopes.length === 0 ||
+      typeof input.highestSeenVersion !== 'number' ||
+      !Number.isSafeInteger(input.highestSeenVersion) ||
+      input.highestSeenVersion < 0
+    ) {
       return { valid: false, error: 'PK_APPROVAL_REGISTRY_MALFORMED', at_version: -1 };
     }
 

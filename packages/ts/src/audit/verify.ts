@@ -132,13 +132,17 @@ export function verifyChain(input: {
     const lastSeq = previousSeq;
 
     // Step C: checkpoints sorted by payload.seq ascending
-    const checkpoints = Array.isArray(input.checkpoints)
-      ? [...input.checkpoints].sort((a, b) => seqOfCheckpoint(a) - seqOfCheckpoint(b))
-      : [];
-    const trustedKeys = Array.isArray(input.trustedKeys) ? input.trustedKeys : [];
+    if (!Array.isArray(input.checkpoints)) {
+      return { valid: false, error: 'PK_AUDIT_CHECKPOINT_MALFORMED', at_seq: -1 };
+    }
+    if (!Array.isArray(input.trustedKeys)) {
+      return { valid: false, error: 'PK_AUDIT_EVENT_MALFORMED' };
+    }
+    const checkpoints = [...input.checkpoints].sort((a, b) => seqOfCheckpoint(a) - seqOfCheckpoint(b));
+    const trustedKeys = input.trustedKeys;
 
     let anchoredSeq = -1;
-    let startAnchorPayload: Record<string, unknown> | undefined;
+    const startAnchorPayloads: Record<string, unknown>[] = [];
 
     for (const c of checkpoints) {
       const fallbackSeq =
@@ -185,7 +189,7 @@ export function verifyChain(input: {
         if (p.head !== firstPrev) {
           return { valid: false, error: 'PK_AUDIT_CHECKPOINT_MISMATCH', at_seq: pSeq };
         }
-        startAnchorPayload = p;
+        startAnchorPayloads.push(p);
         if (pSeq > anchoredSeq) {
           anchoredSeq = pSeq;
         }
@@ -205,21 +209,24 @@ export function verifyChain(input: {
 
     // Step D: pruned export checks
     if (firstSeq > 0) {
-      if (startAnchorPayload === undefined) {
+      if (startAnchorPayloads.length === 0) {
         return { valid: false, error: 'PK_AUDIT_PRUNED_WITHOUT_ANCHOR', at_seq: firstSeq };
       }
-      let anchorDigest: string;
-      try {
-        anchorDigest = digest(startAnchorPayload);
-      } catch {
-        return { valid: false, error: 'PK_AUDIT_CHECKPOINT_MALFORMED', at_seq: firstSeq - 1 };
+      const anchorDigests = new Set<string>();
+      for (const anchor of startAnchorPayloads) {
+        try {
+          anchorDigests.add(digest(anchor));
+        } catch {
+          return { valid: false, error: 'PK_AUDIT_CHECKPOINT_MALFORMED', at_seq: firstSeq - 1 };
+        }
       }
       const recorded = events.some(
         (e) =>
           e.action === 'pk.audit.pruned' &&
           isRecord(e.data) &&
           e.data.up_to_seq === firstSeq - 1 &&
-          e.data.checkpoint_digest === anchorDigest,
+          typeof e.data.checkpoint_digest === 'string' &&
+          anchorDigests.has(e.data.checkpoint_digest),
       );
       if (!recorded) {
         return { valid: false, error: 'PK_AUDIT_PRUNE_UNRECORDED', at_seq: firstSeq };
