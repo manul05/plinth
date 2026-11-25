@@ -11,3 +11,8 @@
 650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-scan-git-sha-not-instamojo.json:generic-api-key:18
 650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-redact-razorpay-pair.json:generic-api-key:22
 650cc02f1fac34b17899f3f75d0da6d8b99c1724:contracts/test-vectors/k5/k5-scan-hidden-and-phrases.json:generic-api-key:17
+
+# Intentional synthetic pack fixture (09d227b) and public WebAuthn authenticator_data (0c2816f, ADR-0018).
+09d227bbe31ca8625e42d4c69dbfd381f3ff95da:packs/pk.secrets.global/tests.json:generic-api-key:1
+09d227bbe31ca8625e42d4c69dbfd381f3ff95da:packages/ts/src/packs/builtin.ts:generic-api-key:6
+0c2816f98384a17275cd0dc30d9be16be8e0adfc:contracts/test-vectors/k2/k2-real-windows-hello.json:generic-api-key:23
