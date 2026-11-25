@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Masked file scanner detect-file (T-M5-08)
+
+- **Did:** Implemented `detectFileReport` and CLI in `packages/ts/src/repo-tools/detect-file.ts`, added `packages/ts/test/repo-tools/detect-file.test.ts` (2 tests), and marked `T-M5-08` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run check` (`lint` 0 `93` files, `typecheck` 0, `vitest` `372/372` across `39` files, `build` 0, `packs:check` `packs: up to date`), `node packages/ts/dist/repo-tools/detect-file.js` (`usage: detect-file <path>`, exit `2`) @ `83d3c1a` + T-M5-08.
+- **Decisions:** None.
+- **Owner:** `"Start M5 (docs/plan/M5-detection.md) from docs/status/STATUS.md and execute T-M5-01 to T-M5-08 one by one on development (stop at T-M5-09 / owner gate G-K5)."` (2026-11-25).
+- **Next:** `T-M5-09` (Owner gate G-K5: verify real Indian test-mode key formats with `detect-file.js`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Personal-data lint for audit events (T-M5-07)
 
 - **Did:** Implemented `lintPersonalData` in `packages/ts/src/audit/lint.ts`, re-exported it from `audit/index.ts`, added `packages/ts/test/audit/lint.test.ts` (4 tests), and marked `T-M5-07` `done` in `docs/06-plan.md`.

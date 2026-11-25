@@ -4,24 +4,24 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-25 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), **M5 K5 Detection in progress** (`T-M5-01`..`T-M5-07` done)
-- **Branch / HEAD:** `development` at `46bbbcd` + T-M5-07 (`origin/main` at `650cc02`)
-- **Uncommitted or unapplied work:** none after T-M5-07 commit; local `core.hooksPath=.githooks` active.
+- **Stage / phase:** Phase 1 (release 0.1.0), **M5 K5 Detection in progress** (`T-M5-01`..`T-M5-08` done; stopped at owner gate **G-K5 / T-M5-09**)
+- **Branch / HEAD:** `development` at `83d3c1a` + T-M5-08 (`origin/main` at `650cc02`)
+- **Uncommitted or unapplied work:** none after T-M5-08 commit and push; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
 | Check | Result | At commit |
 |---|---|---|
-| `npm.cmd run lint` | `91` files checked, 0 errors | `46bbbcd` + T-M5-07 |
-| `npm.cmd run typecheck` | passed (0 errors) | `46bbbcd` + T-M5-07 |
-| `npm.cmd test -- lint k1` | `2 passed (2)` files / `23 passed (23)` tests (`21/21` `k1` vectors) | `46bbbcd` + T-M5-07 |
+| `npm.cmd run check` | `lint` 0 (`93` files), `typecheck` 0, `vitest` `372/372` (`39` files), `build` 0, `packs:check` (`packs: up to date`) | `83d3c1a` + T-M5-08 |
+| `node packages/ts/dist/repo-tools/detect-file.js` | stderr `usage: detect-file <path>`, exit `2` | `83d3c1a` + T-M5-08 |
 
 ## Done recently
-- **T-M5-07** (`docs/plan/M5-detection.md`): implemented `lintPersonalData` in `audit/lint.ts` and added `audit/lint.test.ts` (all 21 `k1` vectors passing).
+- **M5 `T-M5-01`..`T-M5-08`:** implemented `detect/` (`validators`, `entropy`, `mask`, `scan`, `redact`), `audit/lint.ts` (`lintPersonalData`), `compile-packs` step 7 (`runTests: true`), and `repo-tools/detect-file.ts`; all 20 `k5` vectors, 70 rule-pack tests, and 21 `k1` vectors pass (`372/372` total).
 
 ## Next step
-1. **T-M5-08** (`docs/plan/M5-detection.md`): implement `repo-tools/detect-file.ts` (owner's masked scanner).
+1. **T-M5-09 · OWNER GATE G-K5** (`docs/plan/M5-detection.md`): owner tests real Razorpay and Cashfree test-mode keys locally with `node packages/ts/dist/repo-tools/detect-file.js` and pastes the masked output (or defers).
 
 ## Blocked on / questions for the owner
+- **Gate G-K5 (`T-M5-09`):** awaiting owner's masked `detect-file.js` output for Razorpay and Cashfree test-mode keys (or decision to defer as Outcome C).
 - Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).
 - Dependabot PR #2 (`Bump actions/checkout from 4 to 7` into `development`) is open on GitHub.
 
