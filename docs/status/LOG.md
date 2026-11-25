@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Digest-checked pack loading (T-M4-07)
+
+- **Did:** Implemented `loadPack` in `packages/ts/src/rulepack/load.ts` and `activeRules` in `packages/ts/src/rulepack/asof.ts`, created `packages/ts/test/rulepack/load.test.ts` (6 tests), and marked `T-M4-07` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run check` (`lint` 0 `78` files, `typecheck` 0, `vitest` `266/266` across `32` files incl. `load` `6/6`, `portability` `5/5`, `build` 0) @ `09d227b` + T-M4-07.
+- **Decisions:** None.
+- **Owner:** `"execute T-M4-01 to T-M4-08 one by one"` (2026-11-25).
+- **Next:** `T-M4-08` (`packs-check.test.ts`, CI check, close M4).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Compile rule packs & builtin.ts (T-M4-06)
 
 - **Did:** Implemented `compilePacks` + CLI in `packages/ts/src/repo-tools/compile-packs.ts`, added `packs:build`/`packs:check` to `package.json`, generated `packs/` + `packages/ts/src/packs/builtin.ts` (`4` packs, `35` rules, `70` tests), created `packages/ts/src/packs/index.ts`, added `builtin.ts` header test, marked `T-M4-06` `done`.

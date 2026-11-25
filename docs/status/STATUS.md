@@ -4,23 +4,21 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-25 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), **M4 K4 Rule Packs** in progress (`T-M4-06` done)
-- **Branch / HEAD:** `development` at `a4f909e` (committing T-M4-06 next; `origin/main` at `650cc02`)
-- **Uncommitted or unapplied work:** none after T-M4-06 commit; local `core.hooksPath=.githooks` active.
+- **Stage / phase:** Phase 1 (release 0.1.0), **M4 K4 Rule Packs** in progress (`T-M4-07` done)
+- **Branch / HEAD:** `development` at `09d227b` (committing T-M4-07 next; `origin/main` at `650cc02`)
+- **Uncommitted or unapplied work:** none after T-M4-07 commit; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
 | Check | Result | At commit |
 |---|---|---|
-| `npm.cmd test -- k4` | `39 passed (39)` | `a4f909e` + T-M4-06 |
-| `npm.cmd run packs:build` | `packs: 4 compiled, 35 rules, 70 tests` | `a4f909e` + T-M4-06 |
-| `npm.cmd run packs:check` | `packs: up to date` | `a4f909e` + T-M4-06 |
-| `npm.cmd run check` | `lint` 0 (`77` files), `typecheck` 0, `vitest` `260/260` (`31` files), `build` 0 | `a4f909e` + T-M4-06 |
+| `npm.cmd test -- packages/ts/test/rulepack/load.test.ts` | `6 passed (6)` | `09d227b` + T-M4-07 |
+| `npm.cmd run check` | `lint` 0 (`78` files), `typecheck` 0, `vitest` `266/266` (`32` files), `build` 0 | `09d227b` + T-M4-07 |
 
 ## Done recently
-- T-M4-06: implemented `compilePacks` and CLI in `packages/ts/src/repo-tools/compile-packs.ts`, added `packs:build` / `packs:check` scripts in `package.json`, compiled all 4 packs (`35` rules, `70` tests) into `packs/` and `packages/ts/src/packs/builtin.ts`, and created `packages/ts/src/packs/index.ts`.
+- T-M4-07: implemented `loadPack` (`packages/ts/src/rulepack/load.ts`), `activeRules` (`packages/ts/src/rulepack/asof.ts`), and added `packages/ts/test/rulepack/load.test.ts` (`6` tests covering digest verification, spec/kind rejection, and effective-date/status filtering).
 
 ## Next step
-1. **T-M4-07** (`docs/plan/M4-rulepack.md`): implement `loadPack` (`packages/ts/src/rulepack/load.ts`) and `activeRules` (`packages/ts/src/rulepack/asof.ts`).
+1. **T-M4-08** (`docs/plan/M4-rulepack.md`): add `packs-check.test.ts`, enable `packs:check` in `.github/workflows/ci.yml` and `package.json` `check`, and close Milestone M4.
 
 ## Blocked on / questions for the owner
 - Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).

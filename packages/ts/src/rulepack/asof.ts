@@ -47,6 +47,9 @@ export function localDate(ts: string, tz: string): string {
   return new Date(shifted).toISOString().slice(0, 10);
 }
 
-export function activeRules(_pack: LoadedPack, _date: string): Rule[] {
-  throw new Error('not implemented');
+export function activeRules(pack: LoadedPack, date: string): Rule[] {
+  return pack.rules.filter(
+    (rule) =>
+      (rule.status === 'experimental' || rule.status === 'stable') && selectAsOf(pack.rules, rule.id, date) === rule,
+  );
 }

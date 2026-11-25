@@ -1,4 +1,5 @@
-import type { Digest } from '../core/index.js';
+import { type Digest, digest } from '../core/index.js';
+import { PlinthError } from '../errors.js';
 
 export type PackKind = 'secret-detection' | 'pii-detection' | 'untrusted-text';
 export type Severity = 'critical' | 'high' | 'medium' | 'low';
@@ -95,6 +96,29 @@ export interface LoadedPack {
   rules: readonly Rule[];
 }
 
-export function loadPack(_pack: CompiledPack): LoadedPack {
-  throw new Error('not implemented');
+const SUPPORTED_SPEC = 'pk-rulepack/1.0';
+const SUPPORTED_KINDS = new Set<string>(['secret-detection', 'pii-detection', 'untrusted-text']);
+
+export function loadPack(pack: CompiledPack): LoadedPack {
+  const { manifest, rules, tests } = pack;
+  if (
+    manifest.spec !== SUPPORTED_SPEC ||
+    manifest.min_engine !== SUPPORTED_SPEC ||
+    rules.spec !== SUPPORTED_SPEC ||
+    tests.spec !== SUPPORTED_SPEC
+  ) {
+    throw new PlinthError('PK_SPEC_UNSUPPORTED', manifest.spec);
+  }
+  if (!SUPPORTED_KINDS.has(manifest.kind)) {
+    throw new PlinthError('PK_RULEPACK_KIND_UNSUPPORTED', manifest.kind);
+  }
+  const rulesEntry = manifest.files.find((file) => file.path === 'rules.json');
+  if (rulesEntry === undefined || digest(rules) !== rulesEntry.sha256) {
+    throw new PlinthError('PK_RULEPACK_FILE_HASH_MISMATCH', 'rules.json');
+  }
+  const testsEntry = manifest.files.find((file) => file.path === 'tests.json');
+  if (testsEntry === undefined || digest(tests) !== testsEntry.sha256) {
+    throw new PlinthError('PK_RULEPACK_FILE_HASH_MISMATCH', 'tests.json');
+  }
+  return { manifest, rules: rules.rules };
 }
