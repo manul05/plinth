@@ -2,10 +2,6 @@
 # Secret scan (gitleaks) + dependency vulnerability scan (osv-scanner) for every stack.
 # Runs on pull requests into main and on demand, NOT on every push (saves Actions minutes).
 #
-# UNVERIFIED at time of writing: image tags and CLI syntax below. At repo creation the
-# agent must check the current gitleaks and osv-scanner releases, pin exact versions
-# (or image digests), and run this once with workflow_dispatch to prove it works.
-#
 # Why not CodeQL / GitHub secret scanning? On PRIVATE repos they need paid GitHub
 # Code Security / Secret Protection. Turn them on (free) when the repo goes public.
 name: security-scan
@@ -27,16 +23,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4          # UNVERIFIED: check latest major
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0                   # full history, so old leaked secrets are found too
 
       - name: Secrets (gitleaks, whole history, values redacted in output)
         run: |
-          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:{{GITLEAKS_VERSION}} \
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 \
             git /repo --redact --verbose
 
       - name: Vulnerable dependencies (osv-scanner, all lockfiles)
         run: |
-          docker run --rm -v "$PWD:/src" ghcr.io/google/osv-scanner:{{OSV_SCANNER_VERSION}} \
+          docker run --rm -v "$PWD:/src" ghcr.io/google/osv-scanner:v2.7.0 \
             scan source -r /src
