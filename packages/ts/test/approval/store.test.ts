@@ -101,4 +101,26 @@ describe('verifyAndConsume and MemoryConsumedIdStore', () => {
     expect(res).toEqual({ valid: false, error: 'PK_APPROVAL_SUBJECT_MISMATCH' });
     expect(await store.has(v.request.id)).toBe(false);
   });
+
+  it('forwards actionPolicies and requesterHumanId in verifyAndConsume', async () => {
+    const v = loadValidApprovalVector();
+    const store = new MemoryConsumedIdStore();
+
+    const res = await verifyAndConsume({
+      request: v.request,
+      decisions: v.decisions,
+      registry: v.registry,
+      actualSubjectDigest: v.actual_subject_digest,
+      allowedActions: v.allowed_actions,
+      now: v.now,
+      store,
+      actionPolicies: {
+        'passdown.git.push_protected_ref': { min_approvals: 1, distinct_from_requester: true },
+      },
+      requesterHumanId: 'owner',
+    });
+
+    expect(res).toEqual({ valid: false, error: 'PK_APPROVAL_SELF_APPROVAL' });
+    expect(await store.has(v.request.id)).toBe(false);
+  });
 });

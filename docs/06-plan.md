@@ -63,7 +63,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M3-07 | Break-glass codes | M3 | T-M3-03 | S | AC-12.1 | done |
 | T-M3-08 | SPIKE real authenticator | M3 | T-M3-07 | M | AC-5.3, TM-06 | done |
 | T-M3-09 | M3 close, MC-3/4/8–11, R1 | M3 | T-M3-06, T-M3-08 | S | NFR-11 | done |
-| T-M3-10 | R1-01 fix: enforcement actionPolicies & requester human_id | M3 | T-M3-09 | M | R1-01, TM-12 | todo |
+| T-M3-10 | R1-01 fix: enforcement actionPolicies & requester human_id | M3 | T-M3-09 | M | R1-01, TM-12 | done |
 | T-M3-11 | R1-02 fix: registry update_threshold (distinct approvers) | M3 | T-M3-10 | M | R1-02, TM-10 | todo |
 | T-M4-01 | Red skeleton k4 | M4 | T-M3-11 | S | AC-13.x, AC-14.1 harness | todo |
 | T-M4-02 | selectAsOf, localDate | M4 | T-M4-01 | S | AC-14.1 | todo |

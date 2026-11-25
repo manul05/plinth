@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  type ActionPolicy,
   type ApprovalRequest,
   type Digest,
   digest,
@@ -56,6 +57,8 @@ describe('k2 verifyApproval', () => {
   for (const vec of loadVectors('k2', 'verifyApproval')) {
     it(vec.id, () => {
       const consumedIds = vec.input.consumed_ids as readonly string[];
+      const actionPolicies = vec.input.action_policies as Readonly<Record<string, ActionPolicy>> | undefined;
+      const requesterHumanId = vec.input.requester_human_id as string | undefined;
       const result = verifyApproval({
         request: vec.input.request,
         decisions: vec.input.decisions as readonly unknown[],
@@ -64,6 +67,8 @@ describe('k2 verifyApproval', () => {
         allowedActions: vec.input.allowed_actions as readonly string[],
         now: vec.input.now as string,
         isConsumed: (id) => consumedIds.includes(id),
+        ...(actionPolicies !== undefined ? { actionPolicies } : {}),
+        ...(requesterHumanId !== undefined ? { requesterHumanId } : {}),
       });
       expect(result).toEqual(vec.expect);
     });

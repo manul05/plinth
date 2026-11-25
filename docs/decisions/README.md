@@ -25,3 +25,4 @@ one's status becomes `Superseded by ADR-MMMM`. Decisions made in Stage 2 stay in
 | 0016 | [Re-pin Node.js to 26.13.1 and npm to 11.20.0](0016-repin-node-26-13-1-npm-11-20-0.md) | Accepted | 2026-11-25 |
 | 0017 | [Declare property "d" inside "not" in jwk.schema.json for Ajv strict mode](0017-jwk-schema-strict-required.md) | Accepted | 2026-11-25 |
 | 0018 | [Add real-authenticator WebAuthn vectors](0018-add-real-authenticator-vectors.md) | Accepted | 2026-11-25 |
+| 0019 | [Enforcement-side action policies and authenticated requester identity](0019-enforcement-action-policies-and-requester-id.md) | Accepted | 2026-11-25 |

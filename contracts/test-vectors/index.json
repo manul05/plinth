@@ -331,6 +331,10 @@
       "sha256": "sha256:2adae2a3d4a38b9405a3d324c624e2875eb0e640bfa58d4864c146c2abbdb509"
     },
     {
+      "path": "k2/k2-approval-distinct-downgrade.json",
+      "sha256": "sha256:2ae36515955b9d3f77b511449187197009782d20db8c2d897d0338ea0e88293a"
+    },
+    {
       "path": "k2/k2-approval-ed25519-not-allowed.json",
       "sha256": "sha256:ddb47f511bbc533e26b7382cdc1762f4c10b736f6b4441f669356acaee5d5b7f"
     },
@@ -349,6 +353,10 @@
     {
       "path": "k2/k2-approval-not-yet-valid.json",
       "sha256": "sha256:418b8a02a8ada03ad5ef3d048531fca141541a2a4de0ecbbca8d74b4ee203af4"
+    },
+    {
+      "path": "k2/k2-approval-policy-downgrade.json",
+      "sha256": "sha256:e63a64724fa8e454300d9d89a68e7c6afbc9db3e382afbb2cb8ab30c2d67fba7"
     },
     {
       "path": "k2/k2-approval-realm-mismatch.json",

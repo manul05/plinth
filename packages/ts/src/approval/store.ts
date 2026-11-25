@@ -1,5 +1,5 @@
 import type { RegistryPayload } from './registry.js';
-import { type ApprovalResult, verifyApproval } from './verify.js';
+import { type ActionPolicy, type ApprovalResult, verifyApproval } from './verify.js';
 
 export interface ConsumedIdStore {
   has(id: string): Promise<boolean>;
@@ -18,6 +18,8 @@ export async function verifyAndConsume(input: {
   allowedActions: readonly string[];
   now: string;
   store: ConsumedIdStore;
+  actionPolicies?: Readonly<Record<string, ActionPolicy>>;
+  requesterHumanId?: string;
 }): Promise<ApprovalResult> {
   const req = input.request;
   const reqId =
@@ -34,6 +36,8 @@ export async function verifyAndConsume(input: {
     allowedActions: input.allowedActions,
     now: input.now,
     isConsumed: () => seen,
+    ...(input.actionPolicies !== undefined ? { actionPolicies: input.actionPolicies } : {}),
+    ...(input.requesterHumanId !== undefined ? { requesterHumanId: input.requesterHumanId } : {}),
   });
   if (!r.valid) {
     return r;

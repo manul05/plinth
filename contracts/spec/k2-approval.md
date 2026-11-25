@@ -26,11 +26,12 @@ For each envelope e (index i) with p = e.payload:
 Empty `envelopes` → `PK_APPROVAL_REGISTRY_MALFORMED` with `at_version: -1`.
 
 ## 4. `verifyApproval(input)` — MUST run at the enforcement point; never throws; normative order
+Products MUST supply `actionPolicies` (`{[action]: {min_approvals, distinct_from_requester}}`) and `requesterHumanId` from the enforcement point's own configuration and authentication rather than trusting the request. When supplied, effective policy is the stricter of the request and `actionPolicies[action]`, and `requesterHumanId` overrides `request.requester.human_id`.
 Skew S = 300 s (`SKEW_SECONDS`). c = created_at, x = expires_at, t = now (all parsed to ms).
-1. request is an object with string id, object subject, object policy, object requester, `created_at`/`expires_at` matching the timestamp pattern → else `PK_APPROVAL_REQUEST_MALFORMED`.
+1. request is an object with string id, object subject, object policy (`min_approvals` safe integer ≥ 1, boolean `distinct_from_requester`), object requester, `created_at`/`expires_at` matching the timestamp pattern → else `PK_APPROVAL_REQUEST_MALFORMED`.
 2. `spec === "pk-approval/1.0"` → else `PK_SPEC_UNSUPPORTED`.
 3. `realm === registry.realm` → else `PK_APPROVAL_REALM_MISMATCH`.
-4. action in `allowedActions` (closed list from product code) → else `PK_APPROVAL_UNKNOWN_ACTION`.
+4. action in `allowedActions` (closed list from product code) and, if `actionPolicies` is supplied, own property of `actionPolicies` → else `PK_APPROVAL_UNKNOWN_ACTION`.
 5. `policy.registry_version > registry.version` → `PK_APPROVAL_REGISTRY_STALE`.
 6. `subject.digest === actualSubjectDigest` (recomputed from the thing about to happen) → else `PK_APPROVAL_SUBJECT_MISMATCH`. **This step is the whole point.**
 7. x ≤ c or x − c > `max_ttl_seconds`·1000 → `PK_APPROVAL_TTL_TOO_LONG`.
@@ -47,8 +48,8 @@ Skew S = 300 s (`SKEW_SECONDS`). c = created_at, x = expires_at, t = now (all pa
     f. decided_at outside [c − S, x + S] → `PK_APPROVAL_DECISION_TIME`;
     g. decision "deny" → `PK_APPROVAL_DENIED` (any deny denies);
     h. add approver_id to the set.
-13. `distinct_from_requester`: `requester.human_id` missing → `PK_APPROVAL_REQUESTER_UNKNOWN`; human_id in the approver set → `PK_APPROVAL_SELF_APPROVAL`.
-14. set size < `min_approvals` → `PK_APPROVAL_INSUFFICIENT`.
+13. `effectiveDistinct = policy.distinct_from_requester || (epPolicy?.distinct_from_requester === true)`: if true, `humanId = requesterHumanId !== undefined ? requesterHumanId : requester.human_id`; `humanId` missing or empty → `PK_APPROVAL_REQUESTER_UNKNOWN`; `humanId` in the approver set → `PK_APPROVAL_SELF_APPROVAL`.
+14. `effectiveMin = Math.max(policy.min_approvals, epPolicy?.min_approvals ?? 1)`: set size < `effectiveMin` → `PK_APPROVAL_INSUFFICIENT`.
 15. `{valid:true, request_digest: rd, matching_code, approver_ids (sorted ascending), consume_id: request.id}`.
 - **Single use:** `verifyAndConsume(input)` does exactly: (1) if `input.request` is an object with a string `id`, `seen = await store.has(id)`, else `seen = false`; (2) `r = verifyApproval({...input, isConsumed: () => seen})`; (3) if `r.valid` is false return r; (4) `added = await store.add(r.consume_id)`; (5) `added` false → `{valid:false, error:"PK_APPROVAL_REPLAYED"}`, else return r. Products MUST make `add` atomic (Durable Object storage, unique index). Offline verifiers keep a local store. Replay against another verifier is limited by subject binding and short expiry (threat model TM-09).
 - Every approve and deny MUST also be written by the product as a K1 event whose `refs` holds `{kind:"pk.approval.decision", digest: digest(decision.payload)}`.

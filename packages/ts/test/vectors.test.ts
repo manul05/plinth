@@ -5,14 +5,14 @@ describe('vectors helper', () => {
   it('vector counts', () => {
     expect(loadVectors('k0')).toHaveLength(56);
     expect(loadVectors('k1')).toHaveLength(21);
-    expect(loadVectors('k2')).toHaveLength(47);
+    expect(loadVectors('k2')).toHaveLength(49);
     expect(loadVectors('k4')).toHaveLength(35);
     expect(loadVectors('k5')).toHaveLength(20);
   });
 
   it('ops filter', () => {
     expect(loadVectors('k0', 'verifyEnvelope')).toHaveLength(19);
-    expect(loadVectors('k2', 'verifyApproval')).toHaveLength(31);
+    expect(loadVectors('k2', 'verifyApproval')).toHaveLength(33);
   });
 
   it('loadKey', () => {

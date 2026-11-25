@@ -4,6 +4,11 @@ import { DECISION_POLICY, SKEW_SECONDS } from './policies.js';
 import { type RegistryPayload, trustedKeysFromRegistry } from './registry.js';
 import { type ApprovalRequest, matchingCode } from './request.js';
 
+export interface ActionPolicy {
+  min_approvals: number;
+  distinct_from_requester: boolean;
+}
+
 export type ApprovalResult =
   | { valid: true; request_digest: Digest; matching_code: string; approver_ids: string[]; consume_id: string }
   | { valid: false; error: ErrorCode };
@@ -83,6 +88,7 @@ function verifyDecision(
 
 /**
  * Verifies an approval request and its signed decisions against a registry and enforcement context. Never throws.
+ * Products MUST pass `actionPolicies` and `requesterHumanId` from enforcement auth so requests cannot downgrade policy.
  */
 export function verifyApproval(input: {
   request: unknown;
@@ -92,6 +98,8 @@ export function verifyApproval(input: {
   allowedActions: readonly string[];
   now: string;
   isConsumed: (id: string) => boolean;
+  actionPolicies?: Readonly<Record<string, ActionPolicy>>;
+  requesterHumanId?: string;
 }): ApprovalResult {
   try {
     const req = input.request;
@@ -101,6 +109,10 @@ export function verifyApproval(input: {
       typeof req.id !== 'string' ||
       !isRecord(req.subject) ||
       !isRecord(req.policy) ||
+      typeof req.policy.min_approvals !== 'number' ||
+      !Number.isSafeInteger(req.policy.min_approvals) ||
+      req.policy.min_approvals < 1 ||
+      typeof req.policy.distinct_from_requester !== 'boolean' ||
       !isRecord(req.requester) ||
       typeof req.created_at !== 'string' ||
       !isTimestamp(req.created_at) ||
@@ -132,9 +144,16 @@ export function verifyApproval(input: {
       return { valid: false, error: 'PK_APPROVAL_REALM_MISMATCH' };
     }
 
-    // Step 4: action allowlist
+    // Step 4: action allowlist and optional enforcement-side policy map
     if (typeof req.action !== 'string' || !input.allowedActions.includes(req.action)) {
       return { valid: false, error: 'PK_APPROVAL_UNKNOWN_ACTION' };
+    }
+    let epPolicy: ActionPolicy | undefined;
+    if (input.actionPolicies !== undefined) {
+      if (!isRecord(input.actionPolicies) || !Object.hasOwn(input.actionPolicies, req.action)) {
+        return { valid: false, error: 'PK_APPROVAL_UNKNOWN_ACTION' };
+      }
+      epPolicy = input.actionPolicies[req.action];
     }
 
     // Step 5: registry staleness
@@ -209,9 +228,10 @@ export function verifyApproval(input: {
       approvers.add(res.approverId);
     }
 
-    // Step 13: distinct_from_requester
-    if (req.policy.distinct_from_requester === true) {
-      const humanId = req.requester.human_id;
+    // Step 13: distinct_from_requester (stricter of request and enforcement policy; authenticated requesterHumanId wins)
+    const effectiveDistinct = req.policy.distinct_from_requester || epPolicy?.distinct_from_requester === true;
+    if (effectiveDistinct) {
+      const humanId = input.requesterHumanId !== undefined ? input.requesterHumanId : req.requester.human_id;
       if (typeof humanId !== 'string' || humanId.length === 0) {
         return { valid: false, error: 'PK_APPROVAL_REQUESTER_UNKNOWN' };
       }
@@ -220,8 +240,9 @@ export function verifyApproval(input: {
       }
     }
 
-    // Step 14: min_approvals threshold
-    if (typeof req.policy.min_approvals !== 'number' || approvers.size < req.policy.min_approvals) {
+    // Step 14: min_approvals threshold (stricter of request and enforcement policy)
+    const effectiveMin = Math.max(req.policy.min_approvals, epPolicy?.min_approvals ?? 1);
+    if (approvers.size < effectiveMin) {
       return { valid: false, error: 'PK_APPROVAL_INSUFFICIENT' };
     }
 
