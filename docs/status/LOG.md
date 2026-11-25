@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Regex scanning, pairing & sort (T-M5-03)
+
+- **Did:** Implemented `scan` in `packages/ts/src/detect/scan.ts` for secret, PII, and phrase rules with keyword prefilter, entropy/allow/validator checks, `pair_with` distance filtering, and deterministic sorting; marked `T-M5-03` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run lint` (87 files), `npm.cmd run typecheck`, `npm.cmd test -- pack-tests k5` (`79 passed | 14 failed`: 65/70 pack tests incl. all 60 regex-pack tests, 3/4 `k5` scan vectors, 11/11 helpers) @ `a978c14` + T-M5-03.
+- **Decisions:** None.
+- **Owner:** `"Start M5 (docs/plan/M5-detection.md) from docs/status/STATUS.md and execute T-M5-01 to T-M5-08 one by one on development"` (2026-11-25).
+- **Next:** `T-M5-04` (`scan.ts`: hidden-character runs).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Validators, entropy & masks (T-M5-02)
 
 - **Did:** Implemented `verhoeffValid`, `gstinValid`, `upiHandleValid` in `validators.ts`, `shannonEntropy` in `entropy.ts`, and `maskSecret` in `mask.ts`, added unit tests in `k5-vectors.test.ts`, and marked `T-M5-02` `done` in `docs/06-plan.md`.
