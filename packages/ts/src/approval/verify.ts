@@ -1,7 +1,8 @@
-import { type Digest, isTimestamp } from '../core/index.js';
+import { type Digest, digest, isTimestamp, type TrustedKey, verifyEnvelope } from '../core/index.js';
 import type { ErrorCode } from '../errors.js';
-import { SKEW_SECONDS } from './policies.js';
-import type { RegistryPayload } from './registry.js';
+import { DECISION_POLICY, SKEW_SECONDS } from './policies.js';
+import { type RegistryPayload, trustedKeysFromRegistry } from './registry.js';
+import { type ApprovalRequest, matchingCode } from './request.js';
 
 export type ApprovalResult =
   | { valid: true; request_digest: Digest; matching_code: string; approver_ids: string[]; consume_id: string }
@@ -9,6 +10,75 @@ export type ApprovalResult =
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function verifyDecision(
+  d: unknown,
+  ctx: {
+    requestDigest: Digest;
+    trustedKeys: readonly TrustedKey[];
+    registry: RegistryPayload;
+    createdMs: number;
+    expiresMs: number;
+    skewMs: number;
+  },
+): { ok: true; approverId: string } | { ok: false; error: ErrorCode } {
+  // 12a: outer envelope shape and payload object
+  if (!isRecord(d) || d.type !== 'pk.approval.decision' || !isRecord(d.payload)) {
+    return { ok: false, error: 'PK_APPROVAL_DECISION_MALFORMED' };
+  }
+
+  // 12b: verify signature envelope against DECISION_POLICY
+  const envRes = verifyEnvelope(d, { trustedKeys: ctx.trustedKeys, policy: DECISION_POLICY });
+  if (!envRes.valid) {
+    return { ok: false, error: envRes.error };
+  }
+
+  // 12c: decision payload shape
+  const p = d.payload;
+  if (
+    p.spec !== 'pk-approval/1.0' ||
+    typeof p.approver_id !== 'string' ||
+    p.approver_id.length === 0 ||
+    (p.decision !== 'approve' && p.decision !== 'deny') ||
+    typeof p.decided_at !== 'string' ||
+    !isTimestamp(p.decided_at)
+  ) {
+    return { ok: false, error: 'PK_APPROVAL_DECISION_MALFORMED' };
+  }
+
+  // 12d: request digest binding
+  if (p.request_digest !== ctx.requestDigest) {
+    return { ok: false, error: 'PK_APPROVAL_REQUEST_MISMATCH' };
+  }
+
+  // 12e: signer-to-approver identity, profile/alg match, and synced-passkey policy
+  for (const signer of envRes.signers) {
+    const approver = ctx.registry.approvers.find((a) => a.kid === signer.kid);
+    if (approver === undefined || approver.id !== p.approver_id) {
+      return { ok: false, error: 'PK_APPROVAL_APPROVER_MISMATCH' };
+    }
+    if ((approver.profile === 'webauthn') !== (signer.alg === 'webauthn-ES256')) {
+      return { ok: false, error: 'PK_APPROVAL_PROFILE_ALG_MISMATCH' };
+    }
+    if (signer.flags?.be === true && ctx.registry.allow_synced_passkeys !== true) {
+      return { ok: false, error: 'PK_APPROVAL_SYNCED_KEY_NOT_ALLOWED' };
+    }
+  }
+
+  // 12f: decision timestamp within [created - skew, expires + skew]
+  const decidedMs = Date.parse(p.decided_at);
+  if (decidedMs < ctx.createdMs - ctx.skewMs || decidedMs > ctx.expiresMs + ctx.skewMs) {
+    return { ok: false, error: 'PK_APPROVAL_DECISION_TIME' };
+  }
+
+  // 12g: any deny rejects the approval
+  if (p.decision === 'deny') {
+    return { ok: false, error: 'PK_APPROVAL_DENIED' };
+  }
+
+  // 12h: record distinct approver
+  return { ok: true, approverId: p.approver_id };
 }
 
 /**
@@ -119,12 +189,50 @@ export function verifyApproval(input: {
       return { valid: false, error: 'PK_APPROVAL_NO_DECISION' };
     }
 
-    // Steps 12-15 implemented in T-M3-05
-    try {
-      throw new Error('decisions not implemented');
-    } catch {
-      return { valid: false, error: 'PK_APPROVAL_DECISION_MALFORMED' };
+    // Step 12: verify each decision
+    const rd = digest(req);
+    const trustedKeys = trustedKeysFromRegistry(input.registry);
+    const approvers = new Set<string>();
+    const ctx = {
+      requestDigest: rd,
+      trustedKeys,
+      registry: input.registry,
+      createdMs,
+      expiresMs,
+      skewMs,
+    };
+    for (const d of input.decisions) {
+      const res = verifyDecision(d, ctx);
+      if (!res.ok) {
+        return { valid: false, error: res.error };
+      }
+      approvers.add(res.approverId);
     }
+
+    // Step 13: distinct_from_requester
+    if (req.policy.distinct_from_requester === true) {
+      const humanId = req.requester.human_id;
+      if (typeof humanId !== 'string' || humanId.length === 0) {
+        return { valid: false, error: 'PK_APPROVAL_REQUESTER_UNKNOWN' };
+      }
+      if (approvers.has(humanId)) {
+        return { valid: false, error: 'PK_APPROVAL_SELF_APPROVAL' };
+      }
+    }
+
+    // Step 14: min_approvals threshold
+    if (typeof req.policy.min_approvals !== 'number' || approvers.size < req.policy.min_approvals) {
+      return { valid: false, error: 'PK_APPROVAL_INSUFFICIENT' };
+    }
+
+    // Step 15: valid
+    return {
+      valid: true,
+      request_digest: rd,
+      matching_code: matchingCode(req as unknown as ApprovalRequest),
+      approver_ids: [...approvers].sort(),
+      consume_id: req.id,
+    };
   } catch {
     return { valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' };
   }

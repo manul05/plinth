@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Verify signed decisions and distinct approvers (T-M3-05)
+
+- **Did:** Implemented `verifyApproval` steps 12–15 (`verifyDecision`) in `packages/ts/src/approval/verify.ts`; created `packages/ts/test/approval/verify.test.ts` (red `verifyApproval` vector test first); marked `T-M3-05` `done` in `docs/06-plan.md`.
+- **Verified:** `verify` `5/5` (`31/31` `verifyApproval` vectors), `k2` (`4 failed | 41 passed (45)`), `portability` `5/5`, `lint` `Checked 60 files` (0), `typecheck` 0, `build` 0 @ `a8cd30c` + T-M3-05.
+- **Decisions:** None.
+- **Owner:** `"execute T-M3-02 to T-M3-09 one by one"` (2026-11-25).
+- **AI:** All 31 `verifyApproval` vectors passed on first try.
+- **Next:** `T-M3-06` (`packages/ts/src/approval/store.ts`: `MemoryConsumedIdStore` and `verifyAndConsume`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Request-side approval checks (T-M3-04)
 
 - **Did:** Implemented `verifyApproval` steps 1–11 in `packages/ts/src/approval/verify.ts` with guarded decision placeholder; marked `T-M3-04` `done` in `docs/06-plan.md`.
