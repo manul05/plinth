@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Strict base64url, hex, UTF-8, SHA-256 (T-M1-02)
+- Did: implemented `packages/ts/src/core/bytes.ts` and created `packages/ts/test/core/bytes.test.ts`; marked T-M1-02 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
+- Verified: red `bytes.test.ts` failed `3/3`; then `bytes` `3/3`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 30 files`), `build` 0 @ `5fe5c8a` + T-M1-02
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: smooth TDD; `@noble/hashes` and `@scure/base` specifiers resolve cleanly under NodeNext + TS 7
+- Next: T-M1-03 (`json.ts`: strict I-JSON parser)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Red skeleton k0 vector runner (T-M1-01)
 - Did: created `packages/ts/test/core/k0-vectors.test.ts` and 9 core stubs in `packages/ts/src/core/`; exported from `src/index.ts`; marked T-M1-01 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
 - Verified: `npm.cmd test -- k0` `56 failed (56)` (expected red), `typecheck` 0, `lint` 0, `portability` `5/5` @ `5e4bc4b` + T-M1-01

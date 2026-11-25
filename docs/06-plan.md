@@ -38,7 +38,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M0-07 | Errors module | M0 | T-M0-04 | S | NFR-6 | done |
 | T-M0-08 | M0 close | M0 | T-M0-05, T-M0-06, T-M0-07 | S | gate | done |
 | T-M1-01 | Red skeleton k0 | M1 | T-M0-08 | S | AC-1.x–4.x harness | done |
-| T-M1-02 | bytes.ts | M1 | T-M1-01 | S | TM-04 | todo |
+| T-M1-02 | bytes.ts | M1 | T-M1-01 | S | TM-04 | done |
 | T-M1-03 | Strict JSON parser | M1 | T-M1-02 | M | AC-2.1, AC-2.2, TM-01, TM-31, TM-34 | todo |
 | T-M1-04 | pk-JCS canonicalize, digest | M1 | T-M1-03 | M | AC-1.1–1.4, AC-2.3, TM-01 | todo |
 | T-M1-05 | Keys, kid, SPKI, test kids | M1 | T-M1-04 | M | AC-3.1–3.4, TM-29 | todo |
