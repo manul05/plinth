@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Compile rule packs & builtin.ts (T-M4-06)
+
+- **Did:** Implemented `compilePacks` + CLI in `packages/ts/src/repo-tools/compile-packs.ts`, added `packs:build`/`packs:check` to `package.json`, generated `packs/` + `packages/ts/src/packs/builtin.ts` (`4` packs, `35` rules, `70` tests), created `packages/ts/src/packs/index.ts`, added `builtin.ts` header test, marked `T-M4-06` `done`.
+- **Verified:** `k4` `39/39`, `packs:build` (`4 compiled, 35 rules, 70 tests`), `packs:check` (`up to date`), `npm.cmd run check` (`lint` 0, `typecheck` 0, `vitest` `260/260`, `build` 0) @ `a4f909e` + T-M4-06.
+- **Decisions:** None.
+- **Owner:** `"execute T-M4-01 to T-M4-08 one by one"` (2026-11-25).
+- **Next:** `T-M4-07` (`loadPack`, `activeRules`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Repo-tools schema validation helper (T-M4-05)
 
 - **Did:** Added `validateAgainst` in `packages/ts/src/repo-tools/schema.ts` and `packages/ts/test/repo-tools/schema.test.ts`, and marked `T-M4-05` `done` in `docs/06-plan.md`.

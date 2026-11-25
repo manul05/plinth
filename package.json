@@ -17,6 +17,8 @@
     "test": "vitest run",
     "test:perf": "vitest run --config vitest.perf.config.ts",
     "build": "tsc -p packages/ts/tsconfig.json",
+    "packs:build": "npm run build && node packages/ts/dist/repo-tools/compile-packs.js",
+    "packs:check": "npm run build && node packages/ts/dist/repo-tools/compile-packs.js --check",
     "check": "npm run lint && npm run typecheck && npm test && npm run build"
   },
   "devDependencies": {

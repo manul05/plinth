@@ -71,7 +71,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M4-03 | YAML safe subset | M4 | T-M4-01 | M | AC-13.1, TM-26 | done |
 | T-M4-04 | Regex dialect lint | M4 | T-M4-01 | S | AC-13.2, TM-23 | done |
 | T-M4-05 | Schema helper | M4 | T-M4-01 | S | compile step 2 | done |
-| T-M4-06 | compile-packs, builtin.ts | M4 | T-M4-02…05 | M | AC-13.3, NFR-7 | todo |
+| T-M4-06 | compile-packs, builtin.ts | M4 | T-M4-02…05 | M | AC-13.3, NFR-7 | done |
 | T-M4-07 | loadPack, activeRules | M4 | T-M4-06 | S | AC-15.1, TM-25 | todo |
 | T-M4-08 | packs:check in CI, M4 close | M4 | T-M4-07 | S | AC-13.3, NFR-7 | todo |
 | T-M5-01 | Red skeleton k5 + pack tests | M5 | T-M4-08 | S | AC-16.x, AC-17.x harness | todo |
