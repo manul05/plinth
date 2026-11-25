@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · M3 close & R1 security review (T-M3-09)
+
+- **Did:** Added `DNB-003` to `docs/do-not-break.md`, committed `ADR-0018` + 2 real-authenticator `k2` vectors (`0c2816f`), logged R1 findings, added `T-M3-10` & `T-M3-11` for the 2 High findings, and marked `T-M3-09` `done`.
+- **Mutations (`npm.cmd test -- k2`):** `MC-3` (`webauthn.ts` UV) failed `k2-approval-uv-off`; `MC-4` (`webauthn.ts` origin) failed `k2-approval-wrong-origin`; `MC-8` (`verify.ts` subject) failed `k2-approval-subject-mismatch`; `MC-9` (`verify.ts` consumed) failed `k2-approval-replayed`; `MC-10` (`registry.ts` new keys) failed `k2-registry-update-unauthorised`; `MC-11` (`verify.ts` BE) failed `k2-approval-synced-passkey-refused`. All restored cleanly (`git diff packages/` empty).
+- **R1 Review (2026-11-25 · Antigravity Claude Opus 5.5):** `0` critical, `2` high (`R1-01`, `R1-02`), `5` medium (`R1-03`..`R1-07`; `R1-06` resolved by `0c2816f`), `10` low (`R1-08`..`R1-17`). Decision: hold M4 until `T-M3-10` (`R1-01`) and `T-M3-11` (`R1-02`) are fixed.
+- **Verified:** `npm.cmd run check` (`lint` `Checked 67 files` 0, `typecheck` 0, `vitest` `29 files / 209 tests` incl. `k2` `47/47`, `build` 0) @ `0c2816f` + T-M3-09.
+- **Owner:** `"Option 1 (Recommended): Yes, commit both as verifyEnvelope vectors..."` + submitted R1 report (2026-11-25).
+- **Next:** `T-M3-10` (R1-01 High fix; needs ADR + owner OK for `contracts/` change).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Real authenticator WebAuthn spike (T-M3-08)
 
 - **Did:** Added `webauthn-capture-server.ts`, `webauthn-capture.html`, and `real-assertion.test.ts`; captured 2 real assertions in `spike-output/` (git-ignored) and marked `T-M3-08` `done` in `docs/06-plan.md`.

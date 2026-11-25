@@ -128,3 +128,25 @@ Files: `packages/ts/src/approval/`, tests `packages/ts/test/approval/`.
   Then **gate R1**: ask the owner to run the review prompt in `docs/testing.md` §8 with `<M3>`; record the result in LOG; turn critical/high findings into fix tasks `T-M3-10…` (S or M each) before M4 starts.
 - **Done when:** mutation checks logged · R1 recorded · STATUS "Next step: T-M4-01" (or the first fix task)
 - **Commit:** `docs: close milestone M3 and record review R1 (T-M3-09)`
+
+---
+
+### T-M3-10 · R1-01 fix (High): enforcement-side `actionPolicies` and requester identity
+- **Size:** M
+- **Depends on:** T-M3-09 (requires ADR + owner OK before editing `contracts/`)
+- **Covers:** R1-01, TM-12
+- **Why:** `min_approvals`, `distinct_from_requester`, and `requester.human_id` currently come from the requester-supplied `ApprovalRequest`, allowing a compromised requester/server to downgrade policy or spoof `human_id`.
+- **Modify (after ADR + owner OK):** `docs/decisions/0019-*.md`, `docs/decisions/README.md`, `contracts/spec/k2-approval.md`, `contracts/api/plinth-api.d.ts`, `contracts/test-vectors/k2/*.json` + `index.json`, `packages/ts/src/approval/verify.ts`, `packages/ts/src/approval/store.ts`, `packages/ts/test/approval/*.test.ts`
+- **Steps:** add enforcement-side policy input (e.g. `actionPolicies` per action) and authenticated requester `human_id` input; compute effective policy as the stricter of request and enforcement policy; add negative tests and vectors for policy downgrade and disabled `distinct_from_requester`.
+- **Run:** `npm run check`
+- **Commit:** `fix(approval): enforce product-side actionPolicies and requester identity (T-M3-10)`
+
+### T-M3-11 · R1-02 fix (High): registry `update_threshold` with distinct approver IDs
+- **Size:** M
+- **Depends on:** T-M3-10 (requires ADR + owner OK before editing `contracts/`)
+- **Covers:** R1-02, TM-10
+- **Why:** `REGISTRY_POLICY.min_signatures = 1` lets a single rogue approver in a multi-person realm sign a registry update that adds a sockpuppet approver or weakens `max_ttl_seconds`/`allow_synced_passkeys`.
+- **Modify (after ADR + owner OK):** `docs/decisions/0020-*.md`, `docs/decisions/README.md`, `contracts/spec/k2-approval.md`, `contracts/schemas/pk-approval.registry-payload.schema.json`, `contracts/test-vectors/k2/*.json` + `index.json`, `packages/ts/src/approval/registry.ts`, `packages/ts/test/approval/registry.test.ts`
+- **Steps:** add `update_threshold` to the registry payload contract and require that many distinct approver `id`s from the previous registry version to sign version `n + 1`; add negative vectors and unit tests for below-threshold updates and two keys belonging to the same approver `id`.
+- **Run:** `npm run check`
+- **Commit:** `fix(approval): enforce distinct-approver threshold on registry updates (T-M3-11)`

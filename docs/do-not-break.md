@@ -26,4 +26,10 @@ Entry shape (keep each under 8 lines):
 - Why: RFC 8785 orders by UTF-16 code units; any other order changes every hash and breaks other languages
 - Test: k0-jcs-utf16-order, k0-jcs-utf16-vs-codepoint
 
-(DNB-003…004 are added by tasks T-M3-09, T-M5-11.)
+## DNB-003: ECDSA verification passes lowS: false
+- Where: packages/ts/src/core/envelope.ts and core/webauthn.ts (p256.verify calls)
+- Rule: every p256.verify call passes { lowS: false }
+- Why: noble rejects high-S by default; authenticators and other languages may produce high-S signatures, which are valid ECDSA
+- Test: k0-env-valid-es256-high-s
+
+(DNB-004 is added by task T-M5-11.)
