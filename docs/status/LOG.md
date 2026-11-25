@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Portable regex dialect lint (T-M4-04)
+
+- **Did:** Implemented `lintRegex` in `packages/ts/src/repo-tools/regex-lint.ts`, added a `rules/*/rules.yaml` validation test in `packages/ts/test/rulepack/k4-vectors.test.ts`, and marked `T-M4-04` `done` in `docs/06-plan.md`.
+- **Verified:** `k4 lintRegex` (`14 passed`), `portability` `5/5`, `lint` 0, `typecheck` 0, `build` 0 @ `a67e620` + T-M4-04.
+- **Decisions:** None.
+- **Owner:** `"execute T-M4-01 to T-M4-08 one by one"` (2026-11-25).
+- **Next:** `T-M4-05` (`packages/ts/src/repo-tools/schema.ts`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Safe YAML subset reader (T-M4-03)
 
 - **Did:** Implemented `yamlToValue` in `packages/ts/src/repo-tools/yaml-subset.ts`, added quoted string and negative integer assertions in `packages/ts/test/rulepack/k4-vectors.test.ts`, and marked `T-M4-03` `done` in `docs/06-plan.md`.

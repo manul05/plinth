@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
@@ -79,6 +79,31 @@ describe('k4 lintRegex', () => {
       }
     });
   }
+
+  it('passes every regex in rules/*/rules.yaml', () => {
+    const rulesRoot = join(REPO_ROOT, 'rules');
+    const packDirs = readdirSync(rulesRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => entry.name)
+      .sort();
+    expect(packDirs.length).toBeGreaterThan(0);
+    let checked = 0;
+    for (const packDir of packDirs) {
+      const file = join(rulesRoot, packDir, 'rules.yaml');
+      const parsed = yamlToValue(readFileSync(file, 'utf8'), file) as {
+        rules: Array<{ body: { regex?: string; flags?: string } }>;
+      };
+      for (const rule of parsed.rules) {
+        if (typeof rule.body.regex === 'string') {
+          checked += 1;
+          const pattern = rule.body.regex;
+          const flags = rule.body.flags ?? '';
+          expect(() => lintRegex(pattern, flags)).not.toThrow();
+        }
+      }
+    }
+    expect(checked).toBeGreaterThan(20);
+  });
 });
 
 describe('k4 compilePackDigests', () => {

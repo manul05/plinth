@@ -69,7 +69,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M4-01 | Red skeleton k4 | M4 | T-M3-12 | S | AC-13.x, AC-14.1 harness | done |
 | T-M4-02 | selectAsOf, localDate | M4 | T-M4-01 | S | AC-14.1 | done |
 | T-M4-03 | YAML safe subset | M4 | T-M4-01 | M | AC-13.1, TM-26 | done |
-| T-M4-04 | Regex dialect lint | M4 | T-M4-01 | S | AC-13.2, TM-23 | todo |
+| T-M4-04 | Regex dialect lint | M4 | T-M4-01 | S | AC-13.2, TM-23 | done |
 | T-M4-05 | Schema helper | M4 | T-M4-01 | S | compile step 2 | todo |
 | T-M4-06 | compile-packs, builtin.ts | M4 | T-M4-02…05 | M | AC-13.3, NFR-7 | todo |
 | T-M4-07 | loadPack, activeRules | M4 | T-M4-06 | S | AC-15.1, TM-25 | todo |
