@@ -28,6 +28,7 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run packs:check
+      - run: npm run conformance
       - run: sh scripts/check-doc-sizes.sh
   full:
     name: perf and release checks

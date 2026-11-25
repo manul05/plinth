@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · plinth-conformance CLI (T-M6-02)
+
+- **Did:** Implemented `runConformance` and `plinth-conformance` CLI in `packages/ts/src/tools/conformance.ts`, created `packages/ts/test/tools/conformance.test.ts` (2 tests), wired `npm run conformance` into root `package.json` (`check`) and `.github/workflows/ci.yml`, and marked `T-M6-02` `done`.
+- **Verified:** `npm.cmd run check` (`lint` 0 `98` files, `typecheck` 0, `vitest` `379/379` across `41` files, `build` 0, `packs:check` `packs: up to date`, `conformance` `PASS 156/156`), `node packages/ts/dist/tools/conformance.js` (`usage: plinth-conformance <vectors-dir>`, exit `2`) @ `e3100e9` + T-M6-02.
+- **Decisions:** None.
+- **Owner:** `"continue"` (2026-11-25).
+- **Next:** `T-M6-03` (`packages/ts/package.json` exports/bin, `LICENSE`/`NOTICE`, `package.test.ts`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Lock public API to contract (T-M6-01)
 
 - **Did:** Moved `PLINTH_VERSION` into `packages/ts/src/version.ts`, re-exported `errors.js`, `version.js`, and explicit `json.js` members (removing internal `MAX_DEPTH` from `core/index.ts`), added `packs/index.js` to `src/index.ts`, created `packages/ts/test/api-conformance.test.ts`, and marked `T-M6-01` `done`.
