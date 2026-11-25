@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Red skeleton k2 vector runner (T-M3-01)
+
+- **Did:** Created `packages/ts/src/approval/{index,policies,request,registry,verify,store,breakglass}.ts` (final `policies.ts`, `CHECKPOINT_POLICY` re-export, remaining K2 API stubs), wired `packages/ts/src/index.ts`, added `packages/ts/test/approval/k2-vectors.test.ts` (45 vectors), and marked `T-M3-01` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd test -- k2` (`43 failed | 2 passed (45)`, `jwkFromP256Spki` passing), `portability` `5/5`, `typecheck` 0, `lint` `Checked 57 files` (0 errors), `build` 0 @ `d20c53e` + T-M3-01.
+- **Decisions:** None.
+- **Owner:** `"start T-M3-01 (reading STATUS.md and M3-approval.md)"` (2026-11-25).
+- **AI:** Clean red skeleton; note `docs/plan/M3-approvals.md` (plural) vs `M3-approval.md` in prompt.
+- **Next:** `T-M3-02` (`packages/ts/src/approval/request.ts`: `createApprovalRequest`, `matchingCode`, `decisionPayload`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · M2 close & mutation checks (T-M2-06)
 
 - **Done:** Closed M2 K1 Audit Log. Marked `T-M2-06` `done` in `docs/06-plan.md`.
