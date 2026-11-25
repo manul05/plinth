@@ -87,7 +87,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M5-11 | M5 close, MC-12/13/14 | M5 | T-M5-06, T-M5-07, T-M5-09, T-M5-10 | S | NFR-11 | done |
 | T-M6-01 | API conformance | M6 | T-M5-11 | S | API surface | done |
 | T-M6-02 | plinth-conformance CLI | M6 | T-M6-01 | M | AC-19.1, NFR-10 | done |
-| T-M6-03 | Package exports, files, size | M6 | T-M6-02 | S | NFR-9 | todo |
+| T-M6-03 | Package exports, files, size | M6 | T-M6-02 | S | NFR-9 | done |
 | T-M6-04 | Library E2E, M6 close, R2 | M6 | T-M6-03 | M | E2E-1…4 | todo |
 | T-MR-01 | Snapshot tool | MR | T-M6-04 | M | AC-20.1, TM-27 | todo |
 | T-MR-02 | verify-snapshot.sh | MR | T-MR-01 | S | AC-20.2, TM-27 | todo |

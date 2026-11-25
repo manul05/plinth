@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Package exports, bin & size (T-M6-03)
+
+- **Did:** Added all 7 subpath `exports` and `"bin": { "plinth-conformance": "./dist/tools/conformance.js" }` in `packages/ts/package.json`, copied `LICENSE` and `NOTICE` to `packages/ts/`, created `packages/ts/test/package.test.ts` (4 tests), and marked `T-M6-03` `done`.
+- **Verified:** `npm.cmd run build`, `npm.cmd run lint` (99 files), `npm.cmd run typecheck` (0), `npm.cmd test -- packages/ts/test/package.test.ts` (`4/4`: no repo-tools/src/test, entry points present, `unpackedSize <= 600000`, `LICENSE`/`NOTICE` identical) @ `ae2c6a9` + T-M6-03.
+- **Decisions:** None.
+- **Owner:** `"continue"` (2026-11-25).
+- **Next:** `T-M6-04` (`packages/ts/test/e2e/library.test.ts` + review gate **R2**).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · plinth-conformance CLI (T-M6-02)
 
 - **Did:** Implemented `runConformance` and `plinth-conformance` CLI in `packages/ts/src/tools/conformance.ts`, created `packages/ts/test/tools/conformance.test.ts` (2 tests), wired `npm run conformance` into root `package.json` (`check`) and `.github/workflows/ci.yml`, and marked `T-M6-02` `done`.
