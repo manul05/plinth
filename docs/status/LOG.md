@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Complete T-M0-01 (G0, hooks, guard proof)
+- Did: updated G0 GitHub settings (`development` default, merge-commits only, Dependabot alerts & security updates ON); installed `.githooks`; marked T-M0-01 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
+- Verified: `sh scripts/install-hooks.sh --check` (`OK: hooks active`); G0 settings verified via `gh`; guard proof `git push origin development:main` & `OWNER_APPROVES_PUSH=deadbee` both `BLOCKED` and `origin/main` unchanged at `650cc02` @ `d674bf9`
+- Decisions: none (Node/npm re-pin to follow in ADR-0016)
+- Owner: "G0 GitHub settings - you do it"; "Guard proof & commit - yes" (2026-11-25)
+- AI: Windows sandbox blocks Git Bash (`0xC0000022`), `gh` config, and network; `BypassSandbox` worked cleanly for remote/Git Bash checks
+- Next: ADR-0016 (re-pin Node `26.13.1` / npm `11.20.0`), then T-M0-02
+
 ## 2026-11-07 · Claude Code (Sonnet 5.5, then Opus 5.5) · K2 subject-digest wording
 - Did: `contracts/spec/k2-approval.md` says each product defines its own subject digest (examples: the vectors' form and Passdown's); Plinth compares the two as strings (section 4, step 6). ADR-0015 and its index line. No vectors, schemas or code changed.
 - Verified: not run (wording only).
