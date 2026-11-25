@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Fail-closed chain verification (T-M2-05)
+
+- **Done:** Implemented `verifyChain` (normative steps A–E, never throws) in `packages/ts/src/audit/verify.ts` and added unit tests in `packages/ts/test/audit/verify.test.ts` (red `2/2` before implementation). Marked `T-M2-05` `done` in `docs/06-plan.md`.
+- **Checks:** `verify` `2/2`, `k1` `19/19` (all 19 K1 vectors excluding `lintPersonalData`), `portability` `5/5`, `typecheck` `0`, `lint` `49 files / 0 errors`, `build` `0`.
+- **Next:** `T-M2-06` (M2 close: mutation checks `MC-6`, `MC-7`, and full `npm.cmd run check`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Signed checkpoints and prune marker (T-M2-04)
 
 - **Done:** Implemented `createCheckpoint` and `prunedEventDraft` in `packages/ts/src/audit/checkpoint.ts`, with unit tests in `packages/ts/test/audit/checkpoint.test.ts` (red `2/2` before implementation). Marked `T-M2-04` `done` in `docs/06-plan.md`.
