@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Personal-data lint for audit events (T-M5-07)
+
+- **Did:** Implemented `lintPersonalData` in `packages/ts/src/audit/lint.ts`, re-exported it from `audit/index.ts`, added `packages/ts/test/audit/lint.test.ts` (4 tests), and marked `T-M5-07` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run lint` (91 files), `npm.cmd run typecheck`, `npm.cmd test -- lint k1` (`23 passed (23)`: 21/21 `k1` vectors + 2 unit tests) @ `46bbbcd` + T-M5-07.
+- **Decisions:** None.
+- **Owner:** `"Start M5 (docs/plan/M5-detection.md) from docs/status/STATUS.md and execute T-M5-01 to T-M5-08 one by one on development"` (2026-11-25).
+- **Next:** `T-M5-08` (`repo-tools/detect-file.ts`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Compiler runs pack tests (T-M5-06)
 
 - **Did:** Implemented step 7 (`runPackTests`) in `compile-packs.ts` (and enabled `runTests: true` in CLI), added `bad-pack` fixture and `compile-tests.test.ts` (2), and marked `T-M5-06` `done` in `docs/06-plan.md`.
