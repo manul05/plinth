@@ -60,6 +60,11 @@ describe('k4 yamlSubset', () => {
       }
     });
   }
+
+  it('parses single-quoted string and negative integer', () => {
+    expect(yamlToValue("a: 'x'\n", 'f.yaml')).toEqual({ a: 'x' });
+    expect(yamlToValue('a: -5\n', 'f')).toEqual({ a: -5 });
+  });
 });
 
 describe('k4 lintRegex', () => {
