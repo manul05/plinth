@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Redact, fingerprints & overlap (T-M5-05)
+
+- **Did:** Added internal `hmacSha256Hex` in `core/bytes.ts` (unexported from `core/index.ts`), wired `fingerprint` in `detect/scan.ts`, implemented `redact` in `detect/redact.ts`, created `test/detect/redact.test.ts`, and marked `T-M5-05` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run lint` (88 files), `npm.cmd run typecheck`, `npm.cmd test -- redact k5 pack-tests` (`96 passed (96)`: 70 pack tests, 20 `k5` vectors + 3 helpers, 3 redact security tests) @ `c23fc26` + T-M5-05.
+- **Decisions:** None.
+- **Owner:** `"Start M5 (docs/plan/M5-detection.md) from docs/status/STATUS.md and execute T-M5-01 to T-M5-08 one by one on development"` (2026-11-25).
+- **Next:** `T-M5-06` (`compile-packs` runs pack tests).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Hidden-character runs (T-M5-04)
 
 - **Did:** Implemented `scanHiddenCharRule` in `packages/ts/src/detect/scan.ts` reporting maximal hidden-character runs with UTF-16 offsets and distinct first-seen `U+XXXX` previews; marked `T-M5-04` `done` in `docs/06-plan.md`.

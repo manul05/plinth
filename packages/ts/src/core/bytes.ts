@@ -1,3 +1,4 @@
+import { hmac } from '@noble/hashes/hmac.js';
 import { sha256 } from '@noble/hashes/sha2.js';
 import { bytesToHex, hexToBytes, utf8ToBytes } from '@noble/hashes/utils.js';
 import { base64urlnopad } from '@scure/base';
@@ -38,4 +39,8 @@ export function utf8Encode(text: string): Uint8Array {
 
 export function sha256Bytes(bytes: Uint8Array): Uint8Array {
   return sha256(bytes);
+}
+
+export function hmacSha256Hex(key: Uint8Array, data: Uint8Array): string {
+  return bytesToHex(hmac(sha256, key, data));
 }

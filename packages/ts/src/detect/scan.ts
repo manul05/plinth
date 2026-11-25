@@ -1,3 +1,4 @@
+import { hmacSha256Hex, utf8Encode } from '../core/bytes.js';
 import { PlinthError } from '../errors.js';
 import {
   activeRules,
@@ -45,6 +46,7 @@ function scanSecretRule(
   textLower: string,
   rule: Rule,
   body: SecretBody,
+  installationSecret: Uint8Array | undefined,
   pairWithMap: Map<Finding, PairWith>,
 ): Finding[] {
   if (body.keywords.length > 0 && !body.keywords.some((kw) => textLower.includes(kw))) {
@@ -79,6 +81,9 @@ function scanSecretRule(
       environment: body.environment,
       short: body.short,
       masked_preview: maskSecret(value),
+      ...(installationSecret !== undefined
+        ? { fingerprint: hmacSha256Hex(installationSecret, utf8Encode(value)) }
+        : {}),
     };
     if (body.pair_with !== undefined) {
       pairWithMap.set(finding, body.pair_with);
@@ -244,7 +249,9 @@ export function scan(
   for (const { kind, rule } of taggedRules) {
     if (kind === 'secret-detection') {
       textLower ??= text.toLowerCase();
-      rawFindings.push(...scanSecretRule(text, textLower, rule, rule.body as SecretBody, pairWithMap));
+      rawFindings.push(
+        ...scanSecretRule(text, textLower, rule, rule.body as SecretBody, opts.installationSecret, pairWithMap),
+      );
     } else if (kind === 'pii-detection') {
       rawFindings.push(...scanPiiRule(text, rule, rule.body as PiiBody));
     } else {

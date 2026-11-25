@@ -1,4 +1,4 @@
-export * from './bytes.js';
+export { b64urlDecode, b64urlEncode, hexDecode, hexEncode, sha256Bytes, utf8Encode } from './bytes.js';
 export * from './der.js';
 export * from './envelope.js';
 export * from './ids.js';
