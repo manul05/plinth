@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Request-side approval checks (T-M3-04)
+
+- **Did:** Implemented `verifyApproval` steps 1–11 in `packages/ts/src/approval/verify.ts` with guarded decision placeholder; marked `T-M3-04` `done` in `docs/06-plan.md`.
+- **Verified:** `k2` (`25 failed | 20 passed (45)`, all 10 request-side `verifyApproval` vectors passing), `portability` `5/5`, `lint` `Checked 59 files` (0), `typecheck` 0, `build` 0 @ `854434f` + T-M3-04.
+- **Decisions:** None.
+- **Owner:** `"execute T-M3-02 to T-M3-09 one by one"` (2026-11-25).
+- **AI:** All 10 request-side vectors passed on first try.
+- **Next:** `T-M3-05` (`packages/ts/src/approval/verify.ts`: decision verification steps 12–15 + `verify.test.ts`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Approver registry chain with anti-rollback (T-M3-03)
 
 - **Did:** Implemented `trustedKeysFromRegistry` and `verifyRegistryChain` in `packages/ts/src/approval/registry.ts`; created `packages/ts/test/approval/registry.test.ts` (failing `4/4` red first); marked `T-M3-03` `done` in `docs/06-plan.md`.
