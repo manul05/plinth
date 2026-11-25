@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Fail-closed envelope verification (T-M1-08)
+- Did: implemented `verifyEnvelope` (Ed25519 + ES256, `lowS: false`, normative 8-step order) in `packages/ts/src/core/envelope.ts`; stubbed internal `verifyWebauthnSignature` in `webauthn.ts` (scoped public export in `core/index.ts`); created `packages/ts/test/core/envelope.test.ts`; marked T-M1-08 `done`; updated `STATUS.md` and `LOG.md`
+- Verified: red `envelope.test.ts` failed `3/3`; then `npm.cmd run check` passed (`lint` 0 `37` files, `typecheck` 0, `vitest` `100/100` across `15` files incl. `k0-vectors` `56/56`, `build` 0) @ `2af0a1f` + T-M1-08
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: smooth TDD; `Object.hasOwn(policy, type)` guards against `Object.prototype` key collisions; all 56 k0 vectors green
+- Next: T-M1-09 (`webauthn.ts`: WebAuthn-ES256 signature verification) and T-M1-10 (`ids.ts`)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Signing input and Ed25519 signatures (T-M1-07)
 - Did: implemented `signingInput`, `webauthnChallenge`, `signEd25519`, `createEnvelope` in `packages/ts/src/core/envelope.ts` (moved `webauthnChallenge` from `webauthn.ts` to avoid circular import); created `packages/ts/test/core/envelope-sign.test.ts`; marked T-M1-07 `done`; updated `STATUS.md` and `LOG.md`
 - Verified: red `envelope-sign.test.ts` failed `2/2`; then `envelope-sign` `2/2`, `k0 sign` `2/2`, `portability` `5/5`, `typecheck` 0, `lint` 0 (`Checked 36 files`), `build` 0 @ `ab14c55` + T-M1-07
