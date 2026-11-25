@@ -47,7 +47,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M1-08 | verifyEnvelope Ed25519/ES256 | M1 | T-M1-06, T-M1-07 | M | AC-4.2–4.4, TM-02, TM-03, TM-05, TM-35, NFR-5 | done |
 | T-M1-09 | WebAuthn signature entries | M1 | T-M1-08 | M | AC-5.1, AC-5.2, TM-06 | done |
 | T-M1-10 | UUIDv7, nonce, timestamps | M1 | T-M1-02 | S | AC-9.2 (ids) | done |
-| T-M1-11 | M1 close, MC-1/2/5 | M1 | T-M1-09, T-M1-10 | S | NFR-11 | todo |
+| T-M1-11 | M1 close, MC-1/2/5 | M1 | T-M1-09, T-M1-10 | S | NFR-11 | done |
 | T-M2-01 | Red skeleton k1 | M2 | T-M1-11 | S | AC-6.1, AC-7.x, AC-8.1 harness | todo |
 | T-M2-02 | eventHash, appendEvent | M2 | T-M2-01 | M | AC-6.1, AC-6.2 | todo |
 | T-M2-03 | JSON Lines export/parse | M2 | T-M2-02 | S | AC-8.2 | todo |

@@ -19,6 +19,15 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · M1 close & mutation checks (T-M1-11)
+
+- **Done:** Closed M1 K0 Core. Added `DNB-002` to `docs/do-not-break.md` and marked `T-M1-11` `done` in `docs/06-plan.md`.
+- **Mutations (`npm.cmd test -- k0`):** MC-1 (`envelope.ts` allowlist skipped) failed `k0-env-err-type-not-allowed` (`1 failed | 55 passed`); MC-2 (`envelope.ts` type omitted from PAE) failed 8 tests (`k0-sig-signing-input`, `k0-sig-sign-ed25519`, `k0-env-err-duplicate-kid`, `k0-env-err-insufficient`, and all 4 `k0-env-valid-*`, while `k0-env-err-wrong-type` also yields `PK_SIG_INVALID` on a pre-signed vector); MC-5 (`jcs.ts` `localeCompare`) failed `k0-jcs-utf16-order` (`1 failed | 55 passed`). All 3 restored cleanly.
+- **Checks:** `npm.cmd run check` passed cleanly after restoration (`lint` 39 files, `typecheck` 0, `vitest` `17 files / 114 tests`, `build` 0).
+- **Next:** `T-M2-01` (M2 K1 Audit Log: red skeleton k1).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · UUIDv7, nonces and timestamp helpers (T-M1-10)
 
 - **Done:** Implemented `newUuidV7`, `newNonce`, `isTimestamp`, and `timestampFromMs` in `packages/ts/src/core/ids.ts`, with unit tests in `packages/ts/test/core/ids.test.ts` failing `3/3` before implementation. Marked `T-M1-10` `done` in `docs/06-plan.md`.
