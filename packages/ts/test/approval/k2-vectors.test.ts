@@ -8,8 +8,11 @@ import {
   matchingCode,
   PlinthError,
   type RegistryPayload,
+  type TrustedKey,
+  type TypePolicy,
   verifyApproval,
   verifyBreakGlass,
+  verifyEnvelope,
   verifyRegistryChain,
 } from '../../src/index.js';
 import { loadVectors } from '../vectors.js';
@@ -89,6 +92,18 @@ describe('k2 jwkFromP256Spki', () => {
       } else {
         expect(jwkFromP256Spki(spki)).toEqual(vec.expect.jwk);
       }
+    });
+  }
+});
+
+describe('k2 verifyEnvelope', () => {
+  for (const vec of loadVectors('k2', 'verifyEnvelope')) {
+    it(vec.id, () => {
+      const result = verifyEnvelope(vec.input.envelope, {
+        trustedKeys: vec.input.trusted_keys as readonly TrustedKey[],
+        policy: vec.input.policy as TypePolicy,
+      });
+      expect(result).toEqual(vec.expect);
     });
   }
 });

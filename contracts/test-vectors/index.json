@@ -467,6 +467,14 @@
       "sha256": "sha256:22b04f83215b71518866e2fd3d85285a68917a3d3e1011bb743b9b40bc38c6bc"
     },
     {
+      "path": "k2/k2-real-phone.json",
+      "sha256": "sha256:2583e518c52431c67fe23b91a7011f1a1dd384c56ecbb75d586bca1bfa556093"
+    },
+    {
+      "path": "k2/k2-real-windows-hello.json",
+      "sha256": "sha256:afa715fbf79d2e6022a8b0fdd879594e4d29bfb86fc1fd7c1d4c4aa84d7531ec"
+    },
+    {
       "path": "k2/k2-registry-genesis-mismatch.json",
       "sha256": "sha256:09de8f0c859dbc0c07efcdcfcb203a3c4aa956f3dfa03309b268a62b38d8e999"
     },

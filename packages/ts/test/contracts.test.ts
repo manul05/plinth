@@ -70,7 +70,7 @@ describe('contracts', () => {
     if (!validate) return;
 
     const allVectors = COMPONENTS.flatMap((c) => loadVectors(c));
-    expect(allVectors).toHaveLength(177);
+    expect(allVectors).toHaveLength(179);
     for (const vec of allVectors) {
       const ok = validate(vec);
       expect(ok, `${vec.id}: ${ajv.errorsText(validate.errors)}`).toBe(true);
@@ -120,7 +120,7 @@ describe('contracts', () => {
     const index = JSON.parse(readFileSync(join(VECTORS_DIR, 'index.json'), 'utf8')) as {
       files: Array<{ path: string; sha256: string }>;
     };
-    expect(index.files).toHaveLength(183);
+    expect(index.files).toHaveLength(185);
 
     const indexedPaths = new Set<string>();
     for (const entry of index.files) {
