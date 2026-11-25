@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Red skeleton k4 vector runner (T-M4-01)
+
+- **Did:** Created `packages/ts/src/rulepack/{index,asof,load}.ts` and `packages/ts/src/repo-tools/{yaml-subset,regex-lint,compile-packs}.ts` stubs, wired `packages/ts/src/index.ts`, added `packages/ts/test/rulepack/k4-vectors.test.ts` (35 vectors), and marked `T-M4-01` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd test -- k4` (`35 failed (35)`), `portability` `5/5`, `lint` 0, `typecheck` 0, `build` 0 @ `a237d0e` + T-M4-01.
+- **Decisions:** None.
+- **Owner:** `"execute T-M4-01 to T-M4-08 one by one"` (2026-11-25).
+- **Next:** `T-M4-02` (`packages/ts/src/rulepack/asof.ts`: `selectAsOf`, `localDate`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Medium R1 hardening & K1 anchor limit (T-M3-12)
 
 - **Did:** Added `ADR-0021`, updated `k2-approval.md`, `k1-audit.md`, `05-threat-model.md` (TM-15/16), hardened `verify.ts`, `registry.ts`, and `breakglass.ts` (`R1-03`, `R1-04`, `R1-05`, `R1-07`) with red-first unit tests, and marked `T-M3-12` `done`.
