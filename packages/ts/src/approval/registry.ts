@@ -1,4 +1,12 @@
-import { type Digest, digest, kidOf, type P256PublicJwk, type TrustedKey, verifyEnvelope } from '../core/index.js';
+import {
+  type Digest,
+  digest,
+  isTimestamp,
+  kidOf,
+  type P256PublicJwk,
+  type TrustedKey,
+  verifyEnvelope,
+} from '../core/index.js';
 import { type ErrorCode, PlinthError } from '../errors.js';
 import { REGISTRY_POLICY } from './policies.js';
 
@@ -37,8 +45,72 @@ export type RegistryResult =
   | { valid: true; version: number; registry_digest: Digest; registry: RegistryPayload }
   | { valid: false; error: ErrorCode; at_version: number };
 
+const DIGEST_RE = /^sha256:[0-9a-f]{64}$/;
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isValidApproverShape(a: unknown): a is Record<string, unknown> {
+  if (!isRecord(a)) return false;
+  if (typeof a.id !== 'string' || a.id.length < 1 || typeof a.display !== 'string' || a.display.length < 1) {
+    return false;
+  }
+  if (typeof a.kid !== 'string') return false;
+  if (a.profile !== 'webauthn' && a.profile !== 'android-keystore' && a.profile !== 'windows-tpm') return false;
+  if (!Array.isArray(a.roles) || a.roles.length < 1 || !a.roles.every((r) => typeof r === 'string' && r.length >= 1)) {
+    return false;
+  }
+  if (typeof a.added_at !== 'string' || !isTimestamp(a.added_at)) return false;
+  if (a.webauthn !== undefined) {
+    if (
+      !isRecord(a.webauthn) ||
+      typeof a.webauthn.rp_id !== 'string' ||
+      a.webauthn.rp_id.length < 1 ||
+      !Array.isArray(a.webauthn.origins) ||
+      a.webauthn.origins.length < 1 ||
+      !a.webauthn.origins.every((o) => typeof o === 'string')
+    ) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isValidRegistryPayload(p: Record<string, unknown>): boolean {
+  if (
+    p.spec !== 'pk-approval/1.0' ||
+    typeof p.realm !== 'string' ||
+    p.realm.length < 1 ||
+    typeof p.version !== 'number' ||
+    !Number.isSafeInteger(p.version) ||
+    p.version < 1 ||
+    !Array.isArray(p.approvers) ||
+    p.approvers.length < 1 ||
+    !Array.isArray(p.break_glass) ||
+    typeof p.max_ttl_seconds !== 'number' ||
+    !Number.isSafeInteger(p.max_ttl_seconds) ||
+    p.max_ttl_seconds < 60 ||
+    p.max_ttl_seconds > 86400 ||
+    typeof p.allow_synced_passkeys !== 'boolean'
+  ) {
+    return false;
+  }
+  if (
+    p.update_threshold !== undefined &&
+    (typeof p.update_threshold !== 'number' ||
+      !Number.isSafeInteger(p.update_threshold) ||
+      p.update_threshold < 1 ||
+      p.update_threshold > 5)
+  ) {
+    return false;
+  }
+  if (
+    !p.break_glass.every((bg) => isRecord(bg) && typeof bg.code_digest === 'string' && DIGEST_RE.test(bg.code_digest))
+  ) {
+    return false;
+  }
+  return p.approvers.every(isValidApproverShape);
 }
 
 /**
@@ -81,24 +153,12 @@ export function verifyRegistryChain(input: {
         !isRecord(e) ||
         !isRecord(payloadRaw) ||
         e.type !== 'pk.approval.registry' ||
-        payloadRaw.spec !== 'pk-approval/1.0' ||
-        typeof payloadRaw.realm !== 'string' ||
-        typeof payloadRaw.version !== 'number' ||
-        !Number.isSafeInteger(payloadRaw.version) ||
-        !Array.isArray(payloadRaw.approvers) ||
-        (payloadRaw.update_threshold !== undefined &&
-          (typeof payloadRaw.update_threshold !== 'number' ||
-            !Number.isSafeInteger(payloadRaw.update_threshold) ||
-            payloadRaw.update_threshold < 1 ||
-            payloadRaw.update_threshold > 5))
+        !isValidRegistryPayload(payloadRaw)
       ) {
         return { valid: false, error: 'PK_APPROVAL_REGISTRY_MALFORMED', at_version: atVersion };
       }
 
-      for (const approver of payloadRaw.approvers) {
-        if (!isRecord(approver) || typeof approver.kid !== 'string') {
-          return { valid: false, error: 'PK_APPROVAL_REGISTRY_MALFORMED', at_version: atVersion };
-        }
+      for (const approver of payloadRaw.approvers as Array<Record<string, unknown>>) {
         let computedKid: Digest;
         try {
           computedKid = kidOf(approver.jwk);

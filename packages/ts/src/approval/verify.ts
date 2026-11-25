@@ -13,6 +13,8 @@ export type ApprovalResult =
   | { valid: true; request_digest: Digest; matching_code: string; approver_ids: string[]; consume_id: string }
   | { valid: false; error: ErrorCode };
 
+const DIGEST_RE = /^sha256:[0-9a-f]{64}$/;
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -108,6 +110,8 @@ export function verifyApproval(input: {
       !isRecord(req) ||
       typeof req.id !== 'string' ||
       !isRecord(req.subject) ||
+      typeof req.subject.digest !== 'string' ||
+      !DIGEST_RE.test(req.subject.digest) ||
       !isRecord(req.policy) ||
       typeof req.policy.min_approvals !== 'number' ||
       !Number.isSafeInteger(req.policy.min_approvals) ||
@@ -132,6 +136,9 @@ export function verifyApproval(input: {
         !isTimestamp(req.window.closes_at))
     ) {
       return { valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' };
+    }
+    if (!isRecord(input.registry) || !Array.isArray(input.registry.approvers)) {
+      return { valid: false, error: 'PK_APPROVAL_REGISTRY_MALFORMED' };
     }
 
     // Step 2: spec
@@ -161,17 +168,29 @@ export function verifyApproval(input: {
       return { valid: false, error: 'PK_APPROVAL_REGISTRY_STALE' };
     }
 
-    // Step 6: subject binding (exact string comparison, no default)
-    if (req.subject.digest !== input.actualSubjectDigest) {
+    // Step 6: subject binding (exact digest format + exact string comparison, no default)
+    if (
+      typeof input.actualSubjectDigest !== 'string' ||
+      !DIGEST_RE.test(input.actualSubjectDigest) ||
+      req.subject.digest !== input.actualSubjectDigest
+    ) {
       return { valid: false, error: 'PK_APPROVAL_SUBJECT_MISMATCH' };
     }
 
-    // Step 7: TTL bounds
+    // Step 7: TTL bounds (fail closed on missing/non-integer/out-of-range max_ttl_seconds)
     const createdMs = Date.parse(req.created_at);
     const expiresMs = Date.parse(req.expires_at);
     const nowMs = Date.parse(input.now);
     const skewMs = SKEW_SECONDS * 1000;
-    if (expiresMs <= createdMs || expiresMs - createdMs > input.registry.max_ttl_seconds * 1000) {
+    const maxTtl = input.registry.max_ttl_seconds;
+    if (
+      typeof maxTtl !== 'number' ||
+      !Number.isSafeInteger(maxTtl) ||
+      maxTtl < 60 ||
+      maxTtl > 86400 ||
+      expiresMs <= createdMs ||
+      expiresMs - createdMs > maxTtl * 1000
+    ) {
       return { valid: false, error: 'PK_APPROVAL_TTL_TOO_LONG' };
     }
 

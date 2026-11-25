@@ -18,7 +18,7 @@
 
 ## 3. `verifyRegistryChain({envelopes, genesisDigest, highestSeenVersion})` — never throws
 For each envelope e (index i) with p = e.payload:
-1. p is an object, `p.spec === "pk-approval/1.0"`, safe-integer version, array approvers, valid `update_threshold` (if present: safe integer 1–5), `e.type === "pk.approval.registry"` → else `PK_APPROVAL_REGISTRY_MALFORMED` (`at_version` = p.version or −1).
+1. p is an object, `p.spec === "pk-approval/1.0"`, `p.realm` string, safe-integer version ≥ 1, non-empty array `approvers` (valid `id`, `display`, `kid`, `profile`, `roles`, `added_at`), array `break_glass` (`code_digest` matching `^sha256:[0-9a-f]{64}$`), safe-integer `max_ttl_seconds` (60–86400), boolean `allow_synced_passkeys`, valid `update_threshold` (if present: safe integer 1–5), `e.type === "pk.approval.registry"` → else `PK_APPROVAL_REGISTRY_MALFORMED` (`at_version` = p.version or −1).
 2. every approver: `kidOf(jwk) === kid` → else `PK_KEY_KID_MISMATCH` (a key error gives its own code).
 3. i = 0: `p.version === 1` and `digest(p) === genesisDigest` → else `PK_APPROVAL_REGISTRY_GENESIS_MISMATCH`; then `verifyEnvelope(e, {trustedKeys: trustedKeysFromRegistry(p), policy: REGISTRY_POLICY})` (self-signed genesis; trust comes from the pinned digest) → else that error.
 4. i > 0: `p.realm === previous.realm` → else `PK_APPROVAL_REALM_MISMATCH`; `p.version === previous.version + 1` → else `PK_APPROVAL_REGISTRY_VERSION_GAP`; `verifyEnvelope` with the **previous** registry's keys → `PK_SIG_UNKNOWN_KID` becomes `PK_APPROVAL_REGISTRY_UNAUTHORISED`, other errors pass through; count distinct `approver.id`s in `previous.approvers` matching `res.signers` → fewer than `previous.update_threshold ?? 1` → `PK_APPROVAL_REGISTRY_UNAUTHORISED`.
@@ -28,13 +28,13 @@ Empty `envelopes` → `PK_APPROVAL_REGISTRY_MALFORMED` with `at_version: -1`.
 ## 4. `verifyApproval(input)` — MUST run at the enforcement point; never throws; normative order
 Products MUST supply `actionPolicies` (`{[action]: {min_approvals, distinct_from_requester}}`) and `requesterHumanId` from the enforcement point's own configuration and authentication rather than trusting the request. When supplied, effective policy is the stricter of the request and `actionPolicies[action]`, and `requesterHumanId` overrides `request.requester.human_id`.
 Skew S = 300 s (`SKEW_SECONDS`). c = created_at, x = expires_at, t = now (all parsed to ms).
-1. request is an object with string id, object subject, object policy (`min_approvals` safe integer ≥ 1, boolean `distinct_from_requester`), object requester, `created_at`/`expires_at` matching the timestamp pattern → else `PK_APPROVAL_REQUEST_MALFORMED`.
+1. request is an object with string id, object subject (`subject.digest` matching `^sha256:[0-9a-f]{64}$`), object policy (`min_approvals` safe integer ≥ 1, boolean `distinct_from_requester`), object requester, `created_at`/`expires_at` matching the timestamp pattern → else `PK_APPROVAL_REQUEST_MALFORMED`.
 2. `spec === "pk-approval/1.0"` → else `PK_SPEC_UNSUPPORTED`.
 3. `realm === registry.realm` → else `PK_APPROVAL_REALM_MISMATCH`.
 4. action in `allowedActions` (closed list from product code) and, if `actionPolicies` is supplied, own property of `actionPolicies` → else `PK_APPROVAL_UNKNOWN_ACTION`.
 5. `policy.registry_version > registry.version` → `PK_APPROVAL_REGISTRY_STALE`.
-6. `subject.digest === actualSubjectDigest` (recomputed from the thing about to happen) → else `PK_APPROVAL_SUBJECT_MISMATCH`. **This step is the whole point.**
-7. x ≤ c or x − c > `max_ttl_seconds`·1000 → `PK_APPROVAL_TTL_TOO_LONG`.
+6. `actualSubjectDigest` matches `^sha256:[0-9a-f]{64}$` and `subject.digest === actualSubjectDigest` (recomputed from the thing about to happen) → else `PK_APPROVAL_SUBJECT_MISMATCH`. **This step is the whole point.**
+7. `max_ttl_seconds` is a safe integer in 60–86400, x > c, and x − c ≤ `max_ttl_seconds`·1000 → else `PK_APPROVAL_TTL_TOO_LONG`.
 8. t < c − S → `PK_APPROVAL_NOT_YET_VALID`; t > x + S → `PK_APPROVAL_EXPIRED`.
 9. window present: t < opens_at → `PK_APPROVAL_WINDOW_NOT_OPEN`; t > closes_at → `PK_APPROVAL_WINDOW_CLOSED` (no skew on windows).
 10. `isConsumed(request.id)` → `PK_APPROVAL_REPLAYED`.
@@ -57,7 +57,7 @@ Skew S = 300 s (`SKEW_SECONDS`). c = created_at, x = expires_at, t = now (all pa
 ## 5. Break-glass recovery codes
 - Format: 20 characters from `A-Z2-7` (100 bits), shown `XXXXX-XXXXX-XXXXX-XXXXX`. `newBreakGlassCode()`: 13 random bytes → RFC 4648 base32 (no padding) → first 20 characters → hyphen every 5.
 - Normalise: upper-case, remove `-` and spaces. `breakGlassDigest(code) = digestBytes(UTF-8(normalised))`.
-- `verifyBreakGlass({code, registry, usedDigests})`: normalised not `^[A-Z2-7]{20}$` → `PK_APPROVAL_BREAK_GLASS_FORMAT`; digest not in `registry.break_glass` → `PK_APPROVAL_BREAK_GLASS_UNKNOWN`; in usedDigests → `PK_APPROVAL_BREAK_GLASS_USED`; else `{valid:true, code_digest}`. Product records use as K1 event `pk.approval.break_glass_used` and raises an alarm.
+- `verifyBreakGlass({code, registry, usedDigests})` (never throws): normalised not `^[A-Z2-7]{20}$` → `PK_APPROVAL_BREAK_GLASS_FORMAT`; digest not in `registry.break_glass` → `PK_APPROVAL_BREAK_GLASS_UNKNOWN`; `usedDigests` missing or digest in `usedDigests` → `PK_APPROVAL_BREAK_GLASS_USED`; else `{valid:true, code_digest}`. Product records use as K1 event `pk.approval.break_glass_used` and raises an alarm.
 - The registry has no `used` flag (a signed registry cannot track use; ADR-0012).
 
 ## 6. Honest limits (copy into every consumer's threat model)

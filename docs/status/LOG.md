@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Medium R1 hardening & K1 anchor limit (T-M3-12)
+
+- **Did:** Added `ADR-0021`, updated `k2-approval.md`, `k1-audit.md`, `05-threat-model.md` (TM-15/16), hardened `verify.ts`, `registry.ts`, and `breakglass.ts` (`R1-03`, `R1-04`, `R1-05`, `R1-07`) with red-first unit tests, and marked `T-M3-12` `done`.
+- **Verified:** `npm.cmd run check` (`lint` `Checked 67 files` 0, `typecheck` 0, `vitest` `29 files / 219 tests` incl. `k2` `51/51`, `build` 0) @ `3ddbc0c` + T-M3-12.
+- **Decisions:** `ADR-0021`.
+- **Owner:** `"Option 1 (Recommended)"` (2026-11-25).
+- **Next:** `T-M4-01` (`docs/plan/M4-rulepack.md`: red skeleton `k4` vector runner).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Registry update_threshold by distinct approver IDs (T-M3-11)
 
 - **Did:** Added `ADR-0020`, updated `pk-approval.registry-payload.schema.json`, `plinth-api.d.ts`, `k2-approval.md`, `05-threat-model.md` (`TM-36`), implemented `update_threshold` distinct-approver check in `registry.ts`, added `k2-registry-update-threshold-{insufficient,valid}` (`index.json` 189 entries) + unit test, and marked `T-M3-11` `done`.

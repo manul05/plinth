@@ -116,5 +116,48 @@ describe('verifyApproval', () => {
         ).toEqual({ valid: false, error: 'PK_APPROVAL_DECISION_MALFORMED' });
       }
     });
+
+    it('fails closed on missing/invalid subject.digest, actualSubjectDigest, or registry.max_ttl_seconds', () => {
+      const valid = loadValidApprovalInput();
+      const missingSubjectDigest = structuredClone(valid.request);
+      delete (missingSubjectDigest.subject as Record<string, unknown>).digest;
+      expect(
+        verifyApproval({
+          request: missingSubjectDigest,
+          decisions: valid.decisions,
+          registry: valid.registry,
+          actualSubjectDigest: undefined as unknown as string,
+          allowedActions: valid.allowed_actions,
+          now: valid.now,
+          isConsumed: () => false,
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' });
+
+      expect(
+        verifyApproval({
+          request: valid.request,
+          decisions: valid.decisions,
+          registry: valid.registry,
+          actualSubjectDigest: undefined as unknown as string,
+          allowedActions: valid.allowed_actions,
+          now: valid.now,
+          isConsumed: () => false,
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_SUBJECT_MISMATCH' });
+
+      const badTtlRegistry = structuredClone(valid.registry);
+      (badTtlRegistry as unknown as Record<string, unknown>).max_ttl_seconds = undefined;
+      expect(
+        verifyApproval({
+          request: valid.request,
+          decisions: valid.decisions,
+          registry: badTtlRegistry,
+          actualSubjectDigest: valid.actual_subject_digest,
+          allowedActions: valid.allowed_actions,
+          now: valid.now,
+          isConsumed: () => false,
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_TTL_TOO_LONG' });
+    });
   });
 });

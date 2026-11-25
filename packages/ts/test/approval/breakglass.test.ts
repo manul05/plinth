@@ -34,4 +34,29 @@ describe('break-glass recovery codes', () => {
       'sha256:444361933609d23e64cb267c3a740a4e908cbfe7e17ff6af23ec9c38999e698e',
     );
   });
+
+  describe('verifyBreakGlass never throws', () => {
+    it('fails closed on null input, missing registry.break_glass, or missing usedDigests', () => {
+      expect(verifyBreakGlass(null as unknown as Parameters<typeof verifyBreakGlass>[0])).toEqual({
+        valid: false,
+        error: 'PK_APPROVAL_BREAK_GLASS_FORMAT',
+      });
+      expect(
+        verifyBreakGlass({
+          code: 'abcde-fghij-klmno-pqrs2',
+          registry: {} as RegistryPayload,
+          usedDigests: [],
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_BREAK_GLASS_UNKNOWN' });
+      expect(
+        verifyBreakGlass({
+          code: 'abcde-fghij-klmno-pqrs2',
+          registry: {
+            break_glass: [{ code_digest: 'sha256:444361933609d23e64cb267c3a740a4e908cbfe7e17ff6af23ec9c38999e698e' }],
+          } as unknown as RegistryPayload,
+          usedDigests: undefined as unknown as readonly string[],
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_BREAK_GLASS_USED' });
+    });
+  });
 });

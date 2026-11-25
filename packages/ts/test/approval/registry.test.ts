@@ -140,5 +140,38 @@ describe('registry helpers and chain verification', () => {
         at_version: 1,
       });
     });
+
+    it('rejects registries missing required schema fields or out-of-range max_ttl_seconds', () => {
+      const genesis = structuredClone(loadRegistryGenesis());
+      const env = genesis.envelopes[0];
+      if (!env) throw new Error('missing genesis');
+      (env.payload as unknown as Record<string, unknown>).max_ttl_seconds = 59;
+      expect(
+        verifyRegistryChain({
+          envelopes: [env],
+          genesisDigest: genesis.genesis_digest,
+          highestSeenVersion: 1,
+        }),
+      ).toEqual({
+        valid: false,
+        error: 'PK_APPROVAL_REGISTRY_MALFORMED',
+        at_version: 1,
+      });
+
+      const envNoBreakGlass = structuredClone(loadRegistryGenesis()).envelopes[0];
+      if (!envNoBreakGlass) throw new Error('missing genesis');
+      delete (envNoBreakGlass.payload as unknown as Record<string, unknown>).break_glass;
+      expect(
+        verifyRegistryChain({
+          envelopes: [envNoBreakGlass],
+          genesisDigest: genesis.genesis_digest,
+          highestSeenVersion: 1,
+        }),
+      ).toEqual({
+        valid: false,
+        error: 'PK_APPROVAL_REGISTRY_MALFORMED',
+        at_version: 1,
+      });
+    });
   });
 });

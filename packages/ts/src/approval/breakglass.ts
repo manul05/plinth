@@ -25,26 +25,47 @@ export function breakGlassDigest(code: string): Digest {
 }
 
 /**
- * Verifies a break-glass recovery code against a registry's `break_glass` list and prior uses.
+ * Verifies a break-glass recovery code against a registry's `break_glass` list and prior uses. Never throws.
  */
 export function verifyBreakGlass(input: {
   code: string;
   registry: RegistryPayload;
   usedDigests: readonly string[];
 }): { valid: true; code_digest: Digest } | { valid: false; error: ErrorCode } {
-  if (typeof input.code !== 'string') {
+  try {
+    if (typeof input !== 'object' || input === null || Array.isArray(input) || typeof input.code !== 'string') {
+      return { valid: false, error: 'PK_APPROVAL_BREAK_GLASS_FORMAT' };
+    }
+    const normalised = normaliseCode(input.code);
+    if (!BREAK_GLASS_RE.test(normalised)) {
+      return { valid: false, error: 'PK_APPROVAL_BREAK_GLASS_FORMAT' };
+    }
+    const reg = input.registry as unknown;
+    if (
+      typeof reg !== 'object' ||
+      reg === null ||
+      Array.isArray(reg) ||
+      !Array.isArray((reg as { break_glass?: unknown }).break_glass)
+    ) {
+      return { valid: false, error: 'PK_APPROVAL_BREAK_GLASS_UNKNOWN' };
+    }
+    const codeDigest = digestBytes(utf8Encode(normalised));
+    const entries = (reg as { break_glass: unknown[] }).break_glass;
+    const found = entries.some(
+      (entry) =>
+        typeof entry === 'object' &&
+        entry !== null &&
+        !Array.isArray(entry) &&
+        (entry as { code_digest?: unknown }).code_digest === codeDigest,
+    );
+    if (!found) {
+      return { valid: false, error: 'PK_APPROVAL_BREAK_GLASS_UNKNOWN' };
+    }
+    if (!Array.isArray(input.usedDigests) || input.usedDigests.includes(codeDigest)) {
+      return { valid: false, error: 'PK_APPROVAL_BREAK_GLASS_USED' };
+    }
+    return { valid: true, code_digest: codeDigest };
+  } catch {
     return { valid: false, error: 'PK_APPROVAL_BREAK_GLASS_FORMAT' };
   }
-  const normalised = normaliseCode(input.code);
-  if (!BREAK_GLASS_RE.test(normalised)) {
-    return { valid: false, error: 'PK_APPROVAL_BREAK_GLASS_FORMAT' };
-  }
-  const codeDigest = digestBytes(utf8Encode(normalised));
-  if (!input.registry.break_glass.some((entry) => entry.code_digest === codeDigest)) {
-    return { valid: false, error: 'PK_APPROVAL_BREAK_GLASS_UNKNOWN' };
-  }
-  if (input.usedDigests.includes(codeDigest)) {
-    return { valid: false, error: 'PK_APPROVAL_BREAK_GLASS_USED' };
-  }
-  return { valid: true, code_digest: codeDigest };
 }

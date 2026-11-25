@@ -27,3 +27,4 @@ one's status becomes `Superseded by ADR-MMMM`. Decisions made in Stage 2 stay in
 | 0018 | [Add real-authenticator WebAuthn vectors](0018-add-real-authenticator-vectors.md) | Accepted | 2026-11-25 |
 | 0019 | [Enforcement-side action policies and authenticated requester identity](0019-enforcement-action-policies-and-requester-id.md) | Accepted | 2026-11-25 |
 | 0020 | [Registry update threshold by distinct approver IDs](0020-registry-update-threshold-distinct-approvers.md) | Accepted | 2026-11-25 |
+| 0021 | [Harden K2 validation guards and document K1 anchor limit](0021-harden-k2-validation-and-k1-anchor-limit.md) | Accepted | 2026-11-25 |

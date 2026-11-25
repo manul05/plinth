@@ -23,7 +23,7 @@
 
 ## 3. Checkpoint
 Signed envelope, type `pk.audit.checkpoint`, payload `{spec:"pk-audit/1.0", chain, seq, head, ts, count}` where `head` = hash of event `seq` and `count = seq + 1`. `createCheckpoint(line, ts, secretKey)` signs it Ed25519 with role `"service"`. `CHECKPOINT_POLICY = {"pk.audit.checkpoint": {algs:["Ed25519","ES256"], min_signatures:1}}`.
-A chain alone proves nothing against someone who can rewrite the whole table: checkpoints MUST be anchored where the attacker cannot write (Passdown: hashes in the repo's signed `.baton/snapshot.md`).
+A chain alone proves nothing against someone who can rewrite the whole table: checkpoints MUST be anchored where the attacker cannot write (Passdown: hashes in the repo's signed `.baton/snapshot.md`). **Honest limit:** `verifyChain` detects tail truncation only when callers pass the latest checkpoint fetched from that external anchor—never from the same mutable database/store as the events, where an attacker who deletes tail events can also withhold the newest checkpoint.
 
 ## 4. Pruning (180-day retention)
 Deleting events below seq k is allowed only after a checkpoint at k−1 exists. Then append a `pk.audit.pruned` event whose `data` = `{up_to_seq: k−1, checkpoint_digest: digest(checkpoint.payload)}` (`prunedEventDraft` builds it). The pruned export starts at seq k and the verifier needs the checkpoint at k−1.
