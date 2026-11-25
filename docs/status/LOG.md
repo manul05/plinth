@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · CI build order (R2-03), library E2E & Gate R2
+
+- **Did:** Created `packages/ts/test/e2e/library.test.ts` (`E2E-1`..`E2E-4` incl. `prune -> verify`), moved `npm run build` before `typecheck` & `test` in `package.json`, `.github/workflows/ci.yml`, and `docs/testing.md` (`R2-03` fixed), and recorded Gate **R2** (holding `T-M6-04` open pending `R2-01` & `R2-02`).
+- **R2 Review (2026-11-26 · independent session):** `1` critical (`R2-01`: `dist/version.{js,d.ts}` missing from `packages/ts/package.json` `files`), `2` high (`R2-02`: `verifyRegistryChain` ignores `BE=1`/`allow_synced_passkeys` and profile/alg binding; `R2-03`: fixed here), `5` medium (`R2-04`..`R2-08`), `5` low (`R2-09`..`R2-13`, `R2-13` `E2E-3` prune fixed here).
+- **Verified:** `npm.cmd run check` (`lint` 0 `100` files, `build` 0, `typecheck` 0, `vitest` `387/387` across `43` files, `packs:check` `packs: up to date`, `conformance` `PASS 156/156`) @ `71d83a1` + `R2-03`/`E2E`.
+- **Owner:** `"1. go with recommendation"` + submitted R2 report (2026-11-26).
+- **Next:** Owner decision on R2 fix scope (`R2-01`, `R2-02` + `ADR-0024`, `R2-04`..`R2-08`, and `R2-09`..`R2-13`), then close `T-M6-04`.
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Package exports, bin & size (T-M6-03)
 
 - **Did:** Added all 7 subpath `exports` and `"bin": { "plinth-conformance": "./dist/tools/conformance.js" }` in `packages/ts/package.json`, copied `LICENSE` and `NOTICE` to `packages/ts/`, created `packages/ts/test/package.test.ts` (4 tests), and marked `T-M6-03` `done`.

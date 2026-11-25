@@ -70,7 +70,7 @@ Every TM row in `docs/05-threat-model.md` §3 names its test and task. Negative 
 
 ## 7. CI (free-minutes budget, conventions §12)
 `.github/workflows/ci.yml` (written in T-M0-05):
-- **fast** (push to `development`, docs-only changes ignored; ubuntu-latest; timeout 10 min): `npm ci` → `npm run lint` → `npm run typecheck` → `npm test` → `npm run build` → `npm run packs:check` → `npm run conformance` → `sh scripts/check-doc-sizes.sh`. Expected ≈ 2 min.
+- **fast** (push to `development`, docs-only changes ignored; ubuntu-latest; timeout 10 min): `npm ci` → `npm run lint` → `npm run build` → `npm run typecheck` → `npm test` → `npm run packs:check` → `npm run conformance` → `sh scripts/check-doc-sizes.sh`. Expected ≈ 2 min.
 - **full** (PR into `main` and manual; timeout 15 min): fast steps + `npm run test:perf` + `npm pack --dry-run --json` size check (in T-M6-03 test) + E2E consumer test. Expected ≈ 6 min.
 - `security-scan.yml` on PRs into `main` and manual. `main-alarm.yml` from the skeleton.
 - Budget: ≈ 116 min/month while private (04-architecture §9); 0 after going public.
