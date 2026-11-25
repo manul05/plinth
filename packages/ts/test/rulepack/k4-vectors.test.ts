@@ -43,6 +43,10 @@ describe('k4 localDate', () => {
       }
     });
   }
+
+  it('rejects non-timestamp input with PK_ENCODING_INVALID', () => {
+    expectPlinthError(() => localDate('nope', 'UTC'), 'PK_ENCODING_INVALID');
+  });
 });
 
 describe('k4 yamlSubset', () => {

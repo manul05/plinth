@@ -67,7 +67,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-M3-11 | R1-02 fix: registry update_threshold (distinct approvers) | M3 | T-M3-10 | M | R1-02, TM-10, TM-36 | done |
 | T-M3-12 | R1-03..05/07 Medium fixes: fail-closed K2 & K1 anchor note | M3 | T-M3-11 | M | R1-03, R1-04, R1-05, R1-07 | done |
 | T-M4-01 | Red skeleton k4 | M4 | T-M3-12 | S | AC-13.x, AC-14.1 harness | done |
-| T-M4-02 | selectAsOf, localDate | M4 | T-M4-01 | S | AC-14.1 | todo |
+| T-M4-02 | selectAsOf, localDate | M4 | T-M4-01 | S | AC-14.1 | done |
 | T-M4-03 | YAML safe subset | M4 | T-M4-01 | M | AC-13.1, TM-26 | todo |
 | T-M4-04 | Regex dialect lint | M4 | T-M4-01 | S | AC-13.2, TM-23 | todo |
 | T-M4-05 | Schema helper | M4 | T-M4-01 | S | compile step 2 | todo |
