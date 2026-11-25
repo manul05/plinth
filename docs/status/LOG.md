@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Signed checkpoints and prune marker (T-M2-04)
+
+- **Done:** Implemented `createCheckpoint` and `prunedEventDraft` in `packages/ts/src/audit/checkpoint.ts`, with unit tests in `packages/ts/test/audit/checkpoint.test.ts` (red `2/2` before implementation). Marked `T-M2-04` `done` in `docs/06-plan.md`.
+- **Checks:** `checkpoint` `2/2`, `portability` `5/5`, `typecheck` `0`, `lint` `48 files / 0 errors`, `build` `0`.
+- **Next:** `T-M2-05` (`packages/ts/src/audit/verify.ts`: `verifyChain` with checkpoints).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · JSON Lines export and strict parse (T-M2-03)
 
 - **Done:** Implemented `serializeExport` and `parseExport` (with 1-based line detail on syntax/shape errors) in `packages/ts/src/audit/jsonl.ts`, with unit tests in `packages/ts/test/audit/jsonl.test.ts` (red `2/2` before implementation). Marked `T-M2-03` `done` in `docs/06-plan.md`.
