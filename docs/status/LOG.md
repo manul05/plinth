@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Hash-chained event append (T-M2-02)
+
+- **Done:** Implemented `eventHash` and `appendEvent` (with strict `assertEventShape` and `pk.*` reserved-action check) in `packages/ts/src/audit/event.ts`, with unit tests in `packages/ts/test/audit/event.test.ts` (red `4/4` before implementation). Marked `T-M2-02` `done` in `docs/06-plan.md`.
+- **Checks:** `event` `4/4`, `k1 eventHash` `1/1`, `portability` `5/5`, `typecheck` `0`, `lint` `46 files / 0 errors`, `build` `0`.
+- **Next:** `T-M2-03` (`packages/ts/src/audit/jsonl.ts`: JSON Lines `serializeExport`, `parseExport`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Red skeleton k1 vector runner (T-M2-01)
 
 - **Done:** Created M2 audit stubs (`packages/ts/src/audit/{index,event,jsonl,checkpoint,verify}.ts`), wired `packages/ts/src/index.ts`, added `packages/ts/test/audit/k1-vectors.test.ts` (19 vectors, skipping `lintPersonalData`), and marked `T-M2-01` `done` in `docs/06-plan.md`.
