@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Consumer vendor tool (T-MR-03)
+
+- **Did:** Implemented `vendorSnapshot` and CLI in `packages/ts/src/repo-tools/vendor.ts`, added `"vendor"` script to `package.json`, added `packages/ts/test/repo-tools/vendor.test.ts` (4 tests), and marked `T-MR-03` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd test -- vendor` (`4/4`), CLI no-args usage exit `2`, and `npm.cmd run check` (`lint` 0 `106` files, `build` 0, `typecheck` 0, `vitest` `413/413` across `46` files, `packs:check` `packs: up to date`, `conformance` `PASS 156/156`) @ `7dd28da` + `T-MR-03`.
+- **Decisions:** none.
+- **Owner:** `"continue"` (2026-11-26) to proceed from `T-MR-02` to `T-MR-03`.
+- **AI:** TDD red-then-green; `vendorSnapshot` verifies both listed `SHA256SUMS` digests and absence of unlisted snapshot files before touching the consumer directory.
+- **Next:** `T-MR-04` (`E2E-5` scratch consumer in `docs/plan/MR-release.md`).
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Consumer snapshot verification (T-MR-02)
 
 - **Did:** Created `scripts/verify-snapshot.sh` (LF) and `packages/ts/test/repo-tools/verify-snapshot.test.ts` (4 tests), and marked `T-MR-02` `done` in `docs/06-plan.md`.
