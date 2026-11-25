@@ -54,9 +54,32 @@ tests:
     expect: 'match'
   - rule_id: 'pk.secret.cashfree.credential'
     input_parts:
+      - 'x-client-id: '
+      - 'TEST'
+      - '998877665511223300aabbccdd9988771122'
+    expect: 'match'
+    note: 'synthetic TEST + 36 lowercase hex (entropy ~3.67)'
+  - rule_id: 'pk.secret.cashfree.credential'
+    input_parts:
+      - 'x-client-secret: '
+      - 'cfsk_ma_test_'
+      - '1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d'
+      - '_7e8f9a0b'
+    expect: 'match'
+    note: 'synthetic cfsk_ma_test_ secret key format'
+  - rule_id: 'pk.secret.cashfree.credential'
+    input_parts:
       - 'TESTING_MODE_ENABLED_FOR_ALL_USERS in cashfree'
     expect: 'no_match'
-    note: 'low-entropy words'
+    note: 'low-entropy / all-caps constant'
+  - rule_id: 'pk.secret.cashfree.credential'
+    input_parts:
+      - 'x-client-secret: '
+      - 'cfsk_ma_demo_'
+      - '1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d'
+      - '_7e8f9a0b'
+    expect: 'no_match'
+    note: 'unsupported mode word demo'
   - rule_id: 'pk.secret.msg91.authkey'
     input_parts:
       - 'MSG91 authkey: '

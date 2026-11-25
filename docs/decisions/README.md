@@ -28,3 +28,4 @@ one's status becomes `Superseded by ADR-MMMM`. Decisions made in Stage 2 stay in
 | 0019 | [Enforcement-side action policies and authenticated requester identity](0019-enforcement-action-policies-and-requester-id.md) | Accepted | 2026-11-25 |
 | 0020 | [Registry update threshold by distinct approver IDs](0020-registry-update-threshold-distinct-approvers.md) | Accepted | 2026-11-25 |
 | 0021 | [Harden K2 validation guards and document K1 anchor limit](0021-harden-k2-validation-and-k1-anchor-limit.md) | Accepted | 2026-11-25 |
+| 0022 | [Verified Indian key formats (gate G-K5)](0022-verified-indian-key-formats.md) | Accepted | 2026-11-25 |

@@ -31,6 +31,6 @@ describe('compilePacks with runTests', () => {
       check: true,
       runTests: true,
     });
-    expect(result).toEqual({ packs: 4, rules: 35, tests: 70, differing: [] });
+    expect(result).toEqual({ packs: 4, rules: 38, tests: 73, differing: [] });
   });
 });

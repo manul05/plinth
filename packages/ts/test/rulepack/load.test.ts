@@ -16,7 +16,8 @@ describe('loadPack and activeRules', () => {
   it('loads all four built-in packs with verified digests and expected rule counts', () => {
     expect(loadPack(BUILTIN_PACKS['pk.pii.india']).rules).toHaveLength(7);
     expect(loadPack(BUILTIN_PACKS['pk.secrets.global']).rules).toHaveLength(12);
-    expect(loadPack(BUILTIN_PACKS['pk.secrets.india']).rules).toHaveLength(8);
+    expect(loadPack(BUILTIN_PACKS['pk.secrets.india']).rules).toHaveLength(11);
+    expect(activeRules(loadPack(BUILTIN_PACKS['pk.secrets.india']), '2026-11-25')).toHaveLength(8);
     expect(loadPack(BUILTIN_PACKS['pk.untrusted-text']).rules).toHaveLength(8);
   });
 

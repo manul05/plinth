@@ -45,10 +45,48 @@ rules:
       - source_id: 'leaksweep-research-2026-10-28'
         locator: '01-research.md section B1, Razorpay'
     effective_from: '2026-10-31'
+    effective_until: '2026-11-25'
     changes:
       - rev: 1
         date: '2026-10-31'
         summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'razorpay'
+    title: 'Razorpay key ID (test mode)'
+    description: 'Razorpay test key ID: rzp_test_ followed by 14 letters or digits.'
+    body:
+      provider: 'razorpay'
+      short: 'razorpay_test_key_id'
+      secret_kind: 'public_id'
+      environment: 'test'
+      regex: '\brzp_test_[0-9A-Za-z]{14}\b'
+      secret_group: 0
+      keywords:
+        - 'rzp_test_'
+      allow: []
+      severity: 'low'
+      personal_data_reach: 'Test-mode identifier; no real customer data.'
+      rotation_url: 'https://dashboard.razorpay.com/app/website-app-settings/api-keys'
+  - id: 'pk.secret.razorpay.key_id_test'
+    rev: 2
+    status: 'stable'
+    verified:
+      state: 'verified'
+      by: 'owner gate G-K5'
+      at: '2026-11-25'
+      note: 'Matched a real test-mode key from the provider dashboard; value never stored.'
+    source_refs:
+      - source_id: 'leaksweep-research-2026-10-28'
+        locator: '01-research.md section B1, Razorpay'
+    effective_from: '2026-11-25'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+      - rev: 2
+        date: '2026-11-25'
+        summary: 'Promoted to verified and stable after owner gate G-K5 matched a real test-mode key.'
     tags:
       - 'secret'
       - 'razorpay'
@@ -77,10 +115,54 @@ rules:
       - source_id: 'leaksweep-research-2026-10-28'
         locator: '01-research.md section B1, Razorpay'
     effective_from: '2026-10-31'
+    effective_until: '2026-11-25'
     changes:
       - rev: 1
         date: '2026-10-31'
         summary: 'First version (Plinth 0.1 Stage 3 plan).'
+    tags:
+      - 'secret'
+      - 'razorpay'
+    title: 'Razorpay key secret'
+    description: 'A 24-character Razorpay key secret, reported only within 200 characters of a Razorpay key ID.'
+    body:
+      provider: 'razorpay'
+      short: 'razorpay_key_secret'
+      secret_kind: 'secret'
+      environment: 'unknown'
+      regex: '\b([0-9A-Za-z]{24})\b'
+      secret_group: 1
+      keywords:
+        - 'rzp_'
+      entropy_min: '3.5'
+      pair_with:
+        rules:
+          - 'pk.secret.razorpay.key_id_live'
+          - 'pk.secret.razorpay.key_id_test'
+        within_chars: 200
+      allow: []
+      severity: 'critical'
+      personal_data_reach: 'Customer names, e-mail addresses, phone numbers and payment records in the Razorpay account.'
+      rotation_url: 'https://dashboard.razorpay.com/app/website-app-settings/api-keys'
+  - id: 'pk.secret.razorpay.key_secret'
+    rev: 2
+    status: 'stable'
+    verified:
+      state: 'verified'
+      by: 'owner gate G-K5'
+      at: '2026-11-25'
+      note: 'Matched a real test-mode key from the provider dashboard; value never stored.'
+    source_refs:
+      - source_id: 'leaksweep-research-2026-10-28'
+        locator: '01-research.md section B1, Razorpay'
+    effective_from: '2026-11-25'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+      - rev: 2
+        date: '2026-11-25'
+        summary: 'Promoted to verified and stable after owner gate G-K5 matched a real test-mode key.'
     tags:
       - 'secret'
       - 'razorpay'
@@ -115,6 +197,7 @@ rules:
       - source_id: 'leaksweep-research-2026-10-28'
         locator: '01-research.md section B2, Cashfree'
     effective_from: '2026-10-31'
+    effective_until: '2026-11-25'
     changes:
       - rev: 1
         date: '2026-10-31'
@@ -137,6 +220,48 @@ rules:
         - 'x-client-id'
       entropy_min: '4.0'
       allow: []
+      severity: 'critical'
+      personal_data_reach: 'Payment and settlement records in the Cashfree account, including customer contact details.'
+      rotation_url: 'https://merchant.cashfree.com/'
+  - id: 'pk.secret.cashfree.credential'
+    rev: 2
+    status: 'stable'
+    verified:
+      state: 'verified'
+      by: 'owner gate G-K5'
+      at: '2026-11-25'
+      note: 'Matched real test-mode client ID and secret formats from the provider dashboard after adjusting pattern and entropy threshold; value never stored.'
+    source_refs:
+      - source_id: 'leaksweep-research-2026-10-28'
+        locator: '01-research.md section B2, Cashfree'
+    effective_from: '2026-11-25'
+    changes:
+      - rev: 1
+        date: '2026-10-31'
+        summary: 'First version (Plinth 0.1 Stage 3 plan).'
+      - rev: 2
+        date: '2026-11-25'
+        summary: 'Added cfsk_*_(test|prod)_* prefix, lowered entropy_min to 3.5 for hex keys, added cfsk_ keyword, and allow-listed all-caps TEST/PROD identifiers after gate G-K5.'
+    tags:
+      - 'secret'
+      - 'cashfree'
+    title: 'Cashfree app ID or secret key'
+    description: 'Cashfree credential starting with TEST/PROD or cfsk_<module>_(test|prod)_, reported when Cashfree context or cfsk_ appears.'
+    body:
+      provider: 'cashfree'
+      short: 'cashfree_credential'
+      secret_kind: 'secret'
+      environment: 'unknown'
+      regex: '\b((?:TEST|PROD)[0-9A-Za-z_]{20,120}|cfsk_[a-z]{2,10}_(?:test|prod)_[0-9A-Za-z_]{20,120})\b'
+      secret_group: 1
+      keywords:
+        - 'cashfree'
+        - 'x-client-secret'
+        - 'x-client-id'
+        - 'cfsk_'
+      entropy_min: '3.5'
+      allow:
+        - '^(?:TEST|PROD)[A-Z_]+$'
       severity: 'critical'
       personal_data_reach: 'Payment and settlement records in the Cashfree account, including customer contact details.'
       rotation_url: 'https://merchant.cashfree.com/'

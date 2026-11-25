@@ -9,7 +9,9 @@ describe('every pack test passes', () => {
     const loaded = loadPack(compiled);
     for (const [index, testCase] of compiled.tests.tests.entries()) {
       it(`${testCase.rule_id} #${index} ${testCase.expect}`, () => {
-        const rule = compiled.rules.rules.find((r) => r.id === testCase.rule_id);
+        const candidates = compiled.rules.rules.filter((r) => r.id === testCase.rule_id && r.status !== 'withdrawn');
+        candidates.sort((a, b) => b.rev - a.rev);
+        const rule = candidates[0] ?? compiled.rules.rules.find((r) => r.id === testCase.rule_id);
         if (rule === undefined) {
           throw new Error(`Rule not found: ${testCase.rule_id}`);
         }

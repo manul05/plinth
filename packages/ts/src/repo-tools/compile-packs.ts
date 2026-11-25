@@ -123,9 +123,9 @@ function checkRuleBodiesAndTests(rules: readonly Rule[], tests: TestsFile['tests
 function runPackTests(compiled: CompiledPack): void {
   const loaded = loadPack(compiled);
   for (const [index, testCase] of compiled.tests.tests.entries()) {
-    const rule =
-      compiled.rules.rules.find((r) => r.id === testCase.rule_id && r.status !== 'withdrawn') ??
-      compiled.rules.rules.find((r) => r.id === testCase.rule_id);
+    const candidates = compiled.rules.rules.filter((r) => r.id === testCase.rule_id && r.status !== 'withdrawn');
+    candidates.sort((a, b) => b.rev - a.rev);
+    const rule = candidates[0] ?? compiled.rules.rules.find((r) => r.id === testCase.rule_id);
     if (rule === undefined) {
       throw new PlinthError('PK_RULEPACK_TEST_FAILED', `${testCase.rule_id} #${index}`);
     }
