@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Repo-tools schema validation helper (T-M4-05)
+
+- **Did:** Added `validateAgainst` in `packages/ts/src/repo-tools/schema.ts` and `packages/ts/test/repo-tools/schema.test.ts`, and marked `T-M4-05` `done` in `docs/06-plan.md`.
+- **Verified:** `schema` `2/2`, `portability` `5/5`, `lint` 0, `typecheck` 0, `build` 0 @ `64b1be1` + T-M4-05.
+- **Decisions:** None.
+- **Owner:** `"execute T-M4-01 to T-M4-08 one by one"` (2026-11-25).
+- **Next:** `T-M4-06` (`compilePacks`, `packs/`, `packages/ts/src/packs/`).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Portable regex dialect lint (T-M4-04)
 
 - **Did:** Implemented `lintRegex` in `packages/ts/src/repo-tools/regex-lint.ts`, added a `rules/*/rules.yaml` validation test in `packages/ts/test/rulepack/k4-vectors.test.ts`, and marked `T-M4-04` `done` in `docs/06-plan.md`.
