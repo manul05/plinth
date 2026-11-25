@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Consumer snapshot verification (T-MR-02)
+
+- **Did:** Created `scripts/verify-snapshot.sh` (LF) and `packages/ts/test/repo-tools/verify-snapshot.test.ts` (4 tests), and marked `T-MR-02` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd test -- verify-snapshot` (`4/4` via Windows Git `sh.exe` outside sandbox) and `npm.cmd run check` (`lint` 0 `104` files, `build` 0, `typecheck` 0, `vitest` `409/409` across `45` files, `packs:check` `packs: up to date`, `conformance` `PASS 156/156`) @ `d9f5b83` + `T-MR-02`.
+- **Decisions:** none.
+- **Owner:** `"continue"` (2026-11-26) to proceed from `T-MR-01` to `T-MR-02`.
+- **AI:** TDD red-then-green; MSYS2 `sh.exe` fails inside the Windows terminal sandbox (`0xC0000022`) and `sh` is absent from default PowerShell `PATH`, so the test resolves Git `sh.exe` on Windows and runs unsandboxed here.
+- **Next:** `T-MR-03` (`repo-tools/vendor.ts` in `docs/plan/MR-release.md`).
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Snapshot builder (T-MR-01)
 
 - **Did:** Implemented `buildSnapshot` and CLI in `packages/ts/src/repo-tools/snapshot.ts`, added `"snapshot"` script to `package.json`, added `packages/ts/test/repo-tools/snapshot.test.ts` (3 tests), and marked `T-MR-01` `done` in `docs/06-plan.md`.
