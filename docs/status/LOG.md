@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Portability guard (T-M0-06, local)
+- Did: created `packages/ts/test/portability.test.ts`; marked T-M0-06 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md` (committed locally on `development`; T-M0-05 push pending `workflow` scope)
+- Verified: `npm.cmd test` `20/20` (`6` files), `typecheck` 0, `lint` 0 (`Checked 17 files`) @ `1d40052` + T-M0-06
+- Decisions: none
+- Owner: "Continue locally" (2026-11-25)
+- AI: T-M0-05 committed locally at `1d40052`; push rejected by GitHub without `workflow` OAuth scope so continuing locally with T-M0-06/T-M0-07
+- Next: T-M0-07 (errors module), then owner workflow push + Actions runs for T-M0-05/T-M0-08
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Contract self-checks, pins, and ADR-0017 (T-M0-04)
 - Did: created `packages/ts/test/contracts.test.ts`, `packages/ts/test/deps.test.ts`, and `docs/decisions/0017-jwk-schema-strict-required.md`; updated `contracts/schemas/jwk.schema.json` (`"properties": { "d": {} }` in both `"not"` blocks), `docs/decisions/README.md`, `docs/04-architecture.md`, `docs/06-plan.md` (T-M0-04 `done`), `STATUS.md`, `LOG.md`
 - Verified: initial run failed `2/13` on `jwk.schema.json` `strictRequired`; after ADR-0017 fix, `npm.cmd test` `13/13` passed (`4` files), `typecheck` 0, `lint` 0 (`Checked 15 files`) @ `57e3b33` + T-M0-04
