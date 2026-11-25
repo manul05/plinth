@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Root npm workspace and pinned toolchain (T-M0-02)
+- Did: created `package.json`, `.nvmrc`, `tsconfig.base.json`, `biome.json`, `vitest*.config.ts`, `packages/ts/{package.json,tsconfig*.json,src/index.ts,README.md}`, `package-lock.json`; appended outputs to `.gitignore`; marked T-M0-02 `done` in `docs/06-plan.md`
+- Verified: `npm.cmd ls` exact pins (`@noble/*`/`@scure/base` 2.4.0, TS 7.0.2, Vitest 5.0.5, Vite 8.3.4, Biome 2.5.15, Ajv 8.20.0, yaml 2.9.1, safe-regex2 5.1.2, `@types/node` 24.19.2); `lint` 0 (`Checked 10 files`), `typecheck` 0, `build` 0 @ `8d3149f` + T-M0-02
+- Decisions: excluded `!contracts` in `biome.json` instead of reformatting 17 `contracts/` files
+- Owner: "continue" (2026-11-25); "continue with your recommendation" (2026-11-25)
+- AI: `biome check .` initially flagged 17 untouched `contracts/` files (`!contracts/test-vectors` was too narrow); owner approved excluding `!contracts`
+- Next: T-M0-03 (version test and golden-vector loader)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Re-pin Node 26.13.1 / npm 11.20.0 (ADR-0016)
 - Did: created ADR-0016 (`docs/decisions/0016-repin-node-26-13-1-npm-11-20-0.md`); updated `decisions/README.md`, `README.md`, `START-HERE.md`, `03-spec.md`, `04-architecture.md`, `M0-setup.md` (T-M0-02), `STATUS.md`, `LOG.md`
 - Verified: `sh scripts/check-doc-sizes.sh` exited 0 (pre-commit hook); `node -v` `v26.13.1`, `npm.cmd -v` `11.20.0` @ `08b339f`

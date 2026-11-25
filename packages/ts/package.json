@@ -1,0 +1,38 @@
+{
+  "name": "plinth-kit",
+  "version": "0.1.0",
+  "description": "Plinth: canonical JSON, signed envelopes, audit chain, two-hands approvals, rule packs and secret/PII detection, with golden test vectors.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=26.13.1"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/errors.js",
+    "dist/errors.d.ts",
+    "dist/core",
+    "dist/audit",
+    "dist/approval",
+    "dist/rulepack",
+    "dist/detect",
+    "dist/packs",
+    "dist/tools",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ],
+  "dependencies": {
+    "@noble/curves": "2.4.0",
+    "@noble/hashes": "2.4.0",
+    "@scure/base": "2.4.0"
+  }
+}

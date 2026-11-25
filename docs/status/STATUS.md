@@ -4,30 +4,31 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-25 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), M0 Setup — T-M0-01 complete, Node/npm re-pinned (ADR-0016)
-- **Branch / HEAD:** `development` at `08b339f` (committing ADR-0016 next; `origin/main` at `650cc02`)
-- **Uncommitted or unapplied work:** none after ADR-0016 commit; local `core.hooksPath=.githooks` active.
+- **Stage / phase:** Phase 1 (release 0.1.0), M0 Setup — T-M0-02 complete
+- **Branch / HEAD:** `development` at `8d3149f` (committing T-M0-02 next; `origin/main` at `650cc02`)
+- **Uncommitted or unapplied work:** none after T-M0-02 commit; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
 | Check | Result | At commit |
 |---|---|---|
-| `sh scripts/install-hooks.sh --check` (Git Bash) | `OK: hooks active (core.hooksPath=.githooks).` | `08b339f` |
-| G0 GitHub settings (`gh repo view`, `gh api`, `gh issue list`) | Private (`manul05/plinth`), `defaultBranchRef=development`, `mergeCommitAllowed=true`, `squashMergeAllowed=false`, `rebaseMergeAllowed=false`, `deleteBranchOnMerge=false`, Actions perms `read`, `vulnerability-alerts` HTTP 204, `automated-security-fixes` `enabled=true`, Issue #1 ALARM closed | `08b339f` |
-| T-M0-01 step 5 guard proof (`git push origin development:main`) | Unapproved: `BLOCKED: push to protected ref 'refs/heads/main'` (`no owner approval`). Wrong SHA (`deadbee`): `BLOCKED` (`OWNER_APPROVES_PUSH names a different commit than d674bf9`). `origin/refs/heads/main` unchanged at `650cc02` | `08b339f` |
-| Installed toolchain (`node -v`, `npm.cmd -v`) | Node `v26.13.1`, npm `11.20.0` (matches ADR-0016 pins) | `08b339f` |
-| `sh scripts/check-doc-sizes.sh` | Exited 0 | `08b339f` |
+| `npm.cmd install` / `npm.cmd ls` | 53 packages added, 0 vulnerabilities; all 8 devDeps + `@noble/curves`/`@noble/hashes`/`@scure/base` 2.4.0 match pins | `8d3149f` + T-M0-02 |
+| `npm.cmd run lint` (`biome check .`) | `Checked 10 files in 87ms. No fixes applied. Found 1 info.` (exit 0; `!contracts` excluded in `biome.json`) | `8d3149f` + T-M0-02 |
+| `npm.cmd run typecheck` | `tsc -p packages/ts/tsconfig.json --noEmit && tsc -p packages/ts/tsconfig.test.json --noEmit` (exit 0) | `8d3149f` + T-M0-02 |
+| `npm.cmd run build` | `tsc -p packages/ts/tsconfig.json` (exit 0; `packages/ts/dist/index.js` + `index.d.ts` emitted) | `8d3149f` + T-M0-02 |
+| `sh scripts/install-hooks.sh --check` | `OK: hooks active (core.hooksPath=.githooks).` | `08b339f` |
 
 ## Done recently
-- T-M0-01 (`08b339f`): verified and fixed remaining G0 settings on `manul05/plinth`, activated local `.githooks`, and proved the `pre-push` guard against `origin`.
-- ADR-0016: re-pinned Plinth's Node.js/npm toolchain from `24.16.0`/`11.13.0` to `26.13.1`/`11.20.0` across `START-HERE.md`, `README.md`, `03-spec.md`, `04-architecture.md`, and `M0-setup.md`.
+- T-M0-02: created root npm workspace, `.nvmrc` (`26.13.1`), `tsconfig*.json`, `biome.json` (`!contracts` excluded with owner OK), `vitest*.config.ts`, `packages/ts/` skeleton, `package-lock.json`, and `.gitignore` outputs.
+- ADR-0016 (`8d3149f`): re-pinned Node.js to `26.13.1` and npm to `11.20.0`.
+- T-M0-01 (`08b339f`): G0 settings, hooks, and guard proof.
 
 ## Next step
-1. **T-M0-02** (`docs/plan/M0-setup.md`): create root npm workspace and pinned toolchain (`package.json`, `.nvmrc`, `tsconfig*.json`, `biome.json`, `vitest*.config.ts`, `packages/ts/*`, `package-lock.json`, `.gitignore`), run `npm install`, `npm run typecheck`, `npm run lint`, `npm run build`.
+1. **T-M0-03** (`docs/plan/M0-setup.md`): add version test (`packages/ts/test/version.test.ts`), vector loader (`packages/ts/test/vectors.ts`), and vector loader tests (`packages/ts/test/vectors.test.ts`), write tests first and run `npm test`, `npm run typecheck`, `npm run lint`.
 
 ## Blocked on / questions for the owner
-- Note: `AGENTS.md` line 8 still reads `Node 24.16.0` because only the owner edits `AGENTS.md`.
+- Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).
 - Dependabot PR #2 (`Bump actions/checkout from 4 to 7` into `development`) is open on GitHub.
 
 ## Open windows and approvals
 - Production: CLOSED. (Windows never carry over between sessions.)
-- Owner, 2026-11-25: `"G0 GitHub settings - you do it"`, `"Guard proof & commit - yes"`, `"Node/npm decision - re-pin Plinth to 26.13.1 / 11.20.0"`.
+- Owner, 2026-11-25: `"continue"` (start T-M0-02); `"continue with your recommendation"` (exclude `!contracts` in `biome.json` and format only new files).
