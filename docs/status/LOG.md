@@ -19,6 +19,16 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Gate G-K5 verified Indian key formats (T-M5-09)
+
+- **Did:** Recorded gate G-K5: Razorpay (`rzp_test_` 23c, secret 24c) matched; Cashfree missed `TEST`+36-hex (40c, entropy < 4.0) and `cfsk_ma_test_`+32+8 hex (54c). Per owner `"b1"`, added `rev: 2` (`stable`/`verified`) for those 3 rules + 3 synthetic tests in `rules/pk.secrets.india/`, rebuilt `packs/` + `builtin.ts`, updated `k4-pack-digests-pk-secrets-india.json` + `index.json`, wrote `ADR-0022`, and marked `T-M5-09` `done`.
+- **Verified:** `npm.cmd run packs:build` (`4 compiled, 38 rules, 73 tests`), `npm.cmd run check` (`lint` 0 `93` files, `typecheck` 0, `vitest` `375/375` across `39` files incl. `73/73` pack tests and `6/6` contracts, `build` 0, `packs:check` `packs: up to date`) @ `a44a785` + T-M5-09.
+- **Decisions:** `ADR-0022`.
+- **Owner:** `"b1"` (2026-11-25).
+- **Next:** `T-M5-10` (Performance and ReDoS budgets) then `T-M5-11` (M5 close).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Masked file scanner detect-file (T-M5-08)
 
 - **Did:** Implemented `detectFileReport` and CLI in `packages/ts/src/repo-tools/detect-file.ts`, added `packages/ts/test/repo-tools/detect-file.test.ts` (2 tests), and marked `T-M5-08` `done` in `docs/06-plan.md`.

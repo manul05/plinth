@@ -4,27 +4,27 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-25 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), **M5 K5 Detection in progress** (`T-M5-01`..`T-M5-08` done; stopped at owner gate **G-K5 / T-M5-09**)
-- **Branch / HEAD:** `development` at `83d3c1a` + T-M5-08 (`origin/main` at `650cc02`)
-- **Uncommitted or unapplied work:** none after T-M5-08 commit and push; local `core.hooksPath=.githooks` active.
+- **Stage / phase:** Phase 1 (release 0.1.0), **M5 K5 Detection in progress** (`T-M5-01`..`T-M5-09` done)
+- **Branch / HEAD:** `development` at `a44a785` + T-M5-09 (`origin/main` at `650cc02`)
+- **Uncommitted or unapplied work:** none after T-M5-09 commit and push; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
 | Check | Result | At commit |
 |---|---|---|
-| `npm.cmd run check` | `lint` 0 (`93` files), `typecheck` 0, `vitest` `372/372` (`39` files), `build` 0, `packs:check` (`packs: up to date`) | `83d3c1a` + T-M5-08 |
-| `node packages/ts/dist/repo-tools/detect-file.js` | stderr `usage: detect-file <path>`, exit `2` | `83d3c1a` + T-M5-08 |
+| `npm.cmd run packs:build` | `packs: 4 compiled, 38 rules, 73 tests` | `a44a785` + T-M5-09 |
+| `npm.cmd run check` | `lint` 0 (`93` files), `typecheck` 0, `vitest` `375/375` (`39` files), `build` 0, `packs:check` (`packs: up to date`) | `a44a785` + T-M5-09 |
 
 ## Done recently
-- **M5 `T-M5-01`..`T-M5-08`:** implemented `detect/` (`validators`, `entropy`, `mask`, `scan`, `redact`), `audit/lint.ts` (`lintPersonalData`), `compile-packs` step 7 (`runTests: true`), and `repo-tools/detect-file.ts`; all 20 `k5` vectors, 70 rule-pack tests, and 21 `k1` vectors pass (`372/372` total).
+- **T-M5-09 · Owner gate G-K5 (`ADR-0022`):** Razorpay `key_id_test` and `key_secret` matched; Cashfree missed `TEST`+36-hex (entropy < 4.0) and `cfsk_ma_test_`+32+8 hex (prefix). Per owner `"b1"`, promoted all 3 rules to `rev: 2` (`stable`/`verified`), added 3 synthetic Cashfree tests, rebuilt packs, and refreshed `k4-pack-digests-pk-secrets-india.json` + `index.json`.
 
 ## Next step
-1. **T-M5-09 · OWNER GATE G-K5** (`docs/plan/M5-detection.md`): owner tests real Razorpay and Cashfree test-mode keys locally with `node packages/ts/dist/repo-tools/detect-file.js` and pastes the masked output (or defers).
+1. **T-M5-10** (`docs/plan/M5-detection.md`): performance and ReDoS budgets (`packages/ts/test/perf/budgets.perf.ts`).
+2. **T-M5-11** (`docs/plan/M5-detection.md`): M5 close, mutation checks (`MC-12`..`MC-14`), and `DNB-004`.
 
 ## Blocked on / questions for the owner
-- **Gate G-K5 (`T-M5-09`):** awaiting owner's masked `detect-file.js` output for Razorpay and Cashfree test-mode keys (or decision to defer as Outcome C).
 - Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).
 - Dependabot PR #2 (`Bump actions/checkout from 4 to 7` into `development`) is open on GitHub.
 
 ## Open windows and approvals
 - Production: CLOSED. (Windows never carry over between sessions.)
-- Owner, 2026-11-25: `"Start M5 (docs/plan/M5-detection.md) from docs/status/STATUS.md and execute T-M5-01 to T-M5-08 one by one on development (stop at T-M5-09 / owner gate G-K5)."`
+- Owner, 2026-11-25: `"b1"` (ADR-0022 + Cashfree rule revision + K4 digest vector update for gate G-K5).
