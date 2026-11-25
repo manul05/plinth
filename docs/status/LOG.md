@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Red skeleton k0 vector runner (T-M1-01)
+- Did: created `packages/ts/test/core/k0-vectors.test.ts` and 9 core stubs in `packages/ts/src/core/`; exported from `src/index.ts`; marked T-M1-01 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
+- Verified: `npm.cmd test -- k0` `56 failed (56)` (expected red), `typecheck` 0, `lint` 0, `portability` `5/5` @ `5e4bc4b` + T-M1-01
+- Decisions: none
+- Owner: "continue" (2026-11-25)
+- AI: used `expectPlinthError` asserting `instanceof PlinthError` + `code` so error vectors fail against stubs instead of passing on `not implemented`
+- Next: T-M1-02 (`bytes.ts`: base64url, hex, UTF-8, SHA-256)
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Green CI/security-scan (T-M0-05) & close M0 (T-M0-08)
 - Did: added `passWithNoTests: true` (`vitest.perf.config.ts`) and `.gitleaksignore` (`11` synthetic `650cc02` vector fingerprints) (`30609a8`); marked T-M0-05 and T-M0-08 `done` in `docs/06-plan.md`; updated `STATUS.md` and `LOG.md`
 - Verified: `ci` green (`45593567766`), `security-scan` green (`45593572876`), `npm.cmd ci` + `npm.cmd run check` (`lint` 0, `typecheck` 0, `vitest` `22/22`, `build` 0) @ `30609a8`
