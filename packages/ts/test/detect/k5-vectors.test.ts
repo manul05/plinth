@@ -125,4 +125,15 @@ describe('k5 detect helpers', () => {
     expect(verhoeffValid('')).toBe(false);
     expect(verhoeffValid('12a4')).toBe(false);
   });
+
+  it('enforces pair_with proximity even when keyword rzp_ is present', () => {
+    const packs = [loadPack(BUILTIN_PACKS['pk.secrets.india'])];
+    const noPair = 'rzp_note: pGeYs7X4RBmgMTC2XcRR4L8h';
+    expect(scan(noPair, packs, { date: '2026-11-25' })).toEqual([]);
+
+    const tooFar = ['rzp_', 'live_', 'A'.repeat(14), ' ', 'x '.repeat(120), 'pGeYs7X4RBmgMTC2XcRR4L8h'].join('');
+    expect(scan(tooFar, packs, { date: '2026-11-25' }).map((f) => f.rule_id)).toEqual([
+      'pk.secret.razorpay.key_id_live',
+    ]);
+  });
 });

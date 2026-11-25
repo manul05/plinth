@@ -32,4 +32,8 @@ Entry shape (keep each under 8 lines):
 - Why: noble rejects high-S by default; authenticators and other languages may produce high-S signatures, which are valid ECDSA
 - Test: k0-env-valid-es256-high-s
 
-(DNB-004 is added by task T-M5-11.)
+## DNB-004: PII placeholders have no fingerprint
+- Where: packages/ts/src/detect/redact.ts
+- Rule: PII placeholders are exactly [REDACTED:<pii_type>]; Aadhaar is never fingerprinted or stored
+- Why: UIDAI rule and DPDP minimisation; a fingerprint would make identifiers linkable
+- Test: k5-redact-aadhaar-no-fingerprint
