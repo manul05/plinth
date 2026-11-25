@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Approver registry chain with anti-rollback (T-M3-03)
+
+- **Did:** Implemented `trustedKeysFromRegistry` and `verifyRegistryChain` in `packages/ts/src/approval/registry.ts`; created `packages/ts/test/approval/registry.test.ts` (failing `4/4` red first); marked `T-M3-03` `done` in `docs/06-plan.md`.
+- **Verified:** `registry` `4/4`, `k2` (`35 failed | 10 passed (45)`, `verifyRegistryChain` `6/6`), `portability` `5/5`, `lint` `Checked 59 files` (0), `typecheck` 0, `build` 0 @ `06bf330` + T-M3-03.
+- **Decisions:** None.
+- **Owner:** `"execute T-M3-02 to T-M3-09 one by one"` (2026-11-25).
+- **AI:** Fixed 3 Biome lint/format suggestions in `registry.test.ts` and re-verified cleanly.
+- **Next:** `T-M3-04` (`packages/ts/src/approval/verify.ts`: request-side checks steps 1–11).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Requests, matching codes and decision payloads (T-M3-02)
 
 - **Did:** Implemented `createApprovalRequest`, `matchingCode`, and `decisionPayload` in `packages/ts/src/approval/request.ts`; created `packages/ts/test/approval/request.test.ts` (failing `4/4` red first); marked `T-M3-02` `done` in `docs/06-plan.md`.
