@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · One-time break-glass recovery codes (T-M3-07)
+
+- **Did:** Implemented `newBreakGlassCode`, `breakGlassDigest`, and `verifyBreakGlass` in `packages/ts/src/approval/breakglass.ts`; created `packages/ts/test/approval/breakglass.test.ts` (failing `3/3` red first); marked `T-M3-07` `done` in `docs/06-plan.md`.
+- **Verified:** `npm.cmd run check` (`lint` `Checked 62 files` 0, `typecheck` 0, `vitest` `28 files / 205 tests` incl. `k2` `45/45`, `build` 0) @ `149af4e` + T-M3-07.
+- **Decisions:** None.
+- **Owner:** `"execute T-M3-02 to T-M3-09 one by one"` (2026-11-25).
+- **AI:** All 45 `k2` vectors and full repo check suite green.
+- **Next:** `T-M3-08` (real-authenticator spike, owner gate **G-spike**).
+
+---
+
 ## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Single-use approvals with atomic store (T-M3-06)
 
 - **Did:** Implemented `MemoryConsumedIdStore` and `verifyAndConsume` in `packages/ts/src/approval/store.ts`; created `packages/ts/test/approval/store.test.ts` (failing `3/3` red first); marked `T-M3-06` `done` in `docs/06-plan.md`.
