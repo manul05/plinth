@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Release docs, changelog & write-up (T-MR-06)
+
+- **Did:** Updated `README.md` (`docs/testing.md` §11 checklist) and `CHANGELOG.md` (`## [0.1.0] - 2026-11-26`), created `docs/08-how-i-built-this.md` and `docs/releases.md`, marked `T-MR-06` `done` in `docs/06-plan.md`, and updated `STATUS.md`/`LOG.md`.
+- **Verified:** `npm.cmd run lint` and `.githooks/pre-commit` (`scripts/check-doc-sizes.sh`) @ `fe74e23` + `T-MR-06` (`npm run check` `430/430` and `test:perf` `6/6` passed at `7685414`; docs-only change here).
+- **Decisions:** none.
+- **Owner:** `"continue"` (2026-11-26) to proceed from `T-MR-05` to `T-MR-06`.
+- **AI:** All numbers in `docs/08-how-i-built-this.md` verified directly with git/filesystem commands up to `fe74e23`.
+- **Next:** `T-MR-07` (owner merge phrase `"now it is time to merge plinth to main"`, PR `development -> main`, tag `v0.1.0`, clean-worktree snapshot, `docs/releases.md`).
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Security review, MR fixes & G-final (T-MR-05)
 
 - **Did:** Fixed `SEC-01` (`.gitleaksignore` @ `d339a7c`), executed `<MR>` independent review (`0` critical, `3` high, `4` medium, `4` low), fixed all 11 findings (`bf79814` `SEC-R3-01..03` + `ADR-0026`, `a5bc9ac` `SEC-R3-04..07` + `ADR-0027`, `7685414` `SEC-R3-08..11`), completed `docs/07-security-review.md` with owner `G-final` sign-off, and marked `T-MR-05` `done`.

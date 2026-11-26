@@ -4,8 +4,8 @@ The current state and the handoff to the next session. OVERWRITE this file at th
 session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data here.
 
 - **Updated:** 2026-11-26 by Antigravity (Gemini 4 Hydrogen (High))
-- **Stage / phase:** Phase 1 (release 0.1.0), **MR Release** (`T-MR-01`..`T-MR-05` done; `T-MR-06` next)
-- **Branch / HEAD:** `development` at `7685414` + `T-MR-05` (`origin/main` at `650cc02`)
+- **Stage / phase:** Phase 1 (release 0.1.0), **MR Release** (`T-MR-01`..`T-MR-06` done; `T-MR-07` next)
+- **Branch / HEAD:** `development` at `fe74e23` + `T-MR-06` (`origin/main` at `650cc02`)
 - **Uncommitted or unapplied work:** none after commit and push; local `core.hooksPath=.githooks` active.
 
 ## Last verified checks
@@ -16,11 +16,11 @@ session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data
 | `security-scan` (`45766237355`) | `gitleaks v8.30.1` (`81` commits, `no leaks found`), `osv-scanner v2.7.0` (`No issues found`) | `7685414` |
 
 ## Done recently
-- **`T-MR-05` (Security review & `G-final`):** Completed `docs/07-security-review.md` (`SEC-01` @ `d339a7c`; `<MR>` independent review `SEC-R3-01`..`SEC-R3-11` all fixed across `bf79814`, `a5bc9ac`, `7685414` with `ADR-0026`/`ADR-0027`), signed off by owner (`G-final`).
-- **`T-MR-01`..`T-MR-04` (`d9f5b83`..`57d51fb`):** Snapshot builder, `verify-snapshot.sh`, `vendorSnapshot`, and `E2E-5` scratch consumer.
+- **`T-MR-06` (Release docs):** Updated `README.md` per `docs/testing.md` §11, moved `CHANGELOG.md` entries to `## [0.1.0] - 2026-11-26`, wrote `docs/08-how-i-built-this.md` with exact reproducible counts, and created `docs/releases.md` table header.
+- **`T-MR-05` (`fe74e23`):** Signed off `docs/07-security-review.md` (`G-final`) after fixing `SEC-01` and all 11 `<MR>` findings (`SEC-R3-01`..`SEC-R3-11`).
 
 ## Next step
-1. **`T-MR-06` (README, CHANGELOG 0.1.0, How I built this, `docs/releases.md`):** Update `README.md` per `docs/testing.md` §11, update `CHANGELOG.md` for `0.1.0`, write `docs/08-how-i-built-this.md`, and create `docs/releases.md` table header per `docs/plan/MR-release.md`.
+1. **`T-MR-07` (Release: merge, tag, snapshot from tag, record pin):** Wait for the owner's exact merge phrase `"now it is time to merge plinth to main"`, open PR `development -> main`, and follow `docs/plan/MR-release.md` `T-MR-07` steps 1–7 (`G-merge`, `G-tag`).
 
 ## Blocked on / questions for the owner
 - Note: `AGENTS.md` line 8 still reads `Node 24.16.0` (owner-only file).
@@ -28,4 +28,4 @@ session; history goes in `LOG.md`. Cap: 4 KB. Never put secrets or personal data
 
 ## Open windows and approvals
 - Production: CLOSED. (Windows never carry over between sessions.)
-- Owner, 2026-11-26: `"go with recommendation"` (`SEC-01` + `<MR>` review), `"optiion 1"` (fix all 11 `<MR>` findings + contract ADRs), `"Signed off G-final for release 0.1.0"`.
+- Owner, 2026-11-26: `"go with recommendation"` (`SEC-01` + `<MR>`), `"optiion 1"` (fix all 11 `<MR>` findings + ADRs), `"Signed off G-final for release 0.1.0"`.
