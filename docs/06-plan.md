@@ -100,7 +100,7 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | T-MR-05 | Security review | MR | T-MR-04 | M | all TM, G-final | done |
 | T-MR-06 | README, CHANGELOG, write-up | MR | T-MR-05 | M | testing §11 | done |
 | T-MR-07 | Merge, tag, snapshot, pin | MR | T-MR-06 | S | US-20 | done |
-| T-MR-08 | Going public | MR | T-MR-07 | S | ADR-0014, TM-30 | todo |
+| T-MR-08 | Going public | MR | T-MR-07 | S | ADR-0014, TM-30 | done |
 **68 tasks** (40 S, 28 M; none larger). One spike (T-M3-08); one owner verification gate with pre-decided outcomes (T-M5-09).
 
 ## 3. Dependency order (the order to do them in)

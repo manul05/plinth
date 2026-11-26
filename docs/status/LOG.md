@@ -19,6 +19,13 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Going public & security settings (T-MR-08)
+
+- **Did:** Audited `docs/status/` and `docs/decisions/` (0 personal data/secrets/paths), verified `G-public` settings on GitHub, updated `SECURITY.md`, `README.md` badges (`?branch=main`), `docs/06-plan.md` (`T-MR-08` `done`), and `STATUS.md`.
+- **Verified:** Pre-public `security-scan` (`45775678369` @ `b73f407`) green; `gh api` confirmed `public`, `default_branch: main`, `protect-main` ruleset, secret scanning, push protection, and private vulnerability reporting enabled.
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Merge, tag v0.1.0, reproducible snapshot & pins (T-MR-07)
 
 - **Did:** Opened PR #5 (`development -> main`, merged by owner at `5cd5e6f`), verified two identical clean-worktree snapshot builds from `v0.1.0`, packaged `plinth-0.1.0-snapshot.zip` (attached to published GitHub Release), recorded pins in `docs/releases.md`, removed `../plinth-v0.1.0`, and marked `T-MR-07` `done`.
