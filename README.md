@@ -2,7 +2,7 @@
 
 > The shared trust layer under a portfolio of security products: one written set of rules — with golden test vectors and a small TypeScript library — for canonical JSON, signed envelopes, tamper-evident audit logs, "two hands" approvals, rule packs and secret / Indian-PII detection, so every product produces and checks the same bytes.
 
-[![CI](https://github.com/manul05/plinth/actions/workflows/ci.yml/badge.svg?branch=development)](https://github.com/manul05/plinth/actions/workflows/ci.yml) · Licence: MIT · Status: **0.1.0 released** (pins in [docs/releases.md](docs/releases.md))
+[![CI](https://github.com/manul05/plinth/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/manul05/plinth/actions/workflows/ci.yml) [![security-scan](https://github.com/manul05/plinth/actions/workflows/security-scan.yml/badge.svg?branch=main)](https://github.com/manul05/plinth/actions/workflows/security-scan.yml) · Licence: MIT · Status: **0.1.0 released** (pins in [docs/releases.md](docs/releases.md))
 
 ## Demo
 

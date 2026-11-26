@@ -5,8 +5,8 @@
 Please **do not** open a public issue for a security problem.
 
 - Preferred: GitHub **private vulnerability reporting** on this repository (Security tab →
-  "Report a vulnerability"). <!-- Available once the repo is public; enable it in Settings → Code security. -->
-- Before the repository is public there is no external reporting channel (only the owner and his agents can see it). This line is replaced in task T-MR-08.
+  **Advisories** → **"Report a vulnerability"**, or
+  https://github.com/manul05/plinth/security/advisories/new).
 
 Include what you found, how to reproduce it, the version or commit, and the impact you expect.
 Please give me a reasonable time to fix it before you disclose it publicly.

@@ -52,7 +52,7 @@ Plinth is a **library plus data**. It has no server, database, UI, background jo
 | Tests | `vitest` | 5.0.5 | MIT | Fast ESM tests (ADR-0009) | 2026-10-15 | https://www.npmjs.com/package/vitest |
 | Vitest peer | `vite` | 8.3.4 | MIT | Required peer of vitest 5 | 2026-10-08 | https://www.npmjs.com/package/vite |
 | Lint + format | `@biomejs/biome` | 2.5.15 | MIT OR Apache-2.0 | One dependency for lint and format (ADR-0009) | 2026-09-30 | https://www.npmjs.com/package/@biomejs/biome |
-| Node types | `@types/node` | 24.19.2 | MIT | Types for tools and tests only | 2026-10-09 | https://www.npmjs.com/package/@types/node |
+| Node types | `@types/node` | 26.6.6 | MIT | Types for tools and tests only | 2026-10-28 | https://www.npmjs.com/package/@types/node |
 | JSON Schema | `ajv` | 8.20.0 | MIT | Validates contracts in tests and the compiler; **never at runtime** (Workers forbid `new Function`) | 2026-04-24 | https://www.npmjs.com/package/ajv |
 | YAML | `yaml` | 2.9.1 | ISC | YAML 1.2 parser with node-level API for the safe subset (repo-tools only) | 2026-09-11 | https://www.npmjs.com/package/yaml |
 | ReDoS lint | `safe-regex2` | 5.1.2 (pulls `ret` 0.5.1) | MIT | Star-height check for rule regexes (repo-tools only) | 2026-10-10 | https://www.npmjs.com/package/safe-regex2 |

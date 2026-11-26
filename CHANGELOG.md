@@ -7,6 +7,9 @@ text becomes the GitHub Release notes.
 
 ## [Unreleased]
 
+### Changed
+- Recorded the `0.1.0` snapshot pin row in [docs/releases.md](docs/releases.md), switched [SECURITY.md](SECURITY.md) and [README.md](README.md) badges to public-repository `main` links, and updated `@types/node` devDependency to `26.6.6`.
+
 ## [0.1.0] - 2026-11-26
 
 ### Added
