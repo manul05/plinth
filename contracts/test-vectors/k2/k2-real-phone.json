@@ -1,0 +1,71 @@
+{
+  "suite": "pk-approval/1.0",
+  "id": "k2-real-phone",
+  "op": "verifyEnvelope",
+  "description": "Real phone passkey assertion via Google Password Manager (flags 0x1d UP+UV+BE+BS, high-S) captured on http://localhost:8787",
+  "input": {
+    "envelope": {
+      "spec": "pk-sig/1.0",
+      "type": "pk.approval.decision",
+      "payload": {
+        "spec": "pk-approval/1.0",
+        "request_digest": "sha256:abababababababababababababababababababababababababababababababab",
+        "decision": "approve",
+        "decided_at": "2026-11-25T14:01:33.362Z",
+        "approver_id": "owner"
+      },
+      "signatures": [
+        {
+          "kid": "sha256:c3412e39bce627dd07ca35b90379e1c648a564b5f2bb29ba5569737408a1085d",
+          "alg": "webauthn-ES256",
+          "role": "approver",
+          "sig": "MEUCIA6g-2zPW5e4IzL7e5lpViYnWftNRgXbFY7swRqILjMtAiEA1mYJB0uie5adLn2gGrWGRJ3Yj13uG9dAqQAp9JtZ-zE",
+          "authenticator_data": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MdAAAAAA",
+          "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiQUNENmJvME44YUtYMXhLcGZKWU9STEFjRjVmeTh2ZkRxSjJjTllBNXpVdyIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODc4NyIsImNyb3NzT3JpZ2luIjpmYWxzZX0"
+        }
+      ]
+    },
+    "trusted_keys": [
+      {
+        "kid": "sha256:c3412e39bce627dd07ca35b90379e1c648a564b5f2bb29ba5569737408a1085d",
+        "jwk": {
+          "kty": "EC",
+          "crv": "P-256",
+          "x": "4JYpgh8pc1zBYMI-OIO17LS7E8YVSV8DcQIG_s_LouY",
+          "y": "Xw05nDCOXxYECTCJPjXPepku5O0iKbK5dSkTbZFnkKo"
+        },
+        "webauthn": {
+          "rp_id": "localhost",
+          "origins": [
+            "http://localhost:8787"
+          ]
+        }
+      }
+    ],
+    "policy": {
+      "pk.approval.decision": {
+        "algs": [
+          "webauthn-ES256",
+          "ES256"
+        ],
+        "min_signatures": 1
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "signers": [
+      {
+        "kid": "sha256:c3412e39bce627dd07ca35b90379e1c648a564b5f2bb29ba5569737408a1085d",
+        "alg": "webauthn-ES256",
+        "role": "approver",
+        "flags": {
+          "up": true,
+          "uv": true,
+          "be": true,
+          "bs": true
+        }
+      }
+    ]
+  }
+}

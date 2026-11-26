@@ -136,8 +136,13 @@ export interface Approver {
 export interface RegistryPayload {
   spec: 'pk-approval/1.0'; realm: string; version: number; approvers: Approver[];
   break_glass: { code_digest: Digest }[]; max_ttl_seconds: number; allow_synced_passkeys: boolean;
+  update_threshold?: number;
 }
 export type RegistryResult = { valid: true; version: number; registry_digest: Digest; registry: RegistryPayload } | { valid: false; error: ErrorCode; at_version: number };
+export interface ActionPolicy {
+  min_approvals: number;
+  distinct_from_requester: boolean;
+}
 export type ApprovalResult =
   | { valid: true; request_digest: Digest; matching_code: string; approver_ids: string[]; consume_id: string }
   | { valid: false; error: ErrorCode };
@@ -160,15 +165,17 @@ export declare function matchingCode(request: ApprovalRequest): string;
 export declare function decisionPayload(input: { request: ApprovalRequest; decision: 'approve' | 'deny'; decidedAt: string; approverId: string; reason?: string }): DecisionPayload;
 export declare function trustedKeysFromRegistry(registry: RegistryPayload): TrustedKey[];
 export declare function verifyRegistryChain(input: { envelopes: readonly unknown[]; genesisDigest: Digest; highestSeenVersion: number }): RegistryResult;
-/** Pure and synchronous; never throws. Does NOT record the id: use verifyAndConsume or call store.add yourself. */
+/** Pure and synchronous; never throws. Does NOT record the id: use verifyAndConsume or call store.add yourself. Products MUST pass actionPolicies and requesterHumanId from enforcement auth. */
 export declare function verifyApproval(input: {
   request: unknown; decisions: readonly unknown[]; registry: RegistryPayload; actualSubjectDigest: string;
   allowedActions: readonly string[]; now: string; isConsumed: (id: string) => boolean;
+  actionPolicies?: Readonly<Record<string, ActionPolicy>>; requesterHumanId?: string;
 }): ApprovalResult;
 /** verifyApproval, then store.add(consume_id); if add resolves false returns { valid: false, error: 'PK_APPROVAL_REPLAYED' }. */
 export declare function verifyAndConsume(input: {
   request: unknown; decisions: readonly unknown[]; registry: RegistryPayload; actualSubjectDigest: string;
   allowedActions: readonly string[]; now: string; store: ConsumedIdStore;
+  actionPolicies?: Readonly<Record<string, ActionPolicy>>; requesterHumanId?: string;
 }): Promise<ApprovalResult>;
 export declare class MemoryConsumedIdStore implements ConsumedIdStore {
   has(id: string): Promise<boolean>;

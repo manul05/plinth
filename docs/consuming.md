@@ -26,7 +26,7 @@ Paths below are relative. `<plinth>` = the local Plinth clone, `<passdown>` = th
 4. `npm run vendor -- --snapshot snapshot/plinth-0.1.0 --to <passdown>`. The tool:
    - deletes `<passdown>/vendor/plinth/` if present and copies the snapshot there;
    - writes `<passdown>/plinth.pin` (format in §3);
-   - adds the line `vendor/plinth/** -text` to `<passdown>/.gitattributes` if it is missing (stops Windows line-ending conversion from breaking hashes);
+   - adds the lines `vendor/plinth/** -text` and `plinth.pin -text` to `<passdown>/.gitattributes` if missing (stops Windows line-ending conversion from breaking hashes or pin reads);
    - prints: `vendored plinth 0.1.0 into <passdown>/vendor/plinth; next: npm install --save-exact ./vendor/plinth/plinth-kit-0.1.0.tgz`.
 5. In `<passdown>`: `npm install --save-exact ./vendor/plinth/plinth-kit-0.1.0.tgz`. Check that `package.json` has `"plinth-kit": "file:vendor/plinth/plinth-kit-0.1.0.tgz"` and `package-lock.json` has an `"integrity": "sha512-…"` entry for it (npm's own hash pin).
 6. In `<passdown>`: `sh vendor/plinth/verify-snapshot.sh` → `OK plinth 0.1.0 snapshot verified (N files)`.
@@ -35,7 +35,7 @@ Paths below are relative. `<plinth>` = the local Plinth clone, `<passdown>` = th
    - run: sh vendor/plinth/verify-snapshot.sh
    - run: npx plinth-conformance vendor/plinth/contracts/test-vectors
    ```
-   Expected: `OK plinth 0.1.0 …` and `PASS 150/150`.
+   Expected: `OK plinth 0.1.0 …` and `PASS 156/156`.
 8. Add a Passdown test that fails if any kid in its approver registry or trust list is a test kid: `import { isTestKid } from 'plinth-kit/core'`.
 9. Add one line to Passdown's `AGENTS.md` project notes: `Never edit vendor/plinth/ or plinth.pin by hand; Plinth changes are made in the Plinth repo first and arrive by re-vendoring a new tag.`
 10. Passdown ADR: "Use Plinth 0.1.0", quoting `commit`, `sums_sha256` and `tarball_sha256` from `plinth.pin`.

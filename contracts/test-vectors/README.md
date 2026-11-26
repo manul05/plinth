@@ -2,7 +2,7 @@
 
 Language-neutral truth for every binding (TypeScript now; C# and Kotlin later). A binding is "done" for a component only when it passes **100 %** of that component's runtime vectors.
 
-- 177 vector files: `k0/` 56, `k1/` 21, `k2/` 45, `k4/` 35, `k5/` 20. Plus `keys/` (5 TEST-ONLY keys + `test-kids.json`) and `index.json` (SHA-256 of every file's exact bytes).
+- 183 vector files: `k0/` 56, `k1/` 21, `k2/` 51, `k4/` 35, `k5/` 20. Plus `keys/` (5 TEST-ONLY keys + `test-kids.json`) and `index.json` (SHA-256 of every file's exact bytes).
 - One case per file, shape `contracts/schemas/test-vector.schema.json`: `{suite, id, op, description, input, expect}`.
 - Files are ASCII-only JSON: every character above U+007E is written as a `\uXXXX` escape (invisible characters stay visible in review). Parse them with any JSON parser.
 - `.gitattributes` keeps this folder byte-exact (`-text`); `index.json` hashes would break otherwise.
@@ -45,6 +45,6 @@ Language-neutral truth for every binding (TypeScript now; C# and Kotlin later). 
 | pk-detect / `validator` | runtime | `verhoeffValid` / `gstinValid` / `upiHandleValid(value, handles)` | `valid` |
 | pk-detect / `maskSecret` | runtime | each of `values` | `masked` list |
 
-Counts: runtime vectors = 150; tool vectors = 27 (`yamlSubset` 10, `lintRegex` 13, `compilePackDigests` 4). `plinth-conformance` prints `PASS 150/150` on success.
+Counts: runtime vectors = 156; tool vectors = 27 (`yamlSubset` 10, `lintRegex` 13, `compilePackDigests` 4). `plinth-conformance` prints `PASS 156/156` on success.
 
 "Deep-equal" means equal JSON values (member order irrelevant, array order relevant). Result objects must not carry extra members unless the table says so.

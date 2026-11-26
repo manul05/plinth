@@ -12,7 +12,7 @@ Code and tests are checked against these files. **Never change anything here wit
 | `spec/errors.md`, `errors.json` | All 97 error codes with exact messages (JSON is the source) |
 | `api/plinth-api.d.ts` | The exact public TypeScript API of `plinth-kit` 0.1.0 |
 | `schemas/*.json` | JSON Schema 2020-12 for every K0/K1/K2/K4/K5 object (`$id` base `https://plinth.invalid/schemas/`, a never-resolving placeholder host) |
-| `test-vectors/` | 177 golden vectors + TEST-ONLY keys; see its README for how they were made and how each op is called |
+| `test-vectors/` | 183 golden vectors + TEST-ONLY keys; see its README for how they were made and how each op is called |
 
 Spec versions inside objects: `pk-sig/1.0`, `pk-audit/1.0`, `pk-approval/1.0`, `pk-rulepack/1.0`. Verifiers reject unknown majors and newer minors (`PK_SPEC_UNSUPPORTED`) and must keep verifying every older minor of a major forever.
 

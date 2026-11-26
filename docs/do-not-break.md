@@ -20,4 +20,20 @@ Entry shape (keep each under 8 lines):
 - Why: index.json, pack manifests and snapshot pins hash the exact bytes; CRLF conversion on Windows breaks every hash
 - Test: packages/ts/test/contracts.test.ts :: vector files match index.json; npm run packs:check
 
-(DNB-002…004 are added by tasks T-M1-11, T-M3-09, T-M5-11.)
+## DNB-002: Key order uses UTF-16 code units
+- Where: packages/ts/src/core/jcs.ts (canonicalize)
+- Rule: object keys are sorted with the default Array.prototype.sort(), never localeCompare or Intl.Collator
+- Why: RFC 8785 orders by UTF-16 code units; any other order changes every hash and breaks other languages
+- Test: k0-jcs-utf16-order, k0-jcs-utf16-vs-codepoint
+
+## DNB-003: ECDSA verification passes lowS: false
+- Where: packages/ts/src/core/envelope.ts and core/webauthn.ts (p256.verify calls)
+- Rule: every p256.verify call passes { lowS: false }
+- Why: noble rejects high-S by default; authenticators and other languages may produce high-S signatures, which are valid ECDSA
+- Test: k0-env-valid-es256-high-s
+
+## DNB-004: PII placeholders have no fingerprint
+- Where: packages/ts/src/detect/redact.ts
+- Rule: PII placeholders are exactly [REDACTED:<pii_type>]; Aadhaar is never fingerprinted or stored
+- Why: UIDAI rule and DPDP minimisation; a fingerprint would make identifiers linkable
+- Test: k5-redact-aadhaar-no-fingerprint

@@ -43,7 +43,7 @@ All commands run from the repo root in **Git Bash** unless stated.
 - **Modify:** `.gitignore` (append 3 lines)
 - **Do not touch:** anything else.
 - **Exact file contents:**
-  - `.nvmrc`: `24.16.0`
+  - `.nvmrc`: `26.13.1`
   - `package.json`:
     ```json
     {
@@ -52,7 +52,7 @@ All commands run from the repo root in **Git Bash** unless stated.
       "version": "0.1.0",
       "type": "module",
       "license": "MIT",
-      "engines": { "node": ">=24.16.0 <25" },
+      "engines": { "node": ">=26.13.1 <27" },
       "workspaces": ["packages/ts"],
       "scripts": {
         "typecheck": "tsc -p packages/ts/tsconfig.json --noEmit && tsc -p packages/ts/tsconfig.test.json --noEmit",
@@ -120,7 +120,7 @@ All commands run from the repo root in **Git Bash** unless stated.
       "license": "MIT",
       "type": "module",
       "sideEffects": false,
-      "engines": { "node": ">=24.16.0" },
+      "engines": { "node": ">=26.13.1" },
       "exports": {
         ".": { "types": "./dist/index.d.ts", "default": "./dist/index.js" }
       },

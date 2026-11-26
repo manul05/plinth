@@ -21,3 +21,16 @@ one's status becomes `Superseded by ADR-MMMM`. Decisions made in Stage 2 stay in
 | 0012 | [Refinements of the platform-kit draft made in Stage 3](0012-stage3-refinements.md) | Accepted | 2026-10-31 |
 | 0013 | [Synced-passkey policy per realm via the BE flag](0013-synced-passkey-policy.md) | Accepted | 2026-10-31 |
 | 0014 | [Public once tested, MIT, package name `plinth-kit`](0014-public-mit-package-name.md) | Accepted | 2026-10-31 |
+| 0015 | [The subject digest is defined by each product, not by Plinth](0015-subject-digest-is-product-defined.md) | Accepted | 2026-11-07 |
+| 0016 | [Re-pin Node.js to 26.13.1 and npm to 11.20.0](0016-repin-node-26-13-1-npm-11-20-0.md) | Accepted | 2026-11-25 |
+| 0017 | [Declare property "d" inside "not" in jwk.schema.json for Ajv strict mode](0017-jwk-schema-strict-required.md) | Accepted | 2026-11-25 |
+| 0018 | [Add real-authenticator WebAuthn vectors](0018-add-real-authenticator-vectors.md) | Accepted | 2026-11-25 |
+| 0019 | [Enforcement-side action policies and authenticated requester identity](0019-enforcement-action-policies-and-requester-id.md) | Accepted | 2026-11-25 |
+| 0020 | [Registry update threshold by distinct approver IDs](0020-registry-update-threshold-distinct-approvers.md) | Accepted | 2026-11-25 |
+| 0021 | [Harden K2 validation guards and document K1 anchor limit](0021-harden-k2-validation-and-k1-anchor-limit.md) | Accepted | 2026-11-25 |
+| 0022 | [Verified Indian key formats (gate G-K5)](0022-verified-indian-key-formats.md) | Accepted | 2026-11-25 |
+| 0023 | [Adjust NFR-2 pure-JS crypto verification budgets](0023-adjust-crypto-nfr2-perf-budgets.md) | Accepted | 2026-11-25 |
+| 0024 | [Enforce approver profile and synced-passkey checks on registry chain](0024-enforce-registry-profile-and-synced-passkey-checks.md) | Accepted | 2026-11-26 |
+| 0025 | [Reject short optional installationSecret in scan()](0025-validate-optional-scan-secret-length.md) | Accepted | 2026-11-26 |
+| 0026 | [Redact partially overlapping tails in redact()](0026-redact-partial-overlapping-tails.md) | Accepted | 2026-11-26 |
+| 0027 | [Harden K4 dates, K1 lint/checkpoint checks, and Ed25519 verification](0027-validate-dates-top-level-prev-and-strict-verifiers.md) | Accepted | 2026-11-26 |

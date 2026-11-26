@@ -128,3 +128,34 @@ Files: `packages/ts/src/approval/`, tests `packages/ts/test/approval/`.
   Then **gate R1**: ask the owner to run the review prompt in `docs/testing.md` §8 with `<M3>`; record the result in LOG; turn critical/high findings into fix tasks `T-M3-10…` (S or M each) before M4 starts.
 - **Done when:** mutation checks logged · R1 recorded · STATUS "Next step: T-M4-01" (or the first fix task)
 - **Commit:** `docs: close milestone M3 and record review R1 (T-M3-09)`
+
+---
+
+### T-M3-10 · R1-01 fix (High): enforcement-side `actionPolicies` and requester identity
+- **Size:** M
+- **Depends on:** T-M3-09 (requires ADR + owner OK before editing `contracts/`)
+- **Covers:** R1-01, TM-12
+- **Why:** `min_approvals`, `distinct_from_requester`, and `requester.human_id` currently come from the requester-supplied `ApprovalRequest`, allowing a compromised requester/server to downgrade policy or spoof `human_id`.
+- **Modify (after ADR + owner OK):** `docs/decisions/0019-*.md`, `docs/decisions/README.md`, `contracts/spec/k2-approval.md`, `contracts/api/plinth-api.d.ts`, `contracts/test-vectors/k2/*.json` + `index.json`, `packages/ts/src/approval/verify.ts`, `packages/ts/src/approval/store.ts`, `packages/ts/test/approval/*.test.ts`
+- **Steps:** add enforcement-side policy input (e.g. `actionPolicies` per action) and authenticated requester `human_id` input; compute effective policy as the stricter of request and enforcement policy; add negative tests and vectors for policy downgrade and disabled `distinct_from_requester`.
+- **Run:** `npm run check`
+- **Commit:** `fix(approval): enforce product-side actionPolicies and requester identity (T-M3-10)`
+
+### T-M3-11 · R1-02 fix (High): registry `update_threshold` with distinct approver IDs
+- **Size:** M
+- **Depends on:** T-M3-10 (requires ADR + owner OK before editing `contracts/`)
+- **Covers:** R1-02, TM-10
+- **Why:** `REGISTRY_POLICY.min_signatures = 1` lets a single rogue approver in a multi-person realm sign a registry update that adds a sockpuppet approver or weakens `max_ttl_seconds`/`allow_synced_passkeys`.
+- **Modify (after ADR + owner OK):** `docs/decisions/0020-*.md`, `docs/decisions/README.md`, `contracts/spec/k2-approval.md`, `contracts/schemas/pk-approval.registry-payload.schema.json`, `contracts/test-vectors/k2/*.json` + `index.json`, `packages/ts/src/approval/registry.ts`, `packages/ts/test/approval/registry.test.ts`
+- **Steps:** add `update_threshold` to the registry payload contract and require that many distinct approver `id`s from the previous registry version to sign version `n + 1`; add negative vectors and unit tests for below-threshold updates and two keys belonging to the same approver `id`.
+- **Run:** `npm run check`
+- **Commit:** `fix(approval): enforce distinct-approver threshold on registry updates (T-M3-11)`
+
+### T-M3-12 · R1-03..05/07 Medium fixes: fail-closed K2 validation, break-glass never-throws, K1 anchor note
+- **Size:** M
+- **Depends on:** T-M3-11 (approved via Option 1)
+- **Covers:** R1-03, R1-04, R1-05, R1-07
+- **Modify:** `docs/decisions/0021-*.md`, `docs/decisions/README.md`, `contracts/spec/k2-approval.md`, `contracts/spec/k1-audit.md`, `docs/05-threat-model.md`, `packages/ts/src/approval/{verify,registry,breakglass}.ts`, `packages/ts/test/approval/{verify,registry,breakglass}.test.ts`
+- **Steps:** (1) `R1-03`: validate `subject.digest` and `actualSubjectDigest` match `^sha256:[0-9a-f]{64}$`; (2) `R1-04`: validate full `RegistryPayload` schema fields in `verifyRegistryChain` step 1 and `max_ttl_seconds` safe integer 60–86400 in `verifyApproval` step 7; (3) `R1-05`: make `verifyBreakGlass` fail-closed and never-throws on malformed input; (4) `R1-07`: document external checkpoint anchor requirement in `k1-audit.md` and `05-threat-model.md`.
+- **Run:** `npm run check`
+- **Commit:** `fix(approval): harden K2 validation and break-glass fail-closed guards (T-M3-12)`

@@ -23,7 +23,7 @@
 
 ## 3. Checkpoint
 Signed envelope, type `pk.audit.checkpoint`, payload `{spec:"pk-audit/1.0", chain, seq, head, ts, count}` where `head` = hash of event `seq` and `count = seq + 1`. `createCheckpoint(line, ts, secretKey)` signs it Ed25519 with role `"service"`. `CHECKPOINT_POLICY = {"pk.audit.checkpoint": {algs:["Ed25519","ES256"], min_signatures:1}}`.
-A chain alone proves nothing against someone who can rewrite the whole table: checkpoints MUST be anchored where the attacker cannot write (Passdown: hashes in the repo's signed `.baton/snapshot.md`).
+A chain alone proves nothing against someone who can rewrite the whole table: checkpoints MUST be anchored where the attacker cannot write (Passdown: hashes in the repo's signed `.baton/snapshot.md`). **Honest limit:** `verifyChain` detects tail truncation only when callers pass the latest checkpoint fetched from that external anchor—never from the same mutable database/store as the events, where an attacker who deletes tail events can also withhold the newest checkpoint.
 
 ## 4. Pruning (180-day retention)
 Deleting events below seq k is allowed only after a checkpoint at k−1 exists. Then append a `pk.audit.pruned` event whose `data` = `{up_to_seq: k−1, checkpoint_digest: digest(checkpoint.payload)}` (`prunedEventDraft` builds it). The pruned export starts at seq k and the verifier needs the checkpoint at k−1.
@@ -39,7 +39,7 @@ B. For each line i in the given order (no sorting), with e = line.event:
    6. i = 0 and e.seq = 0: `e.prev === GENESIS_DIGEST` → else `PK_AUDIT_PREV_MISMATCH`. i > 0: `e.prev === previous line's hash` → else `PK_AUDIT_PREV_MISMATCH`.
    `at_seq` = e.seq unless stated.
 C. Checkpoints, sorted by `payload.seq` ascending. For each c with p = c.payload:
-   1. p is an object, `p.spec === "pk-audit/1.0"`, string chain, safe integer seq, string head, string ts, `p.count === p.seq + 1`, `c.type === "pk.audit.checkpoint"` → else `PK_AUDIT_CHECKPOINT_MALFORMED` (`at_seq` = p.seq or −1).
+   1. p is an object, `p.spec === "pk-audit/1.0"`, string chain, safe integer seq, string head, `p.ts` matching the strict timestamp pattern, `p.count === p.seq + 1`, `c.type === "pk.audit.checkpoint"` → else `PK_AUDIT_CHECKPOINT_MALFORMED` (`at_seq` = p.seq or −1).
    2. `verifyEnvelope(c, {trustedKeys, policy: CHECKPOINT_POLICY})` → if invalid: `PK_AUDIT_CHECKPOINT_SIG_INVALID` with `cause` = the envelope error.
    3. `p.chain === chain` → else `PK_AUDIT_CHAIN_MISMATCH`.
    4. p.seq < firstSeq − 1 → ignore. p.seq = firstSeq − 1 → start anchor: `p.head === first event's prev` → else `PK_AUDIT_CHECKPOINT_MISMATCH`. p.seq > lastSeq → `PK_AUDIT_TRUNCATED` with `at_seq = lastSeq + 1`. Otherwise `p.head === hash at p.seq` → else `PK_AUDIT_CHECKPOINT_MISMATCH`. Track `anchored_seq` = highest accepted checkpoint seq (start −1).
@@ -48,4 +48,4 @@ E. `anchored_seq === lastSeq` → `{valid:true, status:"verified", anchored_seq,
 
 ## 6. Export format and personal-data lint
 - Export = JSON Lines: each line is `canonicalize({event, hash})` followed by `\n` (`serializeExport`). `parseExport` splits on `\n`, ignores one trailing empty line, parses each line with `parseJson` and checks the export-line shape; error detail `"line N"` (1-based).
-- `lintPersonalData(event, packs, date)`: walk every string value in the event; skip strings that are digests (`^sha256:[0-9a-f]{64}$`), UUIDs (`^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$`) or the value of a member named `prev`; run `scan(value, packs, {date})` (K5) on the rest; return all findings whose kind is `pii`, in walk order (object members in `Object.entries` order, arrays in order). Vectors pass the `pk.pii.india` pack.
+- `lintPersonalData(event, packs, date)`: walk every string value in the event; skip strings that are digests (`^sha256:[0-9a-f]{64}$`), UUIDs (`^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$`) or top-level `event.prev` (`depth === 0`); run `scan(value, packs, {date})` (K5) on the rest (including nested `data.prev`); return all findings whose kind is `pii`, in walk order (object members in `Object.entries` order, arrays in order). Vectors pass the `pk.pii.india` pack.

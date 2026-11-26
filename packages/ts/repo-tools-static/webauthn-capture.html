@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plinth WebAuthn Spike (T-M3-08)</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 40rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        line-height: 1.5;
+      }
+      .actions {
+        display: flex;
+        gap: 0.75rem;
+        margin: 1rem 0;
+      }
+      button {
+        padding: 0.6rem 1rem;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+      #status {
+        padding: 0.75rem 1rem;
+        background: #f4f4f5;
+        border-radius: 6px;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Plinth WebAuthn Spike (T-M3-08)</h1>
+    <p>1. Press <strong>Register</strong> and verify with Windows Hello (or a phone passkey).</p>
+    <p>2. Press <strong>Approve</strong> and verify again to save the assertion to <code>spike-output/</code>.</p>
+    <div class="actions">
+      <button id="register-btn" type="button">Register</button>
+      <button id="approve-btn" type="button" disabled>Approve</button>
+    </div>
+    <p id="status" role="status" aria-live="polite">Ready. Press Register to begin.</p>
+
+    <script type="module">
+      const registerBtn = document.getElementById('register-btn');
+      const approveBtn = document.getElementById('approve-btn');
+      const statusEl = document.getElementById('status');
+
+      let spkiB64Url = null;
+      let rawIdBytes = null;
+      let credentialIdB64Url = null;
+      let approveAbortController = new AbortController();
+
+      function toB64Url(buffer) {
+        const bytes = buffer instanceof Uint8Array ? buffer : new Uint8Array(buffer);
+        let bin = '';
+        for (const b of bytes) bin += String.fromCharCode(b);
+        return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      }
+
+      function fromB64Url(text) {
+        const padded = text.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((text.length + 3) % 4);
+        const bin = atob(padded);
+        const bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        return bytes;
+      }
+
+      function setStatus(text) {
+        statusEl.textContent = text;
+      }
+
+      if (!window.PublicKeyCredential) {
+        registerBtn.disabled = true;
+        setStatus('WebAuthn (PublicKeyCredential) is not supported in this browser.');
+      }
+
+      registerBtn.addEventListener('click', async () => {
+        try {
+          setStatus('Waiting for authenticator registration...');
+          const challenge = crypto.getRandomValues(new Uint8Array(32));
+          const userId = crypto.getRandomValues(new Uint8Array(16));
+          const cred = await navigator.credentials.create({
+            publicKey: {
+              challenge,
+              rp: { id: 'localhost', name: 'Plinth spike' },
+              user: { id: userId, name: 'owner', displayName: 'owner' },
+              pubKeyCredParams: [{ type: 'public-key', alg: -7 }],
+              authenticatorSelection: {
+                userVerification: 'required',
+                residentKey: 'preferred',
+              },
+              attestation: 'none',
+            },
+          });
+          if (!cred) {
+            setStatus('Registration cancelled.');
+            return;
+          }
+          const spki = cred.response.getPublicKey();
+          if (!spki) {
+            setStatus('Browser did not return SPKI public key (getPublicKey()).');
+            return;
+          }
+          spkiB64Url = toB64Url(spki);
+          rawIdBytes = new Uint8Array(cred.rawId);
+          credentialIdB64Url = toB64Url(rawIdBytes);
+          approveBtn.disabled = false;
+          setStatus(`Registered credential ${credentialIdB64Url}. Now press Approve.`);
+        } catch (err) {
+          setStatus(`Registration failed (${err.name}): ${err.message}`);
+        }
+      });
+
+      approveBtn.addEventListener('click', async () => {
+        if (!rawIdBytes || !spkiB64Url) {
+          setStatus('Register a credential first.');
+          return;
+        }
+        try {
+          approveAbortController.abort();
+          approveAbortController = new AbortController();
+
+          setStatus('Computing approval challenge...');
+          const payload = {
+            spec: 'pk-approval/1.0',
+            request_digest: `sha256:${'ab'.repeat(32)}`,
+            decision: 'approve',
+            decided_at: new Date().toISOString(),
+            approver_id: 'owner',
+          };
+
+          const challengeRes = await fetch('/challenge', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ payload }),
+          });
+          if (!challengeRes.ok) {
+            setStatus(`Challenge request failed: HTTP ${challengeRes.status}`);
+            return;
+          }
+          const { challenge } = await challengeRes.json();
+
+          setStatus('Touch fingerprint / enter PIN to approve...');
+          const assertion = await navigator.credentials.get({
+            publicKey: {
+              challenge: fromB64Url(challenge),
+              allowCredentials: [{ type: 'public-key', id: rawIdBytes }],
+              userVerification: 'required',
+              rpId: 'localhost',
+            },
+            signal: approveAbortController.signal,
+          });
+          if (!assertion) {
+            setStatus('Approval cancelled.');
+            return;
+          }
+
+          const resp = assertion.response;
+          const record = {
+            payload,
+            spki_b64url: spkiB64Url,
+            credential_id: credentialIdB64Url,
+            authenticatorData: toB64Url(resp.authenticatorData),
+            clientDataJSON: toB64Url(resp.clientDataJSON),
+            signature: toB64Url(resp.signature),
+          };
+
+          const saveRes = await fetch('/save', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record),
+          });
+          if (!saveRes.ok) {
+            setStatus(`Save failed: HTTP ${saveRes.status}`);
+            return;
+          }
+          const saved = await saveRes.json();
+          setStatus(`Saved assertion ${saved.n} (${saved.file})`);
+        } catch (err) {
+          if (err.name === 'AbortError') return;
+          setStatus(`Approval failed (${err.name}): ${err.message}`);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -43,8 +43,8 @@ Plinth is a **library plus data**. It has no server, database, UI, background jo
 ## 2. Stack (checked 2026-10-31 with `npm view <pkg> version license time`; rule: exact pin, published ≥ 14 days before pinning, ADR-0008)
 | Component | Package / tool | Exact version | Licence | Why | Published | Source |
 |---|---|---|---|---|---|---|
-| Runtime for tools/tests | Node.js | 24.16.0 (LTS line 24) | MIT | Installed on the owner's PC; ESM, `crypto.getRandomValues`, `String.isWellFormed` | — | https://nodejs.org/en/download |
-| Package manager | npm | 11.13.0 (bundled with Node 24.16.0) | Artistic-2.0 | No extra install; workspaces; lockfile (ADR-0003) | — | https://docs.npmjs.com/ |
+| Runtime for tools/tests | Node.js | 26.13.1 (re-pinned in ADR-0016) | MIT | Installed on the owner's PC; ESM, `crypto.getRandomValues`, `String.isWellFormed` | — | https://nodejs.org/en/download |
+| Package manager | npm | 11.20.0 (bundled with Node 26.13.1) | Artistic-2.0 | No extra install; workspaces; lockfile (ADR-0003, ADR-0016) | — | https://docs.npmjs.com/ |
 | Curves | `@noble/curves` | 2.4.0 | MIT | Audited, pure JS, same in Node/browser/Workers; Ed25519 + P-256 (ADR-0005) | 2026-08-27 | https://www.npmjs.com/package/@noble/curves |
 | Hashes | `@noble/hashes` | 2.4.0 | MIT | SHA-256, HMAC (ADR-0005) | 2026-08-27 | https://www.npmjs.com/package/@noble/hashes |
 | Encodings | `@scure/base` | 2.4.0 | MIT | Strict base64url-no-pad and base32 (ADR-0005) | 2026-08-28 | https://www.npmjs.com/package/@scure/base |
@@ -57,7 +57,7 @@ Plinth is a **library plus data**. It has no server, database, UI, background jo
 | YAML | `yaml` | 2.9.1 | ISC | YAML 1.2 parser with node-level API for the safe subset (repo-tools only) | 2026-09-11 | https://www.npmjs.com/package/yaml |
 | ReDoS lint | `safe-regex2` | 5.1.2 (pulls `ret` 0.5.1) | MIT | Star-height check for rule regexes (repo-tools only) | 2026-10-10 | https://www.npmjs.com/package/safe-regex2 |
 | CI checkout | `actions/checkout` | `@v7` (7.0.1) | MIT | First-party, major tag allowed by conventions | 2026-07-20 | https://github.com/actions/checkout/releases |
-| CI Node | `actions/setup-node` | `@v7` (7.1.0) | MIT | Installs Node 24.16.0 with npm cache | 2026-10-08 | https://github.com/actions/setup-node/releases |
+| CI Node | `actions/setup-node` | `@v7` (7.1.0) | MIT | Installs Node 26.13.1 (from `.nvmrc`) with npm cache | 2026-10-08 | https://github.com/actions/setup-node/releases |
 | Secret scan | gitleaks image | `ghcr.io/gitleaks/gitleaks:v8.30.1` | MIT | `security-scan.yml` | 2026-03-21 | https://github.com/gitleaks/gitleaks/releases |
 | Dependency scan | osv-scanner image | `ghcr.io/google/osv-scanner:v2.7.0` | Apache-2.0 | `security-scan.yml` | 2026-10-12 | https://github.com/google/osv-scanner/releases |
 All licences are permissive and compatible with MIT. Not used on purpose: WebCrypto (async and uneven across runtimes), `@simplewebauthn/server` (not needed: no CBOR, ADR-0007), the `canonicalize` package (profile rules and duplicate detection need our own, ADR-0006), pnpm (ADR-0003).
@@ -68,7 +68,7 @@ START-HERE.md                    first file for any agent
 AGENTS.md CLAUDE.md GEMINI.md    agent rules (from the skeleton)
 README.md LICENSE NOTICE SECURITY.md CHANGELOG.md
 .env.example                     states: no environment variables
-.nvmrc                           24.16.0
+.nvmrc                           26.13.1
 .gitattributes .gitignore
 package.json                     root: private, npm workspaces ["packages/ts"], all scripts
 package-lock.json                committed
@@ -225,7 +225,7 @@ Consumers vendor a tagged snapshot, pinned by hash (ADR-0010); full procedure fo
 | 0001 | Adopt the portfolio repo conventions v1 |
 | 0002 | Scope of release 0.1: K0, K1, K2, K4, K5 (K2 pulled in for Passdown) |
 | 0003 | npm (bundled) with workspaces, not pnpm |
-| 0004 | Runtime-neutral library: ES2022, no Node built-ins, no eval; Node 24.16.0 for tools |
+| 0004 | Runtime-neutral library: ES2022, no Node built-ins, no eval; Node 24.16.0 for tools (amended to 26.13.1 by ADR-0016) |
 | 0005 | Crypto and encoding: @noble/curves, @noble/hashes, @scure/base; high-S accepted |
 | 0006 | Own strict JSON parser and pk-JCS canonicaliser |
 | 0007 | WebAuthn assertions verified by the kit without SimpleWebAuthn; registration stays in products |
@@ -236,3 +236,6 @@ Consumers vendor a tagged snapshot, pinned by hash (ADR-0010); full procedure fo
 | 0012 | Refinements of the platform-kit draft made in Stage 3 |
 | 0013 | Synced-passkey policy per realm via the BE flag |
 | 0014 | Public once tested, MIT, package name `plinth-kit` |
+| 0015 | The subject digest is defined by each product, not by Plinth |
+| 0016 | Re-pin Node.js to 26.13.1 and npm to 11.20.0 |
+| 0017 | Declare property "d" inside "not" in jwk.schema.json for Ajv strict mode |

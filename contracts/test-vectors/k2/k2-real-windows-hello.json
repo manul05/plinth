@@ -1,0 +1,71 @@
+{
+  "suite": "pk-approval/1.0",
+  "id": "k2-real-windows-hello",
+  "op": "verifyEnvelope",
+  "description": "Real Windows Hello assertion (flags 0x05 UP+UV, low-S) captured on http://localhost:8787",
+  "input": {
+    "envelope": {
+      "spec": "pk-sig/1.0",
+      "type": "pk.approval.decision",
+      "payload": {
+        "spec": "pk-approval/1.0",
+        "request_digest": "sha256:abababababababababababababababababababababababababababababababab",
+        "decision": "approve",
+        "decided_at": "2026-11-25T14:00:00.635Z",
+        "approver_id": "owner"
+      },
+      "signatures": [
+        {
+          "kid": "sha256:89d5543e4a920952626c677610e70e8e56ffffb90b658d5c5ecb4bd46d4ede09",
+          "alg": "webauthn-ES256",
+          "role": "approver",
+          "sig": "MEUCIQCZsrzgj7ukW3-ny51Vqo94uoH_AzNKTsbxmG_XSEN9KwIgG0yIb2uO2w86OuT8wsNd-F6gShBe7ySXAaZtSwPMDt4",
+          "authenticator_data": "SZYN5YgOjGh0NBcPZHZgW4_krrmihjLHmVzzuoMdl2MFAAAAAQ",
+          "client_data_json": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiM285SVlremgxX1NaNVhTU1lRbGJld3BqMlVXYlg2NXJiOVRKS1hGOGdhVSIsIm9yaWdpbiI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODc4NyIsImNyb3NzT3JpZ2luIjpmYWxzZX0"
+        }
+      ]
+    },
+    "trusted_keys": [
+      {
+        "kid": "sha256:89d5543e4a920952626c677610e70e8e56ffffb90b658d5c5ecb4bd46d4ede09",
+        "jwk": {
+          "kty": "EC",
+          "crv": "P-256",
+          "x": "T3oASQF_uqvicIPP5kMLiRmn-r-zSGCH3I2z7Gh8hNI",
+          "y": "M10sziFig3SuIzW6cYVuCb4yZO5Tyl584-EdnHfP1lI"
+        },
+        "webauthn": {
+          "rp_id": "localhost",
+          "origins": [
+            "http://localhost:8787"
+          ]
+        }
+      }
+    ],
+    "policy": {
+      "pk.approval.decision": {
+        "algs": [
+          "webauthn-ES256",
+          "ES256"
+        ],
+        "min_signatures": 1
+      }
+    }
+  },
+  "expect": {
+    "valid": true,
+    "signers": [
+      {
+        "kid": "sha256:89d5543e4a920952626c677610e70e8e56ffffb90b658d5c5ecb4bd46d4ede09",
+        "alg": "webauthn-ES256",
+        "role": "approver",
+        "flags": {
+          "up": true,
+          "uv": true,
+          "be": false,
+          "bs": false
+        }
+      }
+    ]
+  }
+}

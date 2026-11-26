@@ -13,8 +13,8 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 | M2 K1 Audit | `plan/M2-audit.md` | 19 k1 vectors (2 lint vectors in M5) | MC-6/7 |
 | M3 K2 Approvals | `plan/M3-approvals.md` | 45 k2 vectors + real-authenticator spike | MC-3/4/8/9/10/11 + **review gate R1** |
 | M4 K4 Rule packs | `plan/M4-rulepack.md` | 35 k4 vectors, reproducible packs | `packs:check` in CI |
-| M5 K5 Detection | `plan/M5-detection.md` | 20 k5 + 2 lint vectors, 70 pack tests, budgets, **owner gate G-K5** | MC-12/13/14 |
-| M6 Conformance + package | `plan/M6-package.md` | API lock, `plinth-conformance` PASS 150/150, package | **review gate R2** |
+| M5 K5 Detection | `plan/M5-detection.md` | 20 k5 + 2 lint vectors, 73 pack tests, budgets, **owner gate G-K5** | MC-12/13/14 |
+| M6 Conformance + package | `plan/M6-package.md` | API lock, `plinth-conformance` PASS 156/156, package | **review gate R2** |
 | MR Release | `plan/MR-release.md` | Snapshot, vendoring tools, security review, README, tag, public | **G-merge, G-tag, G-final, G-public** |
 
 **Owner gates (plain English, what Manul does):**
@@ -29,75 +29,82 @@ Status values: `todo` → `doing` → `done` (only with pasted passing output). 
 ## 2. Task table
 | ID | Title | M | Depends on | Size | Covers | Status |
 |---|---|---|---|---|---|---|
-| T-M0-01 | Initialise git, hooks, prove the guard | M0 | G0 | S | NFR-8, TM-32 | todo |
-| T-M0-02 | Root npm workspace and pinned toolchain | M0 | T-M0-01 | M | NFR-4, NFR-8, TM-28 | todo |
-| T-M0-03 | Version test and vector loader | M0 | T-M0-02 | S | NFR-8 | todo |
-| T-M0-04 | Contract self-checks and pins | M0 | T-M0-03 | M | TM-32, TM-28, NFR-4 | todo |
-| T-M0-05 | CI, security-scan, Dependabot | M0 | T-M0-04 | M | TM-28, TM-30, NFR-8 | todo |
-| T-M0-06 | Portability guard | M0 | T-M0-03 | S | NFR-1, NFR-12 | todo |
-| T-M0-07 | Errors module | M0 | T-M0-04 | S | NFR-6 | todo |
-| T-M0-08 | M0 close | M0 | T-M0-05, T-M0-06, T-M0-07 | S | gate | todo |
-| T-M1-01 | Red skeleton k0 | M1 | T-M0-08 | S | AC-1.x–4.x harness | todo |
-| T-M1-02 | bytes.ts | M1 | T-M1-01 | S | TM-04 | todo |
-| T-M1-03 | Strict JSON parser | M1 | T-M1-02 | M | AC-2.1, AC-2.2, TM-01, TM-31, TM-34 | todo |
-| T-M1-04 | pk-JCS canonicalize, digest | M1 | T-M1-03 | M | AC-1.1–1.4, AC-2.3, TM-01 | todo |
-| T-M1-05 | Keys, kid, SPKI, test kids | M1 | T-M1-04 | M | AC-3.1–3.4, TM-29 | todo |
-| T-M1-06 | Strict DER ↔ P1363 | M1 | T-M1-02 | S | AC-3.5, TM-04 | todo |
-| T-M1-07 | Signing input, Ed25519 sign | M1 | T-M1-05 | S | AC-4.1, TM-02 | todo |
-| T-M1-08 | verifyEnvelope Ed25519/ES256 | M1 | T-M1-06, T-M1-07 | M | AC-4.2–4.4, TM-02, TM-03, TM-05, TM-35, NFR-5 | todo |
-| T-M1-09 | WebAuthn signature entries | M1 | T-M1-08 | M | AC-5.1, AC-5.2, TM-06 | todo |
-| T-M1-10 | UUIDv7, nonce, timestamps | M1 | T-M1-02 | S | AC-9.2 (ids) | todo |
-| T-M1-11 | M1 close, MC-1/2/5 | M1 | T-M1-09, T-M1-10 | S | NFR-11 | todo |
-| T-M2-01 | Red skeleton k1 | M2 | T-M1-11 | S | AC-6.1, AC-7.x, AC-8.1 harness | todo |
-| T-M2-02 | eventHash, appendEvent | M2 | T-M2-01 | M | AC-6.1, AC-6.2 | todo |
-| T-M2-03 | JSON Lines export/parse | M2 | T-M2-02 | S | AC-8.2 | todo |
-| T-M2-04 | Checkpoints, prune marker | M2 | T-M2-02 | S | AC-7.1, AC-8.1, TM-17 | todo |
-| T-M2-05 | verifyChain | M2 | T-M2-04 | M | AC-7.1, AC-7.2, AC-8.1, TM-15, TM-16, TM-17, TM-35, NFR-5 | todo |
-| T-M2-06 | M2 close, MC-6/7 | M2 | T-M2-03, T-M2-05 | S | NFR-11 | todo |
-| T-M3-01 | Red skeleton k2 | M3 | T-M2-06 | S | AC-9.x–12.x harness | todo |
-| T-M3-02 | Requests, matching code, decision payload | M3 | T-M3-01 | S | AC-9.1, AC-9.2, TM-12 | todo |
-| T-M3-03 | Registry chain | M3 | T-M3-02 | M | AC-10.1, TM-10, TM-11, TM-35 | todo |
-| T-M3-04 | verifyApproval request checks | M3 | T-M3-03 | M | AC-11.2, TM-07, TM-09, TM-14 | todo |
-| T-M3-05 | verifyApproval decisions | M3 | T-M3-04, T-M1-09 | M | AC-5.1, AC-5.2, AC-11.1, AC-11.2, TM-03, TM-06, TM-12, TM-13, TM-35 | todo |
-| T-M3-06 | Single-use store, verifyAndConsume | M3 | T-M3-05 | S | AC-11.3, TM-08 | todo |
-| T-M3-07 | Break-glass codes | M3 | T-M3-03 | S | AC-12.1 | todo |
-| T-M3-08 | SPIKE real authenticator | M3 | T-M3-07 | M | AC-5.3, TM-06 | todo |
-| T-M3-09 | M3 close, MC-3/4/8–11, R1 | M3 | T-M3-06, T-M3-08 | S | NFR-11 | todo |
-| T-M4-01 | Red skeleton k4 | M4 | T-M3-09 | S | AC-13.x, AC-14.1 harness | todo |
-| T-M4-02 | selectAsOf, localDate | M4 | T-M4-01 | S | AC-14.1 | todo |
-| T-M4-03 | YAML safe subset | M4 | T-M4-01 | M | AC-13.1, TM-26 | todo |
-| T-M4-04 | Regex dialect lint | M4 | T-M4-01 | S | AC-13.2, TM-23 | todo |
-| T-M4-05 | Schema helper | M4 | T-M4-01 | S | compile step 2 | todo |
-| T-M4-06 | compile-packs, builtin.ts | M4 | T-M4-02…05 | M | AC-13.3, NFR-7 | todo |
-| T-M4-07 | loadPack, activeRules | M4 | T-M4-06 | S | AC-15.1, TM-25 | todo |
-| T-M4-08 | packs:check in CI, M4 close | M4 | T-M4-07 | S | AC-13.3, NFR-7 | todo |
-| T-M5-01 | Red skeleton k5 + pack tests | M5 | T-M4-08 | S | AC-16.x, AC-17.x harness | todo |
-| T-M5-02 | Validators, entropy, masks | M5 | T-M5-01 | S | AC-17.2 | todo |
-| T-M5-03 | Regex scanning | M5 | T-M5-02 | M | AC-16.1, AC-16.3, TM-19, TM-22 | todo |
-| T-M5-04 | Hidden-character runs | M5 | T-M5-03 | S | AC-16.2, TM-24 | todo |
-| T-M5-05 | Redaction | M5 | T-M5-04 | M | AC-17.1–17.5, TM-19, TM-20, TM-21, NFR-6 | todo |
-| T-M5-06 | Compiler runs pack tests | M5 | T-M5-05 | S | AC-13.3 | todo |
-| T-M5-07 | lintPersonalData | M5 | T-M5-05 | S | AC-18.1, TM-18 | todo |
-| T-M5-08 | detect-file tool | M5 | T-M5-05 | S | AC-21.1, NFR-6, TM-19 | todo |
-| T-M5-09 | Owner gate G-K5 | M5 | T-M5-08 | S | AC-21.1, TM-22 | todo |
-| T-M5-10 | Performance and ReDoS budgets | M5 | T-M5-05, T-M3-07, T-M2-05 | S | NFR-2, NFR-3, TM-23 | todo |
-| T-M5-11 | M5 close, MC-12/13/14 | M5 | T-M5-06, T-M5-07, T-M5-09, T-M5-10 | S | NFR-11 | todo |
-| T-M6-01 | API conformance | M6 | T-M5-11 | S | API surface | todo |
-| T-M6-02 | plinth-conformance CLI | M6 | T-M6-01 | M | AC-19.1, NFR-10 | todo |
-| T-M6-03 | Package exports, files, size | M6 | T-M6-02 | S | NFR-9 | todo |
-| T-M6-04 | Library E2E, M6 close, R2 | M6 | T-M6-03 | M | E2E-1…4 | todo |
-| T-MR-01 | Snapshot tool | MR | T-M6-04 | M | AC-20.1, TM-27 | todo |
-| T-MR-02 | verify-snapshot.sh | MR | T-MR-01 | S | AC-20.2, TM-27 | todo |
-| T-MR-03 | Vendor tool | MR | T-MR-02 | M | US-20 | todo |
-| T-MR-04 | E2E consumer | MR | T-MR-03 | M | AC-19.1, AC-20.x | todo |
-| T-MR-05 | Security review | MR | T-MR-04 | M | all TM, G-final | todo |
-| T-MR-06 | README, CHANGELOG, write-up | MR | T-MR-05 | M | testing §11 | todo |
+| T-M0-01 | Initialise git, hooks, prove the guard | M0 | G0 | S | NFR-8, TM-32 | done |
+| T-M0-02 | Root npm workspace and pinned toolchain | M0 | T-M0-01 | M | NFR-4, NFR-8, TM-28 | done |
+| T-M0-03 | Version test and vector loader | M0 | T-M0-02 | S | NFR-8 | done |
+| T-M0-04 | Contract self-checks and pins | M0 | T-M0-03 | M | TM-32, TM-28, NFR-4 | done |
+| T-M0-05 | CI, security-scan, Dependabot | M0 | T-M0-04 | M | TM-28, TM-30, NFR-8 | done |
+| T-M0-06 | Portability guard | M0 | T-M0-03 | S | NFR-1, NFR-12 | done |
+| T-M0-07 | Errors module | M0 | T-M0-04 | S | NFR-6 | done |
+| T-M0-08 | M0 close | M0 | T-M0-05, T-M0-06, T-M0-07 | S | gate | done |
+| T-M1-01 | Red skeleton k0 | M1 | T-M0-08 | S | AC-1.x–4.x harness | done |
+| T-M1-02 | bytes.ts | M1 | T-M1-01 | S | TM-04 | done |
+| T-M1-03 | Strict JSON parser | M1 | T-M1-02 | M | AC-2.1, AC-2.2, TM-01, TM-31, TM-34 | done |
+| T-M1-04 | pk-JCS canonicalize, digest | M1 | T-M1-03 | M | AC-1.1–1.4, AC-2.3, TM-01 | done |
+| T-M1-05 | Keys, kid, SPKI, test kids | M1 | T-M1-04 | M | AC-3.1–3.4, TM-29 | done |
+| T-M1-06 | Strict DER ↔ P1363 | M1 | T-M1-02 | S | AC-3.5, TM-04 | done |
+| T-M1-07 | Signing input, Ed25519 sign | M1 | T-M1-05 | S | AC-4.1, TM-02 | done |
+| T-M1-08 | verifyEnvelope Ed25519/ES256 | M1 | T-M1-06, T-M1-07 | M | AC-4.2–4.4, TM-02, TM-03, TM-05, TM-35, NFR-5 | done |
+| T-M1-09 | WebAuthn signature entries | M1 | T-M1-08 | M | AC-5.1, AC-5.2, TM-06 | done |
+| T-M1-10 | UUIDv7, nonce, timestamps | M1 | T-M1-02 | S | AC-9.2 (ids) | done |
+| T-M1-11 | M1 close, MC-1/2/5 | M1 | T-M1-09, T-M1-10 | S | NFR-11 | done |
+| T-M2-01 | Red skeleton k1 | M2 | T-M1-11 | S | AC-6.1, AC-7.x, AC-8.1 harness | done |
+| T-M2-02 | eventHash, appendEvent | M2 | T-M2-01 | M | AC-6.1, AC-6.2 | done |
+| T-M2-03 | JSON Lines export/parse | M2 | T-M2-02 | S | AC-8.2 | done |
+| T-M2-04 | Checkpoints, prune marker | M2 | T-M2-02 | S | AC-7.1, AC-8.1, TM-17 | done |
+| T-M2-05 | verifyChain | M2 | T-M2-04 | M | AC-7.1, AC-7.2, AC-8.1, TM-15, TM-16, TM-17, TM-35, NFR-5 | done |
+| T-M2-06 | M2 close, MC-6/7 | M2 | T-M2-03, T-M2-05 | S | NFR-11 | done |
+| T-M3-01 | Red skeleton k2 | M3 | T-M2-06 | S | AC-9.x–12.x harness | done |
+| T-M3-02 | Requests, matching code, decision payload | M3 | T-M3-01 | S | AC-9.1, AC-9.2, TM-12 | done |
+| T-M3-03 | Registry chain | M3 | T-M3-02 | M | AC-10.1, TM-10, TM-11, TM-35 | done |
+| T-M3-04 | verifyApproval request checks | M3 | T-M3-03 | M | AC-11.2, TM-07, TM-09, TM-14 | done |
+| T-M3-05 | verifyApproval decisions | M3 | T-M3-04, T-M1-09 | M | AC-5.1, AC-5.2, AC-11.1, AC-11.2, TM-03, TM-06, TM-12, TM-13, TM-35 | done |
+| T-M3-06 | Single-use store, verifyAndConsume | M3 | T-M3-05 | S | AC-11.3, TM-08 | done |
+| T-M3-07 | Break-glass codes | M3 | T-M3-03 | S | AC-12.1 | done |
+| T-M3-08 | SPIKE real authenticator | M3 | T-M3-07 | M | AC-5.3, TM-06 | done |
+| T-M3-09 | M3 close, MC-3/4/8–11, R1 | M3 | T-M3-06, T-M3-08 | S | NFR-11 | done |
+| T-M3-10 | R1-01 fix: enforcement actionPolicies & requester human_id | M3 | T-M3-09 | M | R1-01, TM-12 | done |
+| T-M3-11 | R1-02 fix: registry update_threshold (distinct approvers) | M3 | T-M3-10 | M | R1-02, TM-10, TM-36 | done |
+| T-M3-12 | R1-03..05/07 Medium fixes: fail-closed K2 & K1 anchor note | M3 | T-M3-11 | M | R1-03, R1-04, R1-05, R1-07 | done |
+| T-M4-01 | Red skeleton k4 | M4 | T-M3-12 | S | AC-13.x, AC-14.1 harness | done |
+| T-M4-02 | selectAsOf, localDate | M4 | T-M4-01 | S | AC-14.1 | done |
+| T-M4-03 | YAML safe subset | M4 | T-M4-01 | M | AC-13.1, TM-26 | done |
+| T-M4-04 | Regex dialect lint | M4 | T-M4-01 | S | AC-13.2, TM-23 | done |
+| T-M4-05 | Schema helper | M4 | T-M4-01 | S | compile step 2 | done |
+| T-M4-06 | compile-packs, builtin.ts | M4 | T-M4-02…05 | M | AC-13.3, NFR-7 | done |
+| T-M4-07 | loadPack, activeRules | M4 | T-M4-06 | S | AC-15.1, TM-25 | done |
+| T-M4-08 | packs:check in CI, M4 close | M4 | T-M4-07 | S | AC-13.3, NFR-7 | done |
+| T-M5-01 | Red skeleton k5 + pack tests | M5 | T-M4-08 | S | AC-16.x, AC-17.x harness | done |
+| T-M5-02 | Validators, entropy, masks | M5 | T-M5-01 | S | AC-17.2 | done |
+| T-M5-03 | Regex scanning | M5 | T-M5-02 | M | AC-16.1, AC-16.3, TM-19, TM-22 | done |
+| T-M5-04 | Hidden-character runs | M5 | T-M5-03 | S | AC-16.2, TM-24 | done |
+| T-M5-05 | Redaction | M5 | T-M5-04 | M | AC-17.1–17.5, TM-19, TM-20, TM-21, NFR-6 | done |
+| T-M5-06 | Compiler runs pack tests | M5 | T-M5-05 | S | AC-13.3 | done |
+| T-M5-07 | lintPersonalData | M5 | T-M5-05 | S | AC-18.1, TM-18 | done |
+| T-M5-08 | detect-file tool | M5 | T-M5-05 | S | AC-21.1, NFR-6, TM-19 | done |
+| T-M5-09 | Owner gate G-K5 | M5 | T-M5-08 | S | AC-21.1, TM-22 | done |
+| T-M5-10 | Performance and ReDoS budgets | M5 | T-M5-05, T-M3-07, T-M2-05 | S | NFR-2, NFR-3, TM-23 | done |
+| T-M5-11 | M5 close, MC-12/13/14 | M5 | T-M5-06, T-M5-07, T-M5-09, T-M5-10 | S | NFR-11 | done |
+| T-M6-01 | API conformance | M6 | T-M5-11 | S | API surface | done |
+| T-M6-02 | plinth-conformance CLI | M6 | T-M6-01 | M | AC-19.1, NFR-10 | done |
+| T-M6-03 | Package exports, files, size | M6 | T-M6-02 | S | NFR-9 | done |
+| T-M6-04 | Library E2E, M6 close, R2 | M6 | T-M6-03 | M | E2E-1…4 | done |
+| T-M6-05 | Fix R2-01 packed version files | M6 | T-M6-04 | S | R2-01 | done |
+| T-M6-06 | Fix R2-02 registry BE/profile checks | M6 | T-M6-05 | S | R2-02, TM-03, TM-13 | done |
+| T-M6-07 | Fix R2-04..08 medium hardening & tests | M6 | T-M6-06 | M | R2-04…08 | done |
+| T-M6-08 | Fix R2-09..13 low hardening & docs | M6 | T-M6-07 | S | R2-09…13 | done |
+| T-MR-01 | Snapshot tool | MR | T-M6-08 | M | AC-20.1, TM-27 | done |
+| T-MR-02 | verify-snapshot.sh | MR | T-MR-01 | S | AC-20.2, TM-27 | done |
+| T-MR-03 | Vendor tool | MR | T-MR-02 | M | US-20 | done |
+| T-MR-04 | E2E consumer | MR | T-MR-03 | M | AC-19.1, AC-20.x | done |
+| T-MR-05 | Security review | MR | T-MR-04 | M | all TM, G-final | done |
+| T-MR-06 | README, CHANGELOG, write-up | MR | T-MR-05 | M | testing §11 | done |
 | T-MR-07 | Merge, tag, snapshot, pin | MR | T-MR-06 | S | US-20 | todo |
 | T-MR-08 | Going public | MR | T-MR-07 | S | ADR-0014, TM-30 | todo |
-**65 tasks** (40 S, 25 M; none larger). One spike (T-M3-08); one owner verification gate with pre-decided outcomes (T-M5-09).
+**68 tasks** (40 S, 28 M; none larger). One spike (T-M3-08); one owner verification gate with pre-decided outcomes (T-M5-09).
 
 ## 3. Dependency order (the order to do them in)
-M0: 01 → 02 → 03 → (04, 06) → 05 → 07 → 08. M1: 01 → 02 → (03 → 04 → 05), 06, 10 → 07 → 08 → 09 → 11. M2: 01 → 02 → (03, 04) → 05 → 06. M3: 01 → 02 → 03 → (04 → 05 → 06), 07 → 08 → 09. M4: 01 → (02, 03, 04, 05) → 06 → 07 → 08. M5: 01 → 02 → 03 → 04 → 05 → (06, 07, 08 → 09), 10 → 11. M6: 01 → 02 → 03 → 04. MR: 01 → … → 08. Pick the first `todo` row in §2 whose dependencies are all `done`.
+M0: 01 → 02 → 03 → (04, 06) → 05 → 07 → 08. M1: 01 → 02 → (03 → 04 → 05), 06, 10 → 07 → 08 → 09 → 11. M2: 01 → 02 → (03, 04) → 05 → 06. M3: 01 → 02 → 03 → (04 → 05 → 06), 07 → 08 → 09 → 10 → 11 → 12. M4: 01 → (02, 03, 04, 05) → 06 → 07 → 08. M5: 01 → 02 → 03 → 04 → 05 → (06, 07, 08 → 09), 10 → 11. M6: 01 → 02 → 03 → 04. MR: 01 → … → 08. Pick the first `todo` row in §2 whose dependencies are all `done`.
 
 ## 4. Rules for the executor (copied from START-HERE.md)
 1. Rule 0 in `AGENTS.md` overrides everything.
@@ -151,7 +158,7 @@ M0: 01 → 02 → 03 → (04, 06) → 05 → 07 → 08. M1: 01 → 02 → (03 �
 | AC-9.1 | T-M3-02 | `k2-vectors.test.ts` :: `k2-matching-code*` |
 | AC-9.2 | T-M3-02, T-M1-10 | `test/approval/request.test.ts`; `test/core/ids.test.ts` |
 | AC-10.1 | T-M3-03 | `k2-vectors.test.ts` :: `k2-registry-*` |
-| AC-11.1, AC-11.2 | T-M3-04, T-M3-05 | `k2-vectors.test.ts` :: `k2-approval-*` (31) |
+| AC-11.1, AC-11.2 | T-M3-04, T-M3-05 | `k2-vectors.test.ts` :: `k2-approval-*` (33) |
 | AC-11.3 | T-M3-06 | `test/approval/store.test.ts` |
 | AC-12.1 | T-M3-07 | `k2-vectors.test.ts` :: `k2-break-glass-*`; `test/approval/breakglass.test.ts` |
 | AC-13.1 | T-M4-03 | `test/rulepack/k4-vectors.test.ts` :: `k4-yaml-*` |
@@ -170,7 +177,7 @@ M0: 01 → 02 → 03 → (04, 06) → 05 → 07 → 08. M1: 01 → 02 → (03 �
 | AC-20.2 | T-MR-02 | `test/repo-tools/verify-snapshot.test.ts` |
 | AC-21.1 | T-M5-08, T-M5-09 | `test/repo-tools/detect-file.test.ts`; gate G-K5 record in LOG |
 
-**Threat mitigations → task → test:** every row TM-01 … TM-35 in `docs/05-threat-model.md` §3 lists its verifying test and task; all 35 map to tasks in §2 above except TM-33 (accepted, documented limit) and TM-09 (accepted residual, tested by the TTL vector in T-M3-04).
+**Threat mitigations → task → test:** every row TM-01 … TM-36 in `docs/05-threat-model.md` §3 lists its verifying test and task; all 36 map to tasks in §2 above except TM-33 (accepted, documented limit) and TM-09 (accepted residual, tested by the TTL vector in T-M3-04).
 
 **NFRs → task → check**
 | NFR | Task | Check |
