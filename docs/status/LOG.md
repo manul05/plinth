@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Security review, MR fixes & G-final (T-MR-05)
+
+- **Did:** Fixed `SEC-01` (`.gitleaksignore` @ `d339a7c`), executed `<MR>` independent review (`0` critical, `3` high, `4` medium, `4` low), fixed all 11 findings (`bf79814` `SEC-R3-01..03` + `ADR-0026`, `a5bc9ac` `SEC-R3-04..07` + `ADR-0027`, `7685414` `SEC-R3-08..11`), completed `docs/07-security-review.md` with owner `G-final` sign-off, and marked `T-MR-05` `done`.
+- **Verified:** `npm.cmd run check` (`430/430` across `47` files, `packs: up to date`, `PASS 156/156`), `npm.cmd run test:perf` (`6/6`, ReDoS max `8.191 ms`), `npm.cmd ls --omit=dev --all` (`3` runtime deps), `security-scan` (`45766237355`: `no leaks found`, `No issues found`) @ `7685414`.
+- **Decisions:** `ADR-0026` (partial-overlap redaction), `ADR-0027` (K4 calendar `date`, top-level `event.prev` lint, `zip215: false`, checkpoint `isTimestamp`).
+- **Owner:** `"go with recommendation"` (`SEC-01` + `<MR>`), `"optiion 1"` (fix all 11 findings + ADRs), `"Signed off G-final for release 0.1.0"` (2026-11-26).
+- **AI:** Independent `<MR>` review caught `redact()` partial-overlap bypass, symlink/nested-`SHA256SUMS` snapshot gaps, and `shell: true` injection; fixed with TDD before `G-final`.
+- **Next:** `T-MR-06` (`README.md`, `CHANGELOG.md`, `docs/08-how-i-built-this.md`, `docs/releases.md`).
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · E2E-5 scratch consumer (T-MR-04)
 
 - **Did:** Created `packages/ts/test/repo-tools/e2e-consumer.test.ts` (`E2E-5` end-to-end tarball install, `sha512-` lockfile check, `plinth-kit/core` import, `verify-snapshot.sh`, `plinth-conformance`) and marked `T-MR-04` `done` in `docs/06-plan.md`.
