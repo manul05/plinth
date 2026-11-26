@@ -26,7 +26,7 @@ Paths below are relative. `<plinth>` = the local Plinth clone, `<passdown>` = th
 4. `npm run vendor -- --snapshot snapshot/plinth-0.1.0 --to <passdown>`. The tool:
    - deletes `<passdown>/vendor/plinth/` if present and copies the snapshot there;
    - writes `<passdown>/plinth.pin` (format in §3);
-   - adds the line `vendor/plinth/** -text` to `<passdown>/.gitattributes` if it is missing (stops Windows line-ending conversion from breaking hashes);
+   - adds the lines `vendor/plinth/** -text` and `plinth.pin -text` to `<passdown>/.gitattributes` if missing (stops Windows line-ending conversion from breaking hashes or pin reads);
    - prints: `vendored plinth 0.1.0 into <passdown>/vendor/plinth; next: npm install --save-exact ./vendor/plinth/plinth-kit-0.1.0.tgz`.
 5. In `<passdown>`: `npm install --save-exact ./vendor/plinth/plinth-kit-0.1.0.tgz`. Check that `package.json` has `"plinth-kit": "file:vendor/plinth/plinth-kit-0.1.0.tgz"` and `package-lock.json` has an `"integrity": "sha512-…"` entry for it (npm's own hash pin).
 6. In `<passdown>`: `sh vendor/plinth/verify-snapshot.sh` → `OK plinth 0.1.0 snapshot verified (N files)`.

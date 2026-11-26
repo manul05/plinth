@@ -12,7 +12,9 @@ export interface VendorResult {
 }
 
 const SUMS_LINE_RE = /^([0-9a-f]{64}) {2}([^ ].*)$/;
-const GITATTR_LINE = 'vendor/plinth/** -text';
+const SEMVER_RE = /^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$/;
+const COMMIT_RE = /^[0-9a-f]{40}$/;
+const GITATTR_LINES = ['vendor/plinth/** -text', 'plinth.pin -text'] as const;
 
 function sha256Hex(bytes: Uint8Array): string {
   return createHash('sha256').update(bytes).digest('hex');
@@ -43,7 +45,7 @@ function isSafeRelPath(relPath: string): boolean {
   return !parts.some((part) => part === '' || part === '.' || part === '..');
 }
 
-function verifySnapshotDir(snapshotDir: string): { sumsSha256: string } {
+function verifySnapshotDir(snapshotDir: string): { sumsSha256: string; listedPaths: Set<string> } {
   const sumsPath = join(snapshotDir, 'SHA256SUMS');
   const versionPath = join(snapshotDir, 'PLINTH_VERSION');
   if (!existsSync(sumsPath) || !existsSync(versionPath)) {
@@ -93,7 +95,7 @@ function verifySnapshotDir(snapshotDir: string): { sumsSha256: string } {
     }
   }
 
-  return { sumsSha256: sha256Hex(sumsBytes) };
+  return { sumsSha256: sha256Hex(sumsBytes), listedPaths: new Set(listedPaths) };
 }
 
 function readKeyValueFile(text: string): Map<string, string> {
@@ -112,21 +114,18 @@ function readKeyValueFile(text: string): Map<string, string> {
 
 function ensureGitattributes(consumerRoot: string): void {
   const gitattrPath = join(consumerRoot, '.gitattributes');
-  if (!existsSync(gitattrPath)) {
-    writeFileSync(gitattrPath, `${GITATTR_LINE}\n`, 'utf8');
-    return;
-  }
-  const existing = readFileSync(gitattrPath, 'utf8');
+  const existing = existsSync(gitattrPath) ? readFileSync(gitattrPath, 'utf8') : '';
   const lines = existing.split(/\r?\n/);
-  if (lines.some((line) => line === GITATTR_LINE)) {
+  const missing = GITATTR_LINES.filter((entry) => !lines.includes(entry));
+  if (missing.length === 0) {
     return;
   }
   const prefix = existing === '' || existing.endsWith('\n') ? existing : `${existing}\n`;
-  writeFileSync(gitattrPath, `${prefix}${GITATTR_LINE}\n`, 'utf8');
+  writeFileSync(gitattrPath, `${prefix}${missing.join('\n')}\n`, 'utf8');
 }
 
 export function vendorSnapshot(opts: VendorOptions): VendorResult {
-  const { sumsSha256 } = verifySnapshotDir(opts.snapshotDir);
+  const { sumsSha256, listedPaths } = verifySnapshotDir(opts.snapshotDir);
 
   if (!existsSync(join(opts.consumerRoot, 'package.json'))) {
     throw new Error('not a consumer repo: package.json missing');
@@ -138,18 +137,17 @@ export function vendorSnapshot(opts: VendorOptions): VendorResult {
   const commit = versionMap.get('commit');
   if (
     version === undefined ||
-    version === '' ||
-    tag === undefined ||
-    tag === '' ||
+    !SEMVER_RE.test(version) ||
+    tag !== `v${version}` ||
     commit === undefined ||
-    commit === ''
+    !COMMIT_RE.test(commit)
   ) {
     throw new Error('snapshot is not intact');
   }
 
   const tarballName = `plinth-kit-${version}.tgz`;
   const tarballPath = join(opts.snapshotDir, tarballName);
-  if (!existsSync(tarballPath)) {
+  if (!listedPaths.has(tarballName) || !existsSync(tarballPath)) {
     throw new Error('snapshot is not intact');
   }
   const tarballSha256 = sha256Hex(readFileSync(tarballPath));

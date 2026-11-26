@@ -179,4 +179,18 @@ describe('verify-snapshot.sh', () => {
     expect(verRes.status).toBe(1);
     expect(`${verRes.stdout}${verRes.stderr}`).toContain('VERSION MISMATCH');
   });
+
+  it('accepts CRLF-checked-out plinth.pin cleanly on Windows (SEC-R3-07)', () => {
+    const { consumerDir, sumsSha256 } = makeConsumer();
+    writeFileSync(
+      join(consumerDir, 'plinth.pin'),
+      `# Plinth snapshot pin\r\nversion=0.1.0\r\nsums_sha256=${sumsSha256}\r\n`,
+      'utf8',
+    );
+    const stdout = execFileSync(resolveSh(), ['vendor/plinth/verify-snapshot.sh'], {
+      cwd: consumerDir,
+      encoding: 'utf8',
+    });
+    expect(stdout).toMatch(/^OK plinth 0\.1\.0 snapshot verified/);
+  });
 });

@@ -86,13 +86,14 @@ describe('vendorSnapshot', () => {
     expect(copiedSumsSha).toBe(sumsSha256);
 
     const gitattributesPath = join(consumerRoot, '.gitattributes');
-    expect(readFileSync(gitattributesPath, 'utf8')).toBe('vendor/plinth/** -text\n');
+    expect(readFileSync(gitattributesPath, 'utf8')).toBe('vendor/plinth/** -text\nplinth.pin -text\n');
 
     vendorSnapshot({ snapshotDir, consumerRoot });
     const lines = readFileSync(gitattributesPath, 'utf8')
       .split(/\r?\n/)
       .filter((line) => line !== '');
     expect(lines.filter((line) => line === 'vendor/plinth/** -text')).toHaveLength(1);
+    expect(lines.filter((line) => line === 'plinth.pin -text')).toHaveLength(1);
   });
 
   it('appends .gitattributes entry once while preserving existing lines', () => {
@@ -102,7 +103,9 @@ describe('vendorSnapshot', () => {
     writeFileSync(join(consumerRoot, '.gitattributes'), '* text=auto\n', 'utf8');
 
     vendorSnapshot({ snapshotDir, consumerRoot });
-    expect(readFileSync(join(consumerRoot, '.gitattributes'), 'utf8')).toBe('* text=auto\nvendor/plinth/** -text\n');
+    expect(readFileSync(join(consumerRoot, '.gitattributes'), 'utf8')).toBe(
+      '* text=auto\nvendor/plinth/** -text\nplinth.pin -text\n',
+    );
   });
 
   it('refuses a tampered snapshot with snapshot is not intact', () => {
@@ -137,5 +140,42 @@ describe('vendorSnapshot', () => {
 
     expect(() => vendorSnapshot({ snapshotDir, consumerRoot })).toThrow(/snapshot is not intact/);
     expect(existsSync(join(consumerRoot, 'vendor', 'plinth'))).toBe(false);
+  });
+
+  it('rejects PLINTH_VERSION path traversal or malformed version/commit even with matching SHA256SUMS (SEC-R3-05)', () => {
+    function rewriteSums(snapDir: string): void {
+      const sumsPath = join(snapDir, 'SHA256SUMS');
+      const lines = readFileSync(sumsPath, 'utf8')
+        .slice(0, -1)
+        .split('\n')
+        .map((line) => {
+          const rel = line.slice(66);
+          const hash = createHash('sha256')
+            .update(readFileSync(join(snapDir, rel)))
+            .digest('hex');
+          return `${hash}  ${rel}\n`;
+        });
+      writeFileSync(sumsPath, lines.join(''), 'utf8');
+    }
+
+    const { snapshotDir: travDir } = buildTestSnapshot();
+    const consumerRoot = makeTempDir('plinth-vendor-consumer-');
+    writeFileSync(join(consumerRoot, 'package.json'), '{"name":"consumer","private":true}\n', 'utf8');
+    writeFileSync(
+      join(travDir, 'PLINTH_VERSION'),
+      `version=x/../../outside\ntag=vx/../../outside\ncommit=${'a'.repeat(40)}\nbuilt_at=2026-11-26T00:00:00.000Z\n`,
+      'utf8',
+    );
+    rewriteSums(travDir);
+    expect(() => vendorSnapshot({ snapshotDir: travDir, consumerRoot })).toThrow(/snapshot is not intact/);
+
+    const { snapshotDir: badCommitDir } = buildTestSnapshot();
+    writeFileSync(
+      join(badCommitDir, 'PLINTH_VERSION'),
+      'version=0.1.0\ntag=v0.1.0\ncommit=not-a-sha\nbuilt_at=2026-11-26T00:00:00.000Z\n',
+      'utf8',
+    );
+    rewriteSums(badCommitDir);
+    expect(() => vendorSnapshot({ snapshotDir: badCommitDir, consumerRoot })).toThrow(/snapshot is not intact/);
   });
 });

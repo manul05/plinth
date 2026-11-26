@@ -147,4 +147,17 @@ describe('buildSnapshot', () => {
     });
     expect(existsSync(join(res.dir, 'plinth-kit-0.1.0.tgz'))).toBe(true);
   });
+
+  it('produces identical built_at and sumsSha256 across separate builds of the same commit (SEC-R3-07)', async () => {
+    const outA = makeTempOutRoot();
+    const outB = makeTempOutRoot();
+    const resA = buildSnapshot({ repoRoot: REPO_ROOT, outRoot: outA, tag: 'v0.1.0', allowDirty: true });
+    await new Promise((resolve) => setTimeout(resolve, 25));
+    const resB = buildSnapshot({ repoRoot: REPO_ROOT, outRoot: outB, tag: 'v0.1.0', allowDirty: true });
+    expect(readFileSync(join(resA.dir, 'PLINTH_VERSION'), 'utf8')).toBe(
+      readFileSync(join(resB.dir, 'PLINTH_VERSION'), 'utf8'),
+    );
+    expect(resA.sumsSha256).toBe(resB.sumsSha256);
+    expect(resA.tarballSha256).toBe(resB.tarballSha256);
+  }, 60_000);
 });

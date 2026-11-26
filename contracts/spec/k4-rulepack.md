@@ -29,9 +29,9 @@ For each pack directory in ascending name order:
 8. Build manifest (§1) and write `packs/<id>/*.json` and `builtin.ts`. With `check: true` write nothing; compare the would-be bytes with the files on disk and exit 1 listing differing paths.
 
 ## 4. "As of" selection
-- `selectAsOf(rules, ruleId, date)`: candidates = rules with that id, status ≠ `withdrawn`, `effective_from ≤ date` and (no `effective_until` or `date < effective_until`) — string comparison of `YYYY-MM-DD`. 0 → null; 1 → it; more → `PK_RULEPACK_OVERLAP`. The date is the **event date**, not today.
+- `selectAsOf(rules, ruleId, date)`: `date` MUST be a valid calendar `YYYY-MM-DD` string, else throw `PK_ENCODING_INVALID` (`detail: "date"`). Candidates = rules with that id, status ≠ `withdrawn`, `effective_from ≤ date` and (no `effective_until` or `date < effective_until`) — string comparison of `YYYY-MM-DD`. 0 → null; 1 → it; more → `PK_RULEPACK_OVERLAP`. The date is the **event date**, not today.
 - `localDate(ts, tz)`: `Asia/Kolkata` → date of `ms + 19 800 000` in UTC; `UTC` → date of ms; anything else → `PK_RULEPACK_TZ_UNSUPPORTED`.
-- `activeRules(pack, date)` = rules (pack order) whose status is `experimental` or `stable` and for which `selectAsOf(pack.rules, rule.id, date) === rule`.
+- `activeRules(pack, date)` = validates `date` as a valid calendar `YYYY-MM-DD` string (`PK_ENCODING_INVALID`), then returns rules (pack order) whose status is `experimental` or `stable` and for which `selectAsOf(pack.rules, rule.id, date) === rule`.
 
 ## 5. Portable regex dialect (`lintRegex(pattern, flags)`, repo-tools)
 1. flags ⊆ {i, m, s}, no repeats → else `PK_RULEPACK_REGEX_DIALECT`.

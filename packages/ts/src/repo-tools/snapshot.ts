@@ -133,11 +133,15 @@ export function buildSnapshot(opts: SnapshotOptions): SnapshotResult {
     throw new Error('missing scripts/verify-snapshot.sh');
   }
 
+  const commitEpochSec = Number(runGit(opts.repoRoot, ['show', '-s', '--format=%ct', 'HEAD']));
+  if (!Number.isSafeInteger(commitEpochSec) || commitEpochSec < 0) {
+    throw new Error('invalid HEAD commit timestamp');
+  }
   const versionContent = [
     `version=${version}`,
     `tag=${opts.tag}`,
     `commit=${headCommit}`,
-    `built_at=${timestampFromMs(Date.now())}`,
+    `built_at=${timestampFromMs(commitEpochSec * 1000)}`,
     '',
   ].join('\n');
   writeFileSync(join(dir, 'PLINTH_VERSION'), versionContent, 'utf8');

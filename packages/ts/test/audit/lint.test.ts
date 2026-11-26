@@ -48,4 +48,23 @@ describe('k1 lintPersonalData', () => {
     const findings = lintPersonalData(event, packs, '2026-11-02');
     expect(findings.map((f) => f.rule_id)).toEqual(['pk.pii.in.pan', 'pk.pii.email']);
   });
+
+  it('scans nested prev keys inside event.data while skipping top-level event.prev (SEC-R3-06)', () => {
+    const event: AuditEvent = {
+      spec: 'pk-audit/1.0',
+      chain: 'passdown:project:0192f5e0-7c1a-7b3e-9a10-3f2c1d4e5a6b',
+      seq: 3,
+      prev: 'sha256:0000000000000000000000000000000000000000000000000000000000000000',
+      ts: '2026-11-02T09:00:00.000Z',
+      actor: { kind: 'agent', id: 'claude-code:client:01' },
+      action: 'passdown.handoff.created',
+      data: {
+        prev: 'customer aadhaar 2949 1013 6515',
+        diff: { prev: '+91 98765 43210' },
+      },
+    };
+    const packs = [loadPack(BUILTIN_PACKS['pk.pii.india'])];
+    const findings = lintPersonalData(event, packs, '2026-11-02');
+    expect(findings.map((f) => f.rule_id)).toEqual(['pk.pii.in.aadhaar', 'pk.pii.in.mobile']);
+  });
 });

@@ -2,7 +2,17 @@ import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
-import { digest, localDate, PlinthError, type RuleWindow, selectAsOf } from '../../src/index.js';
+import {
+  activeRules,
+  digest,
+  loadPack,
+  localDate,
+  PlinthError,
+  type RuleWindow,
+  redact,
+  selectAsOf,
+} from '../../src/index.js';
+import { BUILTIN_PACKS } from '../../src/packs/index.js';
 import { compilePacks } from '../../src/repo-tools/compile-packs.js';
 import { lintRegex } from '../../src/repo-tools/regex-lint.js';
 import { yamlToValue } from '../../src/repo-tools/yaml-subset.js';
@@ -36,6 +46,18 @@ describe('k4 selectAsOf', () => {
       { id: 'r.test', rev: 2, status: 'stable', effective_from: '2026-05-01' },
     ];
     expectPlinthError(() => selectAsOf(overlapping, 'r.test', '2026-05-15'), 'PK_RULEPACK_OVERLAP');
+  });
+
+  it('rejects invalid or empty dates in selectAsOf, activeRules, and redact (SEC-R3-04)', () => {
+    const pack = loadPack(BUILTIN_PACKS['pk.pii.india']);
+    for (const badDate of ['', '15-11-2026', '2026-02-29', '2026-13-01', undefined as unknown as string]) {
+      expectPlinthError(() => selectAsOf([], 'r.test', badDate), 'PK_ENCODING_INVALID');
+      expectPlinthError(() => activeRules(pack, badDate), 'PK_ENCODING_INVALID');
+    }
+    expectPlinthError(
+      () => redact('customer 2949 1013 6515', [pack], { date: '15-11-2026', installationSecret: new Uint8Array(32) }),
+      'PK_ENCODING_INVALID',
+    );
   });
 });
 
