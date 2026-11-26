@@ -19,6 +19,17 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Merge, tag v0.1.0, reproducible snapshot & pins (T-MR-07)
+
+- **Did:** Opened PR #5 (`development -> main`, merged by owner at `5cd5e6f`), verified two identical clean-worktree snapshot builds from `v0.1.0`, packaged `plinth-0.1.0-snapshot.zip` (attached to published GitHub Release), recorded pins in `docs/releases.md`, removed `../plinth-v0.1.0`, and marked `T-MR-07` `done`.
+- **Verified:** PR #5 `ci` (`45767739449`) & `security-scan` (`45767739445`) green @ `7c57a5a`; Run 1 = Run 2 @ `5cd5e6f` (`sums_sha256=35039eb008cd6a683e264005d33e223b7a877d6a91df23f8aab547e0cca92aec`, `tarball_sha256=13928bb9016250dd8fa298c33b30d4f7f4340c8176ae4c6a5e8497f9f6f54e2d`, `zip_sha256=363faaf78b5568262fb899665ec4fde9d28006c35603beae42d4619e7163eb28`).
+- **Decisions:** none.
+- **Owner:** `"now it is time to merge plinth to main"` + merged PR #5 + published `v0.1.0` release with zip (2026-11-26).
+- **AI:** Deterministic `built_at` (`SEC-R3-07`) made even `sums_sha256` identical across rebuilds; used `Compress-Archive` cleanly on Windows.
+- **Next:** `T-MR-08` (Going public, gate `G-public`).
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Release docs, changelog & write-up (T-MR-06)
 
 - **Did:** Updated `README.md` (`docs/testing.md` §11 checklist) and `CHANGELOG.md` (`## [0.1.0] - 2026-11-26`), created `docs/08-how-i-built-this.md` and `docs/releases.md`, marked `T-MR-06` `done` in `docs/06-plan.md`, and updated `STATUS.md`/`LOG.md`.
