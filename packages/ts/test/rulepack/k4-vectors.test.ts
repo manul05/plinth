@@ -95,6 +95,14 @@ describe('k4 yamlSubset', () => {
     expect(yamlToValue("a: 'x'\n", 'f.yaml')).toEqual({ a: 'x' });
     expect(yamlToValue('a: -5\n', 'f')).toEqual({ a: -5 });
   });
+
+  it('rejects non-string or coerced duplicate YAML keys (SEC-R3-09)', () => {
+    expectPlinthError(
+      () => yamlToValue('1: "first"\n"1": "second"\n', 'dup.yaml'),
+      'PK_RULEPACK_YAML_AMBIGUOUS_SCALAR',
+    );
+    expectPlinthError(() => yamlToValue('true: 1\n', 'boolkey.yaml'), 'PK_RULEPACK_YAML_AMBIGUOUS_SCALAR');
+  });
 });
 
 describe('k4 lintRegex', () => {

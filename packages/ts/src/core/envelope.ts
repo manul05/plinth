@@ -74,7 +74,7 @@ function verifyPlainSignature(alg: 'Ed25519' | 'ES256', sigBytes: Uint8Array, m:
       if (key.jwk.kty !== 'OKP') return false;
       const pub = b64urlDecode(key.jwk.x);
       if (pub.length !== 32) return false;
-      return ed25519.verify(sigBytes, m, pub);
+      return ed25519.verify(sigBytes, m, pub, { zip215: false });
     }
     if (key.jwk.kty !== 'EC') return false;
     const x = b64urlDecode(key.jwk.x);
@@ -135,7 +135,13 @@ export function verifyEnvelope(
       return { valid: false, error: 'PK_SIG_TYPE_NOT_ALLOWED' };
     }
     const typePolicy = Object.hasOwn(opts.policy, envelope.type) ? opts.policy[envelope.type] : undefined;
-    if (typePolicy === undefined) {
+    if (
+      !isRecord(typePolicy) ||
+      !Array.isArray(typePolicy.algs) ||
+      typeof typePolicy.min_signatures !== 'number' ||
+      !Number.isSafeInteger(typePolicy.min_signatures) ||
+      typePolicy.min_signatures < 1
+    ) {
       return { valid: false, error: 'PK_SIG_TYPE_NOT_ALLOWED' };
     }
 

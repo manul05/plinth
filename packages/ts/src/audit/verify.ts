@@ -162,6 +162,7 @@ export function verifyChain(input: {
         c.payload.seq < 0 ||
         typeof c.payload.head !== 'string' ||
         typeof c.payload.ts !== 'string' ||
+        !isTimestamp(c.payload.ts) ||
         c.payload.count !== c.payload.seq + 1
       ) {
         return { valid: false, error: 'PK_AUDIT_CHECKPOINT_MALFORMED', at_seq: fallbackSeq };

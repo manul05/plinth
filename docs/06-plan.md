@@ -158,7 +158,7 @@ M0: 01 → 02 → 03 → (04, 06) → 05 → 07 → 08. M1: 01 → 02 → (03 �
 | AC-9.1 | T-M3-02 | `k2-vectors.test.ts` :: `k2-matching-code*` |
 | AC-9.2 | T-M3-02, T-M1-10 | `test/approval/request.test.ts`; `test/core/ids.test.ts` |
 | AC-10.1 | T-M3-03 | `k2-vectors.test.ts` :: `k2-registry-*` |
-| AC-11.1, AC-11.2 | T-M3-04, T-M3-05 | `k2-vectors.test.ts` :: `k2-approval-*` (31) |
+| AC-11.1, AC-11.2 | T-M3-04, T-M3-05 | `k2-vectors.test.ts` :: `k2-approval-*` (33) |
 | AC-11.3 | T-M3-06 | `test/approval/store.test.ts` |
 | AC-12.1 | T-M3-07 | `k2-vectors.test.ts` :: `k2-break-glass-*`; `test/approval/breakglass.test.ts` |
 | AC-13.1 | T-M4-03 | `test/rulepack/k4-vectors.test.ts` :: `k4-yaml-*` |

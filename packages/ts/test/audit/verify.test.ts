@@ -146,4 +146,29 @@ describe('verifyChain robustness', () => {
       }),
     ).toEqual({ valid: true, status: 'verified', anchored_seq: 2, last_seq: 2 });
   });
+
+  it('rejects checkpoint with non-timestamp payload.ts (SEC-R3-11)', () => {
+    const key = loadKey('keys/ed25519-test-2.json');
+    const trustedKeys: TrustedKey[] = [{ kid: key.kid as TrustedKey['kid'], jwk: key.public_jwk as TrustedKey['jwk'] }];
+    const ev0 = {
+      spec: 'pk-audit/1.0' as const,
+      chain: 'c',
+      seq: 0,
+      prev: GENESIS_DIGEST,
+      ts: '2026-11-01T00:00:00.000Z',
+      actor: { kind: 'human' as const, id: 'a' },
+      action: 'test.a',
+      data: {},
+    };
+    const e0: ExportLine = { event: ev0, hash: digest(ev0) };
+    const badCp = createCheckpoint(e0, 'not-a-timestamp', hexDecode(key.private_hex));
+    expect(
+      verifyChain({
+        chain: 'c',
+        lines: [e0],
+        checkpoints: [badCp],
+        trustedKeys,
+      }),
+    ).toEqual({ valid: false, error: 'PK_AUDIT_CHECKPOINT_MALFORMED', at_seq: 0 });
+  });
 });

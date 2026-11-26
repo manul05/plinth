@@ -277,5 +277,39 @@ describe('verifyApproval', () => {
         }),
       ).toEqual({ valid: false, error: 'PK_APPROVAL_REQUEST_MALFORMED' });
     });
+
+    it('rejects missing or empty registry.realm and empty request.realm (SEC-R3-08)', () => {
+      const valid = loadValidApprovalInput();
+      const missingRegRealm = structuredClone(valid.registry);
+      delete (missingRegRealm as unknown as Record<string, unknown>).realm;
+      const missingReqRealm = structuredClone(valid.request);
+      delete (missingReqRealm as unknown as Record<string, unknown>).realm;
+
+      expect(
+        verifyApproval({
+          request: missingReqRealm,
+          decisions: valid.decisions,
+          registry: missingRegRealm,
+          actualSubjectDigest: valid.actual_subject_digest,
+          allowedActions: valid.allowed_actions,
+          now: valid.now,
+          isConsumed: () => false,
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_REGISTRY_MALFORMED' });
+
+      const emptyReqRealm = structuredClone(valid.request);
+      emptyReqRealm.realm = '';
+      expect(
+        verifyApproval({
+          request: emptyReqRealm,
+          decisions: valid.decisions,
+          registry: valid.registry,
+          actualSubjectDigest: valid.actual_subject_digest,
+          allowedActions: valid.allowed_actions,
+          now: valid.now,
+          isConsumed: () => false,
+        }),
+      ).toEqual({ valid: false, error: 'PK_APPROVAL_REALM_MISMATCH' });
+    });
   });
 });

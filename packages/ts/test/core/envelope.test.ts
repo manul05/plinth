@@ -4,6 +4,7 @@ import {
   b64urlEncode,
   createEnvelope,
   hexDecode,
+  kidOf,
   signEd25519,
   signingInput,
   type TrustedKey,
@@ -96,5 +97,40 @@ describe('verifyEnvelope never throws', () => {
       valid: false,
       error: 'PK_SIG_KEY_ALG_MISMATCH',
     });
+  });
+
+  it('rejects malformed policy min_signatures/algs (SEC-R3-08) and Ed25519 small-order identity key (SEC-R3-10)', () => {
+    const validSig = signEd25519('a.b', {}, hexDecode(key.private_hex), 'producer');
+    const env = createEnvelope('a.b', {}, [validSig]);
+
+    expect(
+      verifyEnvelope(env, {
+        trustedKeys,
+        policy: { 'a.b': { algs: ['Ed25519'], min_signatures: Number.NaN } },
+      }),
+    ).toEqual({ valid: false, error: 'PK_SIG_TYPE_NOT_ALLOWED' });
+
+    expect(
+      verifyEnvelope(env, {
+        trustedKeys,
+        policy: { 'a.b': { algs: 'Ed25519' as unknown as readonly ['Ed25519'], min_signatures: 1 } },
+      }),
+    ).toEqual({ valid: false, error: 'PK_SIG_TYPE_NOT_ALLOWED' });
+
+    const identityBytes = new Uint8Array(32);
+    identityBytes[0] = 0x01;
+    const identityJwk = { kty: 'OKP' as const, crv: 'Ed25519' as const, x: b64urlEncode(identityBytes) };
+    const identityKid = kidOf(identityJwk);
+    const trivialSig = new Uint8Array(64);
+    trivialSig[0] = 0x01;
+    const smallOrderEnv = createEnvelope('a.b', { msg: 'forged' }, [
+      { kid: identityKid, alg: 'Ed25519', role: 'producer', sig: b64urlEncode(trivialSig) },
+    ]);
+    expect(
+      verifyEnvelope(smallOrderEnv, {
+        trustedKeys: [{ kid: identityKid, jwk: identityJwk }],
+        policy,
+      }),
+    ).toEqual({ valid: false, error: 'PK_SIG_INVALID' });
   });
 });

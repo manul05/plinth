@@ -33,6 +33,13 @@ export function yamlToValue(text: string, fileName: string): unknown {
 
   let visitError: ErrorCode | null = null;
   visit(doc, {
+    Pair(_key, pair) {
+      if (!isScalar(pair.key) || typeof pair.key.value !== 'string') {
+        visitError = 'PK_RULEPACK_YAML_AMBIGUOUS_SCALAR';
+        return visit.BREAK;
+      }
+      return undefined;
+    },
     Node(_key, node) {
       const anchor = (node as { anchor?: unknown }).anchor;
       if (isAlias(node) || (typeof anchor === 'string' && anchor.length > 0)) {

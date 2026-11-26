@@ -142,6 +142,8 @@ export function verifyApproval(input: {
     }
     if (
       !isRecord(input.registry) ||
+      typeof input.registry.realm !== 'string' ||
+      input.registry.realm.length === 0 ||
       typeof input.registry.version !== 'number' ||
       !Number.isSafeInteger(input.registry.version) ||
       input.registry.version < 1 ||
@@ -156,7 +158,7 @@ export function verifyApproval(input: {
     }
 
     // Step 3: realm
-    if (req.realm !== input.registry.realm) {
+    if (typeof req.realm !== 'string' || req.realm.length === 0 || req.realm !== input.registry.realm) {
       return { valid: false, error: 'PK_APPROVAL_REALM_MISMATCH' };
     }
 

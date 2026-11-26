@@ -64,7 +64,7 @@ flowchart LR
 | TM-20 | 5 detect | I: secret brute-forced from the placeholder fingerprint | L | M | HMAC with a ≥ 32-byte installation secret; 4 hex shown | `k5-vectors.test.ts::k5-redact-err-no-secret` | T-M5-05 | Low |
 | TM-21 | 5 detect | I: Aadhaar stored or linkable | M | H | PII never fingerprinted; Aadhaar `store: never`, preview `…` | `k5-vectors.test.ts::k5-redact-aadhaar-no-fingerprint` | T-M5-05 | Low |
 | TM-22 | 5 detect | I: secret not detected (false negative), esp. unverified Indian formats | M | H | 73 rule tests; experimental rules still applied; owner gate with real test-mode keys | `test/detect/pack-tests.test.ts::every pack test passes`; gate G-K5 record in LOG | T-M5-01, T-M5-09 | **Medium**: detection is defence in depth |
-| TM-23 | 5 detect | D: ReDoS with hostile text | M | M | Portable dialect, star-height lint, 1,000,000-unit cap, perf test | `k4-vectors.test.ts::k4-regex-err-nested-quantifier`; `test/perf.test.ts::no rule exceeds 100 ms on adversarial input` | T-M4-04, T-M5-10 | Low |
+| TM-23 | 5 detect | D: ReDoS with hostile text | M | M | Portable dialect, star-height lint, 1,000,000-unit cap, perf test | `k4-vectors.test.ts::k4-regex-err-nested-quantifier`; `test/perf/budgets.perf.ts::no rule exceeds 100 ms on adversarial input` | T-M4-04, T-M5-10 | Low |
 | TM-24 | 5 detect | T: hidden characters or injection phrases in agent handoffs | H | M | Hidden-char classes and phrase heuristics reported to the product | `k5-vectors.test.ts::k5-scan-hidden-and-phrases` | T-M5-04 | **Medium**: heuristics; product quarantines |
 | TM-25 | 5 packs | T: weakened or swapped rule pack | L | H | Manifest digests checked by `loadPack`; `packs:check` in CI; `SHA256SUMS` | `test/rulepack/load.test.ts::tampered rules file is refused` | T-M4-07, T-M4-08 | Low |
 | TM-26 | 5 compiler | T: YAML 1.1/1.2 differences change a rule's meaning | L | M | Safe YAML subset; products read only compiled JSON | `k4-vectors.test.ts::k4-yaml-*` | T-M4-03 | Low |
@@ -102,7 +102,7 @@ flowchart LR
 - After going public: CodeQL default setup, secret scanning with push protection, ruleset on `main`.
 
 ## 7. Security test checklist for `docs/07-security-review.md` (T-MR-05)
-1. All 150 runtime + 27 tool vectors and 70 pack tests pass at the release commit (paste result lines with SHA).
+1. All 156 runtime + 27 tool vectors and 73 pack tests pass at the release commit (paste result lines with SHA).
 2. Mutation checks done and logged for each protection in `docs/testing.md` §6.
 3. `test/portability.test.ts` and `test/deps.test.ts` green; `npm ls --omit=dev --all` shows only the 3 runtime deps.
 4. `security-scan` green on the release PR (gitleaks: 0 leaks; osv: no unaccepted high/critical).

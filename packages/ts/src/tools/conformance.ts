@@ -327,6 +327,10 @@ export function runConformance(vectorsDir: string): ConformanceResult {
     }
   }
 
+  if (total === 0) {
+    throw new Error(`no runtime vectors found in ${vectorsDir}`);
+  }
+
   return { passed, total, failures, skipped };
 }
 
