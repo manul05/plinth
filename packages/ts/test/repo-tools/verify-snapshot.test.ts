@@ -1,8 +1,8 @@
 import { execFileSync, spawnSync } from 'node:child_process';
-import { cpSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { buildSnapshot } from '../../src/repo-tools/snapshot.js';
 import { REPO_ROOT } from '../vectors.js';
 
@@ -26,27 +26,41 @@ function resolveSh(): string {
 
 describe('verify-snapshot.sh', () => {
   const tempDirs: string[] = [];
+  let templateRoot = '';
+  let templateSnapDir = '';
+  let templateSumsSha256 = '';
+
+  beforeAll(() => {
+    templateRoot = mkdtempSync(join(tmpdir(), 'plinth-verify-tmpl-'));
+    const snap = buildSnapshot({
+      repoRoot: REPO_ROOT,
+      outRoot: templateRoot,
+      tag: 'v0.1.0',
+      allowDirty: true,
+    });
+    templateSnapDir = snap.dir;
+    templateSumsSha256 = snap.sumsSha256;
+  }, 60_000);
+
+  afterAll(() => {
+    if (templateRoot !== '') {
+      rmSync(templateRoot, { recursive: true, force: true });
+    }
+  });
 
   function makeConsumer(): { consumerDir: string; sumsSha256: string } {
     const root = mkdtempSync(join(tmpdir(), 'plinth-verify-snap-'));
     tempDirs.push(root);
-    const snapOut = join(root, 'snap-out');
     const consumerDir = join(root, 'consumer');
     const vendorPlinth = join(consumerDir, 'vendor', 'plinth');
 
-    const snap = buildSnapshot({
-      repoRoot: REPO_ROOT,
-      outRoot: snapOut,
-      tag: 'v0.1.0',
-      allowDirty: true,
-    });
-    cpSync(snap.dir, vendorPlinth, { recursive: true });
+    cpSync(templateSnapDir, vendorPlinth, { recursive: true });
     writeFileSync(
       join(consumerDir, 'plinth.pin'),
-      `# Plinth snapshot pin\nversion=0.1.0\nsums_sha256=${snap.sumsSha256}\n`,
+      `# Plinth snapshot pin\nversion=0.1.0\nsums_sha256=${templateSumsSha256}\n`,
       'utf8',
     );
-    return { consumerDir, sumsSha256: snap.sumsSha256 };
+    return { consumerDir, sumsSha256: templateSumsSha256 };
   }
 
   afterEach(() => {
@@ -111,5 +125,58 @@ describe('verify-snapshot.sh', () => {
     });
     expect(res.status).toBe(1);
     expect(`${res.stdout}${res.stderr}`).toContain('UNLISTED extra.txt');
+  });
+
+  it('nested SHA256SUMS file fails (SEC-R3-02)', () => {
+    const { consumerDir } = makeConsumer();
+    writeFileSync(join(consumerDir, 'vendor', 'plinth', 'contracts', 'SHA256SUMS'), 'fake\n', 'utf8');
+
+    const res = spawnSync(resolveSh(), ['vendor/plinth/verify-snapshot.sh'], {
+      cwd: consumerDir,
+      encoding: 'utf8',
+    });
+    expect(res.status).toBe(1);
+    expect(`${res.stdout}${res.stderr}`).toContain('UNLISTED contracts/SHA256SUMS');
+  });
+
+  it('symlink inside snapshot fails (SEC-R3-02)', () => {
+    const { consumerDir } = makeConsumer();
+    const targetDir = join(consumerDir, 'outside-target');
+    mkdirSync(targetDir, { recursive: true });
+    symlinkSync(
+      targetDir,
+      join(consumerDir, 'vendor', 'plinth', 'linked-dir'),
+      process.platform === 'win32' ? 'junction' : 'dir',
+    );
+
+    const res = spawnSync(resolveSh(), ['vendor/plinth/verify-snapshot.sh'], {
+      cwd: consumerDir,
+      encoding: 'utf8',
+    });
+    expect(res.status).toBe(1);
+    expect(`${res.stdout}${res.stderr}`).toMatch(/SYMLINK|UNLISTED/);
+  });
+
+  it('missing plinth.pin fails and version mismatch fails (SEC-R3-11)', () => {
+    const { consumerDir, sumsSha256 } = makeConsumer();
+    rmSync(join(consumerDir, 'plinth.pin'));
+    const missingRes = spawnSync(resolveSh(), ['vendor/plinth/verify-snapshot.sh'], {
+      cwd: consumerDir,
+      encoding: 'utf8',
+    });
+    expect(missingRes.status).toBe(1);
+    expect(`${missingRes.stdout}${missingRes.stderr}`).toContain('PIN MISSING');
+
+    writeFileSync(
+      join(consumerDir, 'plinth.pin'),
+      `# Plinth snapshot pin\nversion=9.9.9\nsums_sha256=${sumsSha256}\n`,
+      'utf8',
+    );
+    const verRes = spawnSync(resolveSh(), ['vendor/plinth/verify-snapshot.sh'], {
+      cwd: consumerDir,
+      encoding: 'utf8',
+    });
+    expect(verRes.status).toBe(1);
+    expect(`${verRes.stdout}${verRes.stderr}`).toContain('VERSION MISMATCH');
   });
 });

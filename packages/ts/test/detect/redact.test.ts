@@ -127,4 +127,31 @@ describe('redact security properties', () => {
       expect((err as PlinthError).code).toBe('PK_DETECT_SECRET_REQUIRED');
     }
   });
+
+  it('redacts partially overlapping secret tails instead of dropping the secret (SEC-R3-01)', () => {
+    const globalCompiled = BUILTIN_PACKS['pk.secrets.global'];
+    const packs = [loadPack(BUILTIN_PACKS['pk.pii.india']), loadPack(globalCompiled)];
+    const secret = new Uint8Array(32).fill(7);
+
+    const rulePrefixes = new Map<string, string>([
+      ['pk.secret.anthropic.api_key', 'sk-ant-'],
+      ['pk.secret.slack.bot_token', 'xoxb-'],
+      ['pk.secret.gitlab.pat', 'glpat-'],
+    ]);
+
+    for (const [ruleId, tokenPrefix] of rulePrefixes) {
+      const tc = globalCompiled.tests.tests.find((t) => t.rule_id === ruleId && t.expect === 'match');
+      if (tc === undefined) throw new Error(`missing match test for ${ruleId}`);
+      const joined = tc.input_parts.join('');
+      const idx = joined.indexOf(tokenPrefix);
+      expect(idx).toBeGreaterThanOrEqual(0);
+      const rawToken = joined.slice(idx).replace(/['"\s]+$/g, '');
+      const crafted = `a@x.${rawToken}`;
+
+      const res = redact(crafted, packs, { date: '2026-11-01', installationSecret: secret });
+      expect(res.counts.secret, ruleId).toBe(1);
+      expect(res.output, ruleId).not.toContain(rawToken.slice(-12));
+      expect(res.findings.some((f) => f.rule_id === ruleId)).toBe(true);
+    }
+  });
 });

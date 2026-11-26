@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, relative } from 'node:path';
+import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { timestampFromMs } from '../core/index.js';
 
@@ -46,6 +46,34 @@ function runGit(repoRoot: string, args: string[]): string {
   }).trim();
 }
 
+function runNpm(args: string[], cwd: string): void {
+  const npmExecPath = process.env.npm_execpath;
+  if (npmExecPath !== undefined && npmExecPath !== '') {
+    execFileSync(process.execPath, [npmExecPath, ...args], {
+      cwd,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+    return;
+  }
+  if (process.platform === 'win32') {
+    const fallbackCli = join(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js');
+    if (existsSync(fallbackCli)) {
+      execFileSync(process.execPath, [fallbackCli, ...args], {
+        cwd,
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+      return;
+    }
+  }
+  execFileSync('npm', args, {
+    cwd,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+}
+
 export function buildSnapshot(opts: SnapshotOptions): SnapshotResult {
   const pkgJsonPath = join(opts.repoRoot, 'packages', 'ts', 'package.json');
   const pkg = JSON.parse(readFileSync(pkgJsonPath, 'utf8')) as { version?: unknown };
@@ -79,12 +107,7 @@ export function buildSnapshot(opts: SnapshotOptions): SnapshotResult {
 
   const npmCacheDir = mkdtempSync(join(tmpdir(), 'plinth-npm-cache-'));
   try {
-    execFileSync('npm', ['pack', '--workspace', 'packages/ts', '--pack-destination', dir, '--cache', npmCacheDir], {
-      cwd: opts.repoRoot,
-      shell: true,
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
+    runNpm(['pack', '--workspace', 'packages/ts', '--pack-destination', dir, '--cache', npmCacheDir], opts.repoRoot);
   } finally {
     rmSync(npmCacheDir, { recursive: true, force: true });
   }

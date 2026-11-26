@@ -1,14 +1,37 @@
 import { createHash } from 'node:crypto';
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { buildSnapshot } from '../../src/repo-tools/snapshot.js';
 import { vendorSnapshot } from '../../src/repo-tools/vendor.js';
 import { REPO_ROOT } from '../vectors.js';
 
 describe('vendorSnapshot', () => {
   const tempDirs: string[] = [];
+  let templateRoot = '';
+  let templateSnapDir = '';
+  let templateSumsSha256 = '';
+  let templateTarballSha256 = '';
+
+  beforeAll(() => {
+    templateRoot = mkdtempSync(join(tmpdir(), 'plinth-vendor-tmpl-'));
+    const snap = buildSnapshot({
+      repoRoot: REPO_ROOT,
+      outRoot: templateRoot,
+      tag: 'v0.1.0',
+      allowDirty: true,
+    });
+    templateSnapDir = snap.dir;
+    templateSumsSha256 = snap.sumsSha256;
+    templateTarballSha256 = snap.tarballSha256;
+  }, 60_000);
+
+  afterAll(() => {
+    if (templateRoot !== '') {
+      rmSync(templateRoot, { recursive: true, force: true });
+    }
+  });
 
   function makeTempDir(prefix: string): string {
     const dir = mkdtempSync(join(tmpdir(), prefix));
@@ -17,17 +40,12 @@ describe('vendorSnapshot', () => {
   }
 
   function buildTestSnapshot(): { snapshotDir: string; sumsSha256: string; tarballSha256: string } {
-    const snapOut = makeTempDir('plinth-vendor-snap-');
-    const snap = buildSnapshot({
-      repoRoot: REPO_ROOT,
-      outRoot: snapOut,
-      tag: 'v0.1.0',
-      allowDirty: true,
-    });
+    const snapCopy = join(makeTempDir('plinth-vendor-snap-'), 'plinth-0.1.0');
+    cpSync(templateSnapDir, snapCopy, { recursive: true });
     return {
-      snapshotDir: snap.dir,
-      sumsSha256: snap.sumsSha256,
-      tarballSha256: snap.tarballSha256,
+      snapshotDir: snapCopy,
+      sumsSha256: templateSumsSha256,
+      tarballSha256: templateTarballSha256,
     };
   }
 
@@ -106,5 +124,18 @@ describe('vendorSnapshot', () => {
     const consumerRoot = makeTempDir('plinth-vendor-empty-');
 
     expect(() => vendorSnapshot({ snapshotDir, consumerRoot })).toThrow(/not a consumer repo: package\.json missing/);
+  });
+
+  it('refuses a snapshot containing a symlink (SEC-R3-02)', () => {
+    const { snapshotDir } = buildTestSnapshot();
+    const consumerRoot = makeTempDir('plinth-vendor-consumer-');
+    writeFileSync(join(consumerRoot, 'package.json'), '{"name":"consumer","private":true}\n', 'utf8');
+
+    const outside = makeTempDir('plinth-vendor-outside-');
+    mkdirSync(outside, { recursive: true });
+    symlinkSync(outside, join(snapshotDir, 'linked-dir'), process.platform === 'win32' ? 'junction' : 'dir');
+
+    expect(() => vendorSnapshot({ snapshotDir, consumerRoot })).toThrow(/snapshot is not intact/);
+    expect(existsSync(join(consumerRoot, 'vendor', 'plinth'))).toBe(false);
   });
 });

@@ -1,11 +1,37 @@
 import { execFileSync, spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { buildSnapshot } from '../../src/repo-tools/snapshot.js';
 import { vendorSnapshot } from '../../src/repo-tools/vendor.js';
 import { REPO_ROOT } from '../vectors.js';
+
+function runNpmStdout(args: string[], cwd: string): string {
+  const npmExecPath = process.env.npm_execpath;
+  if (npmExecPath !== undefined && npmExecPath !== '') {
+    return execFileSync(process.execPath, [npmExecPath, ...args], {
+      cwd,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    });
+  }
+  if (process.platform === 'win32') {
+    const fallbackCli = join(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js');
+    if (existsSync(fallbackCli)) {
+      return execFileSync(process.execPath, [fallbackCli, ...args], {
+        cwd,
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'pipe'],
+      });
+    }
+  }
+  return execFileSync('npm', args, {
+    cwd,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+}
 
 function resolveSh(): string {
   if (process.platform !== 'win32') {
@@ -60,12 +86,10 @@ describe('E2E-5 scratch consumer vendoring', () => {
     });
     vendorSnapshot({ snapshotDir: snap.dir, consumerRoot: consumerDir });
 
-    execFileSync('npm', ['install', '--save-exact', './vendor/plinth/plinth-kit-0.1.0.tgz', '--cache', npmCacheDir], {
-      cwd: consumerDir,
-      shell: true,
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
+    runNpmStdout(
+      ['install', '--save-exact', './vendor/plinth/plinth-kit-0.1.0.tgz', '--cache', npmCacheDir],
+      consumerDir,
+    );
 
     const consumerPkg = JSON.parse(readFileSync(join(consumerDir, 'package.json'), 'utf8')) as {
       dependencies?: Record<string, string>;
@@ -90,10 +114,9 @@ describe('E2E-5 scratch consumer vendoring', () => {
     }).trim();
     expect(verifyOut).toMatch(/^OK plinth 0\.1\.0/);
 
-    const conformanceOut = execFileSync(
-      'npx',
-      ['--no-install', 'plinth-conformance', 'vendor/plinth/contracts/test-vectors'],
-      { cwd: consumerDir, shell: true, encoding: 'utf8' },
+    const conformanceOut = runNpmStdout(
+      ['exec', '--no', '--', 'plinth-conformance', 'vendor/plinth/contracts/test-vectors'],
+      consumerDir,
     ).trim();
     expect(conformanceOut).toBe('PASS 156/156');
   }, 180_000);

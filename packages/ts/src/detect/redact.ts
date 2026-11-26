@@ -25,10 +25,11 @@ export function redact(
   const kept: Finding[] = [];
 
   for (const finding of findings) {
-    if (finding.start < lastEnd) {
+    if (finding.end <= lastEnd) {
       continue;
     }
-    output += text.slice(lastEnd, finding.start);
+    const replaceStart = Math.max(finding.start, lastEnd);
+    output += text.slice(lastEnd, replaceStart);
     let placeholder: string;
     if (finding.kind === 'secret') {
       secretCount += 1;

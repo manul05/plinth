@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
@@ -133,5 +133,18 @@ describe('buildSnapshot', () => {
         allowDirty: false,
       }),
     ).toThrow(/snapshot must be built from a clean checkout of v0\.1\.0/);
+  });
+
+  it('builds cleanly when outRoot contains spaces without shell injection (SEC-R3-03)', () => {
+    const base = makeTempOutRoot();
+    const outWithSpace = join(base, 'dir with spaces');
+    mkdirSync(outWithSpace, { recursive: true });
+    const res = buildSnapshot({
+      repoRoot: REPO_ROOT,
+      outRoot: outWithSpace,
+      tag: 'v0.1.0',
+      allowDirty: true,
+    });
+    expect(existsSync(join(res.dir, 'plinth-kit-0.1.0.tgz'))).toBe(true);
   });
 });

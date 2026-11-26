@@ -1,9 +1,23 @@
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, posix } from 'node:path';
+import { dirname, join, posix } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { REPO_ROOT } from './vectors.js';
+
+function runNpmStdout(args: string[], cwd: string): string {
+  const npmExecPath = process.env.npm_execpath;
+  if (npmExecPath !== undefined && npmExecPath !== '') {
+    return execFileSync(process.execPath, [npmExecPath, ...args], { cwd, encoding: 'utf8' });
+  }
+  if (process.platform === 'win32') {
+    const fallbackCli = join(dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js');
+    if (existsSync(fallbackCli)) {
+      return execFileSync(process.execPath, [fallbackCli, ...args], { cwd, encoding: 'utf8' });
+    }
+  }
+  return execFileSync('npm', args, { cwd, encoding: 'utf8' });
+}
 
 interface PackDryRunEntry {
   unpackedSize: number;
@@ -18,14 +32,9 @@ describe('plinth-kit package', () => {
 
   beforeAll(() => {
     cacheDir = mkdtempSync(join(tmpdir(), 'plinth-npm-cache-'));
-    const stdout = execFileSync(
-      'npm',
+    const stdout = runNpmStdout(
       ['pack', '--dry-run', '--json', '--workspace', 'packages/ts', '--cache', cacheDir],
-      {
-        cwd: REPO_ROOT,
-        shell: true,
-        encoding: 'utf8',
-      },
+      REPO_ROOT,
     );
     const parsed = JSON.parse(stdout) as PackDryRunEntry[];
     const entry = parsed[0];

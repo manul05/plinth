@@ -22,10 +22,13 @@ function listFilesRelative(rootDir: string, prefix = ''): string[] {
   const entries = readdirSync(join(rootDir, prefix), { withFileTypes: true });
   const files: string[] = [];
   for (const entry of entries) {
+    if (entry.isSymbolicLink() || (!entry.isDirectory() && !entry.isFile())) {
+      throw new Error('snapshot is not intact');
+    }
     const rel = prefix === '' ? entry.name : `${prefix}/${entry.name}`;
     if (entry.isDirectory()) {
       files.push(...listFilesRelative(rootDir, rel));
-    } else if (entry.isFile()) {
+    } else {
       files.push(rel);
     }
   }

@@ -28,7 +28,7 @@ Redaction applies `experimental` and `stable` rules alike (a false positive only
 ## 3. `redact(text, packs, {date, installationSecret})`
 1. `installationSecret` missing or shorter than 32 bytes → throw `PK_DETECT_SECRET_REQUIRED`.
 2. `scan(...)` with the secret; drop `untrusted` findings (those are reported, never redacted).
-3. Walk the sorted list keeping a finding only if `start ≥ end of the last kept finding` (so at an overlap the earlier, then longer, then more severe one wins; vector `k5-redact-overlap-upi-email`).
+3. Walk the sorted list keeping a finding if `end > lastEnd` (`lastEnd` starts at `0`; contained overlaps where `end ≤ lastEnd` are skipped so at a contained overlap the earlier, longer, more severe one wins; vector `k5-redact-overlap-upi-email`). For each kept finding, copy text from `lastEnd` to `max(start, lastEnd)`, emit the placeholder covering `[max(start, lastEnd), end)` so partially overlapping secret or PII tails are never left raw, and set `lastEnd = end`.
 4. Placeholders: secret `[REDACTED:<short>:…<first 4 hex of fingerprint>]` (`…` is U+2026); PII `[REDACTED:<pii_type>]` — **PII never gets a fingerprint; Aadhaar is never stored or fingerprinted (UIDAI rule)**.
 5. Output = text with each kept span replaced, left to right. Return `{output, findings (kept, each with placeholder), counts: {secret, pii}}`.
 - The installation secret is a per-installation random value (Passdown: a Worker secret), never in the repo. The keyed fingerprint stops short secrets being brute-forced from the placeholder.
