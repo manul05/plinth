@@ -19,6 +19,14 @@ Entry shape:
 
 ---
 
+## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Triage Dependabot PRs (#4 kept, #3 reverted)
+
+- **Did:** Kept PR #4 (`5d670c1`, `@types/node` `26.6.6`, CI `45781586110` green), reverted PR #3 merge (`b298c1b` -> `9329d9c`: failed `ADR-0008` cooldown, `75` Biome YAML lint errors, and `deps.test.ts` `vitest` `5.0.5` pin), updated `docs/04-architecture.md`, and rotated `T-M3-09`..`T-M3-12` to `docs/status/archive/2026-11.md`.
+- **Verified:** `lint` (`107` files, 0), `build` 0, `typecheck` 0, `vitest run --maxWorkers=4` (`47/47` files, `430/430`), `packs:check` (`packs: up to date`), `conformance` (`PASS 156/156`), `test:perf` (`6/6`, ReDoS max `19.794 ms`) @ `9329d9c` + docs.
+- **Owner:** `"go ahead"` (2026-11-26).
+
+---
+
 ## 2026-11-26 · Antigravity (Gemini 4 Hydrogen (High)) · Going public & security settings (T-MR-08)
 
 - **Did:** Audited `docs/status/` and `docs/decisions/` (0 personal data/secrets/paths), verified `G-public` settings on GitHub, updated `SECURITY.md`, `README.md` badges (`?branch=main`), `docs/06-plan.md` (`T-MR-08` `done`), and `STATUS.md`.
@@ -341,44 +349,3 @@ Entry shape:
 - **Decisions:** None.
 - **Owner:** `"execute T-M4-01 to T-M4-08 one by one"` (2026-11-25).
 - **Next:** `T-M4-02` (`packages/ts/src/rulepack/asof.ts`: `selectAsOf`, `localDate`).
-
----
-
-## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Medium R1 hardening & K1 anchor limit (T-M3-12)
-
-- **Did:** Added `ADR-0021`, updated `k2-approval.md`, `k1-audit.md`, `05-threat-model.md` (TM-15/16), hardened `verify.ts`, `registry.ts`, and `breakglass.ts` (`R1-03`, `R1-04`, `R1-05`, `R1-07`) with red-first unit tests, and marked `T-M3-12` `done`.
-- **Verified:** `npm.cmd run check` (`lint` `Checked 67 files` 0, `typecheck` 0, `vitest` `29 files / 219 tests` incl. `k2` `51/51`, `build` 0) @ `3ddbc0c` + T-M3-12.
-- **Decisions:** `ADR-0021`.
-- **Owner:** `"Option 1 (Recommended)"` (2026-11-25).
-- **Next:** `T-M4-01` (`docs/plan/M4-rulepack.md`: red skeleton `k4` vector runner).
-
----
-
-## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Registry update_threshold by distinct approver IDs (T-M3-11)
-
-- **Did:** Added `ADR-0020`, updated `pk-approval.registry-payload.schema.json`, `plinth-api.d.ts`, `k2-approval.md`, `05-threat-model.md` (`TM-36`), implemented `update_threshold` distinct-approver check in `registry.ts`, added `k2-registry-update-threshold-{insufficient,valid}` (`index.json` 189 entries) + unit test, and marked `T-M3-11` `done`.
-- **Verified:** `npm.cmd run check` (`lint` `Checked 67 files` 0, `typecheck` 0, `vitest` `29 files / 216 tests` incl. `k2` `51/51`, `build` 0) @ `3c8d0bd` + T-M3-11.
-- **Decisions:** `ADR-0020`.
-- **Owner:** `"Option 1 (Recommended)"` (2026-11-25).
-- **Next:** `T-M3-12` (`R1-03..05/07` Medium fixes).
-
----
-
-## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · Enforcement actionPolicies & requester identity (T-M3-10)
-
-- **Did:** Added `ADR-0019`, updated `k2-approval.md`, `plinth-api.d.ts`, `05-threat-model.md` (TM-12), implemented `actionPolicies` + `requesterHumanId` in `verify.ts` and `store.ts`, added `k2-approval-policy-downgrade` and `k2-approval-distinct-downgrade` (`index.json` 187 entries), and marked `T-M3-10` `done`.
-- **Verified:** `npm.cmd run check` (`lint` `Checked 67 files` 0, `typecheck` 0, `vitest` `29 files / 213 tests` incl. `k2` `49/49`, `build` 0) @ `353d0fc` + T-M3-10.
-- **Decisions:** `ADR-0019`.
-- **Owner:** `"Option 1 (Recommended)"` (2026-11-25).
-- **Next:** `T-M3-11` (`R1-02` High fix: registry `update_threshold` with distinct approver IDs).
-
----
-
-## 2026-11-25 · Antigravity (Gemini 4 Hydrogen (High)) · M3 close & R1 security review (T-M3-09)
-
-- **Did:** Added `DNB-003` to `docs/do-not-break.md`, committed `ADR-0018` + 2 real-authenticator `k2` vectors (`0c2816f`), logged R1 findings, added `T-M3-10` & `T-M3-11` for the 2 High findings, and marked `T-M3-09` `done`.
-- **Mutations (`npm.cmd test -- k2`):** `MC-3` (`webauthn.ts` UV) failed `k2-approval-uv-off`; `MC-4` (`webauthn.ts` origin) failed `k2-approval-wrong-origin`; `MC-8` (`verify.ts` subject) failed `k2-approval-subject-mismatch`; `MC-9` (`verify.ts` consumed) failed `k2-approval-replayed`; `MC-10` (`registry.ts` new keys) failed `k2-registry-update-unauthorised`; `MC-11` (`verify.ts` BE) failed `k2-approval-synced-passkey-refused`. All restored cleanly (`git diff packages/` empty).
-- **R1 Review (2026-11-25 · Antigravity Claude Opus 5.5):** `0` critical, `2` high (`R1-01`, `R1-02`), `5` medium (`R1-03`..`R1-07`; `R1-06` resolved by `0c2816f`), `10` low (`R1-08`..`R1-17`). Decision: hold M4 until `T-M3-10` (`R1-01`) and `T-M3-11` (`R1-02`) are fixed.
-- **Verified:** `npm.cmd run check` (`lint` `Checked 67 files` 0, `typecheck` 0, `vitest` `29 files / 209 tests` incl. `k2` `47/47`, `build` 0) @ `0c2816f` + T-M3-09.
-- **Owner:** `"Option 1 (Recommended): Yes, commit both as verifyEnvelope vectors..."` + submitted R1 report (2026-11-25).
-- **Next:** `T-M3-10` (R1-01 High fix; needs ADR + owner OK for `contracts/` change).
